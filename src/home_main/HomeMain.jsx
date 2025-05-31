@@ -5,8 +5,8 @@ import HomePage from "./pages/HomePage";
 export default function HomeMain() {
   return (
     <>
-      <div className="min-h-screen bg-amber-400">
-        <div className="h-[12vh] bg-amber-500">I am nav</div>
+      <div className="min-h-screen">
+        <div className="h-[12vh] bg-gray-100">I am nav</div>
         <div className="h-[calc(100vh-12vh)]">
           <Routes>
             <Route path="/" element={<HomePage />} />
