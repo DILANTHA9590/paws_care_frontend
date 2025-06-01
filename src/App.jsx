@@ -6,6 +6,7 @@ import HomeMain from "./home_main/HomeMain";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
 import AdminHome from "./admin_main/AdminHome";
+import LoginForm from "./LoginForm";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/*" element={<HomeMain />}></Route>
           <Route path="/admin/*" element={<AdminHome />}></Route>
-          <Route path="/login" element={<HomeMain />}></Route>
+          <Route path="/login" element={<LoginForm />}></Route>
           <Route path="/signnup" element={<HomeMain />}></Route>
         </Routes>
       </BrowserRouter>
