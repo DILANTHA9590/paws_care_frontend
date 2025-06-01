@@ -9,8 +9,14 @@ import { FaInstagram } from "react-icons/fa";
 import Header from "../component/Header";
 import { PiDogThin } from "react-icons/pi";
 import OurServices from "../component/OurServices";
+import { div } from "framer-motion/client";
 export default function HomePage() {
   const [index, setIndex] = useState(0);
+
+  function myone(index) {
+    setIndex(index);
+  }
+
   const myimages = ["headerimage1.avif", "headerimage2.jpg"];
 
   return (
@@ -19,6 +25,10 @@ export default function HomePage() {
 
       {/* Main container for the Services section */}
       <OurServices />
+      <div
+        className="w-full h-[70vh] bg-cover bg-center mt-6 ba"
+        style={{ backgroundImage: "url('/mysection1.jpg')" }}
+      ></div>
     </>
   );
 }
