@@ -35,7 +35,9 @@ export default function LoginForm() {
 
         // Check user type and navigate to the correct authorized dashboard
         if (type == "admin") {
-          navigate("/admin/");
+          navigate("/admin/", {
+            state: { ...res.data.payload },
+          });
         } else if (type == "doctor") {
           navigate("");
         } else if (type == "customer") {
