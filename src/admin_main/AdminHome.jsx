@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router";
 import CustomersPanel from "./pages/CustomersPanel";
+import AdminDashBoard from "./pages/adminDashBoard";
 
 export default function AdminHome() {
   return (
@@ -15,7 +16,7 @@ export default function AdminHome() {
           </div>
           <div className="bg-blue-100 w-[80%]">
             <Routes>
-              <Route path="/*" element={<h1>Admin dashboard</h1>}></Route>
+              <Route path="/*" element={<AdminDashBoard />}></Route>
 
               <Route path="manageusers" element={<CustomersPanel />}></Route>
               <Route
