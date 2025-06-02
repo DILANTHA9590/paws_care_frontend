@@ -6,7 +6,7 @@ import { data, useNavigate } from "react-router";
 export default function LoginForm() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("lll");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {}, []);
