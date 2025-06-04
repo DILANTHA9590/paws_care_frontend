@@ -133,7 +133,7 @@ export default function AdminBookingPanel() {
       )}
 
       {/* Pagination */}
-      {!searchInput && loaded && totalPages > 1 && (
+      {
         <div className="flex justify-center gap-2 mt-4 absolute bottom-2 left-0 right-0">
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
@@ -152,7 +152,7 @@ export default function AdminBookingPanel() {
             </button>
           ))}
         </div>
-      )}
+      }
     </div>
   );
 }
