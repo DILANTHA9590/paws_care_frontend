@@ -1,27 +1,24 @@
 import axios from "axios";
-import { div, h1, tr } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
+
 export default function CustomersPanel() {
   const navigate = useNavigate();
-  const [loaded, setloaded] = useState(false);
-  console.log("my loaded", loaded);
-  const [searchinput, setSearchInput] = useState();
-  const [totalPage, setTotalPages] = useState();
-  const [page, setCurruntPage] = useState();
+  const [loaded, setLoaded] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // Check if token exists
     if (!token) {
       toast.error("Access denied. Please log in as an Admin.");
-
       navigate("/login");
       return;
     }
@@ -29,179 +26,162 @@ export default function CustomersPanel() {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
         params: {
-          searchQuery: searchinput,
+          searchQuery: searchInput,
           page: page,
           limit: 10,
         },
-
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        setUserData(res.data.users);
-        setloaded(true);
-        setTotalPages(res.data.totalPages);
-        console.log("dataaaaaaaa", res.data);
+        setUserData(res.data.users || []);
+        setTotalPages(res.data.totalPages || 1);
+        setLoaded(true);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
+        toast.error("Failed to fetch users.");
       });
-  }, [searchinput, loaded]);
-
-  if (!loaded) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="w-[100px] h-[100px] border-6 rounded-full border-t-amber-300 border-t-4 border-white animate-spin"></div>
-      </div>
-    );
-  }
+  }, [searchInput, page]);
 
   return (
-    <>
-      <div className="h-[85vh] p-4  overflow-hidden overflow-y-auto relative ">
-        <div className="flex  justify-between items-center">
-          <div className="flex items-center mb-4 w-2xl border">
-            <input
-              type="text"
-              placeholder="Search by name or email"
-              value={searchinput}
-              onChange={(e) =>
-                setSearchInput(e.target.value) || setloaded(false)
-              }
-              className="border-none rounded px-4 py-2 w-64  focus:outline-none flex grow"
-            />
-            <GrSearch className="text-3xl font-bold" />
-          </div>
-          <div>
-            <Link className="bg-green-500 px-4 py-2 mb-4">ADD USER +</Link>
-          </div>
+    <div className="h-[85vh] p-4 overflow-y-auto relative">
+      {/* Search & Add User Button */}
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center border rounded px-3 py-2 w-72">
+          <input
+            type="text"
+            placeholder="Search by name or email"
+            value={searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+              setLoaded(false);
+            }}
+            className="flex-grow outline-none"
+          />
+          <GrSearch className="text-xl text-gray-500" />
         </div>
-        {userData.length > 0 ? (
-          <div className="  rounded-lg shadow">
-            <table className="min-w-full divide-y divide-gray-200 bg-white">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    #
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Image
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Name
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Email
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    disable
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    WhatsApp
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Type
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Verified
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Edit
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-                    Delete
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {userData.map((user, index) => {
-                  const {
-                    image,
-                    email,
-
-                    disabled,
-                    firstName,
-                    lastName,
-                    isverify,
-                    type,
-                    whatsApp,
-                  } = user;
-                  return (
-                    <tr key={user._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {index + 1}
-                      </td>
-                      <td className="px-4 py-2">
-                        <img
-                          src={image || "https://via.placeholder.com/40"}
-                          alt="User"
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {firstName} {lastName}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {email}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {disabled ? " Block 🔴" : "UnBlock🟢"}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {whatsApp}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700 capitalize">
-                        {type}
-                      </td>
-                      <td className="px-4 py-2 text-sm text-gray-700">
-                        {isverify ? (
-                          <span className="text-green-600 font-medium">
-                            Yes ✅
-                          </span>
-                        ) : (
-                          <span className="text-red-500 font-medium">
-                            No ❌
-                          </span>
-                        )}
-                      </td>
-                      <td>
-                        <button className="px-4 py-2 text-sm text-gray-700">
-                          <CiEdit className="text-2xl" />
-                        </button>
-                      </td>
-
-                      <td>
-                        <button className="px-4 py-2 text-sm text-gray-700">
-                          <MdDelete className="text-2xl" />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="text-gray-500">No users found.</p>
-        )}
-
-        {
-          <div className="flex w-full justify-center grow absolute bottom-0 gap-x-3 p-2">
-            {Array.from({ length: totalPage }).map((_, index) => {
-              return (
-                <div
-                  className="bg-amber-700 p-10 "
-                  onClick={() => setCurruntPage(index + 1) || setloaded(false)}
-                  key={index}
-                >
-                  {index + 1}
-                </div>
-              );
-            })}
-          </div>
-        }
+        <Link
+          to="/add-user"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+        >
+          ADD USER +
+        </Link>
       </div>
-    </>
+
+      {/* Loading Spinner */}
+      {!loaded ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="w-16 h-16 border-4 border-white border-t-amber-300 rounded-full animate-spin" />
+        </div>
+      ) : userData.length <= 0 ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <p>No Users Found</p>
+        </div>
+      ) : (
+        <div className="rounded-lg shadow overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 bg-white">
+            <thead className="bg-gray-100 sticky top-0 z-10">
+              <tr>
+                {[
+                  "#",
+                  "Image",
+                  "Name",
+                  "Email",
+                  "Disabled",
+                  "WhatsApp",
+                  "Type",
+                  "Verified",
+                  "Edit",
+                  "Delete",
+                ].map((head, idx) => (
+                  <th
+                    key={idx}
+                    className="px-4 py-2 text-left text-sm font-medium text-gray-600"
+                  >
+                    {head}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {userData.map((user, index) => {
+                const {
+                  _id,
+                  image,
+                  email,
+                  disabled,
+                  firstName,
+                  lastName,
+                  isverify,
+                  type,
+                  whatsApp,
+                } = user;
+
+                return (
+                  <tr key={_id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {(page - 1) * 10 + index + 1}
+                    </td>
+                    <td className="px-4 py-2">
+                      <img
+                        src={image || "https://via.placeholder.com/40"}
+                        alt="User"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {firstName} {lastName}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-700">{email}</td>
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {disabled ? "Yes" : "No"}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {whatsApp || "N/A"}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-700 capitalize">
+                      {type}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-700">
+                      {isverify ? "Verified" : "Pending"}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-blue-600 cursor-pointer">
+                      <CiEdit size={20} />
+                    </td>
+                    <td className="px-4 py-2 text-sm text-red-600 cursor-pointer">
+                      <MdDelete size={20} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {!searchInput && loaded && totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-4 absolute bottom-2 left-0 right-0">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              className={`px-4 py-2 rounded ${
+                page === index + 1
+                  ? "bg-amber-700 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                setLoaded(false);
+              }}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
