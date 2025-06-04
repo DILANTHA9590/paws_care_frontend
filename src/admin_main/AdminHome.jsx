@@ -3,6 +3,7 @@ import { Link, Route, Routes } from "react-router";
 import CustomersPanel from "./pages/CustomersPanel";
 import AdminDashBoard from "./pages/adminDashBoard";
 import ProductsPanel from "./pages/ProductsPanel";
+import AdminBookingPanel from "./pages/AdminBookingPanel";
 
 export default function AdminHome() {
   return (
@@ -23,7 +24,7 @@ export default function AdminHome() {
               <Route path="manageusers" element={<CustomersPanel />}></Route>
               <Route
                 path="manageappointment"
-                element={<h1>Admin bookings</h1>}
+                element={<AdminBookingPanel />}
               ></Route>
               <Route path="products" element={<ProductsPanel />}></Route>
               <Route path="/*" element={<h1>Admin reviws</h1>}></Route>
