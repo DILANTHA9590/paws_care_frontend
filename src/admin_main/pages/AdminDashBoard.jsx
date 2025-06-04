@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { motion } from "framer-motion";
 
 export default function AdminDashBoard() {
   const location = useLocation();
-  console.log(location.state);
-  const { email, firstName, lastName } = location.state;
+  // console.log(location.state);
 
+  const [firstName, setfname] = useState(location.state?.firstName || "k");
+  const [lastName, setlname] = useState(location.state?.lastName || "kik");
   return (
     <>
       <div>
