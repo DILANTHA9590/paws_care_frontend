@@ -4,6 +4,7 @@ import CustomersPanel from "./pages/CustomersPanel";
 import AdminDashBoard from "./pages/adminDashBoard";
 import ProductsPanel from "./pages/ProductsPanel";
 import AdminBookingPanel from "./pages/AdminBookingPanel";
+import ImageUploader from "./pages/ImageUpload";
 
 export default function AdminHome() {
   return (
@@ -28,6 +29,7 @@ export default function AdminHome() {
               ></Route>
               <Route path="products" element={<ProductsPanel />}></Route>
               <Route path="/*" element={<h1>Admin reviws</h1>}></Route>
+              <Route path="/image" element={<ImageUploader />}></Route>
             </Routes>
           </div>
         </div>
