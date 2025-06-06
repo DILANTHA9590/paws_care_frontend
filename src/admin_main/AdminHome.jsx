@@ -7,6 +7,7 @@ import ImageUploader from "./pages/ImageUpload";
 import AdminDoctors from "./pages/AdminDoctors";
 import AdminDashBoard from "./pages/AdminDashBoard";
 import AddProduct from "./components/AddProduct";
+import UpdateUser from "./components/UpdateUser";
 
 export default function AdminHome() {
   return (
@@ -72,6 +73,7 @@ export default function AdminHome() {
             <Route path="image" element={<ImageUploader />} />
             <Route path="managedoctors" element={<AdminDoctors />} />
             <Route path="reviews" element={<h1>Admin Reviews</h1>} />
+            <Route path="updateuser" element={<UpdateUser />} />
 
             <Route path="addproduct" element={<AddProduct />} />
           </Routes>
