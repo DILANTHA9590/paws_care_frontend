@@ -4,9 +4,13 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { CiCoins1 } from "react-icons/ci";
+import { div } from "framer-motion/client";
 
 export default function AddProduct() {
   const [image, setImage] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+
+  console.log("laoded", isUploading);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     productId: "",
@@ -35,6 +39,8 @@ export default function AddProduct() {
   console.log("my user", userData);
 
   const setImageUrl = async (e) => {
+    setIsUploading(true);
+
     const files = e.target.files;
 
     const imageUrl = [];
@@ -49,6 +55,9 @@ export default function AddProduct() {
       ...prev,
       image: imageUrl,
     }));
+
+    setIsUploading(false);
+    toast.success("uploaded successfully");
   };
 
   const handleAddProduct = (e) => {
@@ -158,16 +167,31 @@ export default function AddProduct() {
               placeholder="Last Price"
             />
 
-            <input
-              type="file"
-              multiple
-              name="image"
-              onChange={setImageUrl}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
+            <div>
+              {isUploading ? (
+                <div>
+                  <div className="flex w-full items-center justify-center gap-x-5 animate-bounce">
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-green-400 to-blue-500 animate-pulse"></div>
+                    <div className="w-6 h-6 rounded bg-gradient-to-r from-pink-500 to-yellow-500 animate-pulse"></div>
+                  </div>
+
+                  <h1 className="text-center text-cyan-500">
+                    Just a moment — your image is being uploaded.
+                  </h1>
+                </div>
+              ) : (
+                <input
+                  type="file"
+                  multiple
+                  name="image"
+                  onChange={setImageUrl}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+              )}
+            </div>
 
             <button
-              onSubmit={handleAddProduct}
               type="submit"
               className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
             >
