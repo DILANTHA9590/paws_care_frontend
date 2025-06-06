@@ -45,6 +45,10 @@ export default function CustomersPanel() {
       });
   }, [searchInput, page]);
 
+  function onHandleClickEdit(user) {
+    navigate("/admin/updateuser", { state: { ...user } });
+  }
+
   return (
     <div className="h-[85vh] p-4 overflow-y-auto relative">
       {/* Search & Add User Button */}
@@ -147,8 +151,13 @@ export default function CustomersPanel() {
                     <td className="px-4 py-2 text-sm text-gray-700">
                       {isverify ? "Verified" : "Pending"}
                     </td>
+
+                    {/* UPDATE USER BUTTON ----------------------------------------------------------------------------------> */}
                     <td className="px-4 py-2 text-sm text-blue-600 cursor-pointer">
-                      <CiEdit size={20} />
+                      <CiEdit
+                        size={20}
+                        onClick={() => onHandleClickEdit(user)}
+                      />
                     </td>
                     <td className="px-4 py-2 text-sm text-red-600 cursor-pointer">
                       <MdDelete size={20} />
