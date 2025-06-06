@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { GrSearch } from "react-icons/gr";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router";
 
 export default function ProductsPanel() {
   const [productData, setProductData] = useState([]);
@@ -61,9 +62,12 @@ export default function ProductsPanel() {
           <GrSearch className="text-3xl font-bold mr-2" />
         </div>
         <div>
-          <button className="bg-green-500 px-4 py-2 mb-4 text-white rounded">
+          <Link
+            className="bg-green-500 px-4 py-2 mb-4 text-white rounded"
+            to="/admin/addproduct"
+          >
             ADD PRODUCT +
-          </button>
+          </Link>
         </div>
       </div>
 
