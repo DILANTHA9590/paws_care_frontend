@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PiDogThin } from "react-icons/pi";
-import { motion, AnimatePresence, delay } from "framer-motion";
+import { motion, AnimatePresence, delay, scale, animate } from "framer-motion";
 export default function OurServices() {
   return (
     <>
@@ -33,34 +33,52 @@ export default function OurServices() {
             }}
           >
             {/* Card 1 - Veterinary Service */}
-            <div className="border shadow-2xl  pb-2">
+            <div className="border shadow-2xl  pb-2 overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
-              <div>
+              <div className="relative ">
                 <PiDogThin className="inline-block  text-orange-500" />
                 <h1>Vertinary Service</h1>
               </div>
             </div>
 
             {/* Card 2 - Vaccines */}
-            <div className="border shadow-2xl  pb-2">
+            <div className="border shadow-2xl  pb-2 overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
               <div>
-                <PiDogThin className="inline-block text-orange-500" />
+                <PiDogThin className="inline-block text-orange-500 relative" />
                 <h1>Vaccines</h1>
               </div>
             </div>
 
             {/* Card 3 - Small Pets Care */}
-            <div className="border shadow-2xl  pb-2">
+            <div className="border shadow-2xl  pb-2 overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
               <div>
-                <PiDogThin className="inline-block  text-orange-500" />
+                <PiDogThin className="inline-block  text-orange-500 relative" />
                 <h1>Small Pets Care</h1>
               </div>
             </div>
@@ -68,7 +86,7 @@ export default function OurServices() {
 
           {/* Second row of service cards with scroll animation */}
           <motion.div
-            className=" flex  mt-10  gap-5  sm:flex-row flex-col"
+            className=" flex  mt-10  gap-5  sm:flex-row flex-col  overflow-hidden"
             initial={{
               opacity: 0,
               y: 50,
@@ -80,34 +98,52 @@ export default function OurServices() {
             }}
           >
             {/* Card 4 - Dental Treatments */}
-            <div className="border  pb-2 shadow-2xl">
+            <div className="border  pb-2 shadow-2xl  overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
               <div>
-                <PiDogThin className="inline-block  text-orange-500" />
+                <PiDogThin className="inline-block  text-orange-500 relative" />
                 <h1>Dental Treatments</h1>
               </div>
             </div>
 
             {/* Card 5 - Physiotherapy */}
-            <div className="border shadow-2xl  pb-2">
+            <div className="border shadow-2xl  pb-2 overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
               <div>
-                <PiDogThin className="inline-block  text-orange-500" />
+                <PiDogThin className="inline-block  text-orange-500 relative" />
                 <h1>Physiotherapy</h1>
               </div>
             </div>
 
             {/* Card 6 - Spaying & Neutering */}
-            <div className="border shadow-2x  pb-2">
+            <div className="border shadow-2x  pb-2  overflow-hidden">
               <div>
-                <img src="/headerimage1.avif" alt="" />
+                <motion.img
+                  className=""
+                  src="/headerimage1.avif"
+                  alt=""
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 6 }}
+                />
               </div>
-              <div>
-                <PiDogThin className="inline-block  text-orange-500" />
+              <div className="relative">
+                <PiDogThin className="inline-block  text-orange-500 relative" />
                 <h1>Spaying & Neutering</h1>
               </div>
             </div>
