@@ -1,17 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { div } from "framer-motion/client";
+import { useScroll } from "framer-motion";
 
 export default function PetSupportSection() {
+  const [clinet, setCilent] = useState(0);
+  const [profetional, setProfetional] = useState(0);
+  const [yearExperience, setyearExperience] = useState(0);
+
+  useEffect(() => {
+    let i = 0;
+    const client = setInterval(() => {
+      if (i <= 100) {
+        setCilent(i);
+        i++;
+      } else {
+        clearInterval(client); // stop once it reaches 30
+      }
+    }, 10); // 100ms delay between increments
+
+    const profetional = setInterval(() => {
+      if (i <= 34) {
+        setProfetional(i);
+        i++;
+      } else {
+        clearInterval(profetional); // stop once it reaches 30
+      }
+    }, 40); // 100ms delay between increments
+
+    const year = setInterval(() => {
+      if (i <= 24) {
+        setyearExperience(i);
+        i++;
+      } else {
+        clearInterval(year); // stop once it reaches 30
+      }
+    }, 100); // 100ms delay between increments
+    return () => {
+      clearInterval(client);
+      clearInterval(profetional);
+      clearInterval(year);
+    };
+  }, []);
+
   const aboutCard = [
-    { number: 100, text: "Happy Client", color: "bg-[#65d2d6]", icon: "+" },
-    { number: 34, text: "Professionals", color: "bg-[#0d4d60]" },
-    { number: 22, text: "Year Experience", color: "bg-[#3b8497]" },
+    { number: clinet, text: "Happy Client", color: "bg-[#65d2d6]", icon: "+" },
+    { number: profetional, text: "Professionals", color: "bg-[#0d4d60]" },
+    { number: yearExperience, text: "Year Experience", color: "bg-[#3b8497]" },
   ];
 
   return (
     <>
       <div>
+        <h1></h1>
         <div
           className="w-full h-[70vh] bg-cover bg-center mt-6  flex flex-col items-center justify-center relative "
           style={{ backgroundImage: "url('/mysection1.jpg')" }}
