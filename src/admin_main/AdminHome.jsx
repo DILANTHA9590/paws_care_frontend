@@ -8,6 +8,7 @@ import AdminDoctors from "./pages/AdminDoctors";
 import AdminDashBoard from "./pages/AdminDashBoard";
 import AddProduct from "./components/AddProduct";
 import UpdateUser from "./components/UpdateUser";
+import ManageReviews from "./pages/ManageReviews";
 
 export default function AdminHome() {
   return (
@@ -60,6 +61,13 @@ export default function AdminHome() {
             >
               📁 Upload Image
             </Link>
+
+            <Link
+              to="/admin/managereviews"
+              className="hover:bg-blue-600 px-4 py-2 rounded transition"
+            >
+              🌟 Manege reviews
+            </Link>
           </nav>
         </aside>
 
@@ -76,6 +84,7 @@ export default function AdminHome() {
             <Route path="updateuser" element={<UpdateUser />} />
 
             <Route path="addproduct" element={<AddProduct />} />
+            <Route path="managereviews" element={<ManageReviews />} />
           </Routes>
         </main>
       </div>
