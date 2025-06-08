@@ -36,7 +36,6 @@ export default function AddProduct() {
 
     userData.image = image;
   }
-  console.log("my user", userData);
 
   const setImageUrl = async (e) => {
     setIsUploading(true);
