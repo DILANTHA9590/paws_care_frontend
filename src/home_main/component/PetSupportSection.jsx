@@ -57,8 +57,8 @@ export default function PetSupportSection() {
           className="w-full h-[70vh] bg-cover bg-center mt-6  flex flex-col items-center justify-center relative "
           style={{ backgroundImage: "url('/mysection1.jpg')" }}
         >
-          <div className="flex  w-full sm:ml-100 text-center">
-            <div className=" sm:w-[30%] bg-white/30 sm:backdrop-blur-sm rounded-2xl     flex flex-col sm:gap-y-16  p-4 justify-center items-center w-full ">
+          <div className="flex  w-full text-center  justify-evenly">
+            <div className=" sm:w-[60%] bg-white/30 sm:backdrop-blur-sm rounded-2xl     flex flex-col sm:gap-y-16  p-4 justify-center items-center w-full ">
               <h1 className="text-3xl font-bold">
                 We are here to help you <br /> with your pets
               </h1>
