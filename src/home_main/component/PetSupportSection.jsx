@@ -62,7 +62,7 @@ export default function PetSupportSection() {
               <h1 className="text-3xl font-bold">
                 We are here to help you <br /> with your pets
               </h1>
-              <h1 className="text-2xl text-gray-900">
+              <h1 className="text-2xl text-gray-900 ">
                 Caring for your pets is our top priority. Whether it’s advice on
                 nutrition, grooming, or general well-being — we’re here to guide
                 you every step of the way. Your furry friends deserve the best,
@@ -73,7 +73,7 @@ export default function PetSupportSection() {
                 ready to assist you anytime!
               </h1>
 
-              <Link className="text-3xl bg-amber-300 rounded-sm p-1 font-bold">
+              <Link className="text-3xl bg-orange-500 rounded-sm p-1 font-bold">
                 Contact Us
               </Link>
             </div>
@@ -82,7 +82,7 @@ export default function PetSupportSection() {
 
         {/* //map  expirence cards----------------------------------------> */}
 
-        <div className="flex sm:gap-5 justify-center -m-6 w-full mx-auto sm:flex-row flex-col gap-10 ">
+        <div className="flex inli sm:gap-5 justify-center -m-6 w-full mx-auto sm:flex-row flex-col gap-10 mt-6 sm:mt-0">
           {aboutCard.map((val, index) => {
             const { number, text, color, icon } = val;
             return (
