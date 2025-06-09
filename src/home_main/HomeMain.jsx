@@ -6,7 +6,7 @@ export default function HomeMain() {
   return (
     <>
       <div className="min-h-screen">
-        <div className="h-[12vh] bg-gray-100">I am nav</div>
+        <div className="h-[12vh] bg-gray-100"></div>
         <div className="h-[calc(100vh-12vh)]">
           <Routes>
             <Route path="/" element={<HomePage />} />
