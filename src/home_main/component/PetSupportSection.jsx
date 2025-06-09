@@ -87,6 +87,7 @@ export default function PetSupportSection() {
             const { number, text, color, icon } = val;
             return (
               <div
+                key={index}
                 className={`h-[150px] sm:w-[600px]  -mt-8 relative className= ${color} flex flex-col justify-center items-center text-3xl font-bold text-white rounded-2xl`}
               >
                 <h1>
