@@ -6,9 +6,12 @@ import { FaFacebookF } from "react-icons/fa6";
 import { motion, AnimatePresence, delay } from "framer-motion";
 import { ImWhatsapp } from "react-icons/im";
 import { FaInstagram } from "react-icons/fa";
+import { image, pre } from "framer-motion/client";
 export default function Header() {
   const [index, setIndex] = useState(0);
   const myimages = ["headerimage1.avif", "headerimage2.jpg"];
+
+  console.log("image", myimages.length);
   return (
     <>
       <div
@@ -92,7 +95,10 @@ export default function Header() {
             className="text-5xl text-white sm:p-4 hidden md:block "
             // onClick={() => setIndex(index++)}
           >
-            <FaChevronCircleLeft />{" "}
+            <FaChevronCircleLeft
+              onClick={() => setIndex((prev) => (prev > 0 ? prev - 1 : prev))}
+              className="relative"
+            />{" "}
           </h1>
 
           {/* header title -----------------------------------------------> */}
@@ -117,14 +123,22 @@ export default function Header() {
 
           {/* right image slidew arrow ---------------------------------------->  */}
           <h1 className="text-5xl text-white sm:p-4 hidden md:block">
-            <FaChevronCircleRight onClick={() => setIndex(1)} />
+            <FaChevronCircleRight
+              className="cursor-pointer relative"
+              onClick={() =>
+                setIndex((prev) => {
+                  if (prev < myimages.length - 1) {
+                    return prev + 1;
+                  } else return prev;
+                })
+              }
+            />
           </h1>
         </div>
         {/* <Link className="inline-block bg-green-400 p-6 font-bold"></Link> */}
 
         <div className="flex absolute bottom-0 gap-1 p-3 ">
           {myimages.map((_, index) => {
-            console.log(index);
             return (
               <div key={index} className="">
                 <div
