@@ -73,12 +73,14 @@ export default function PetSupportSection() {
                 ready to assist you anytime!
               </h1>
 
-              <Link className="text-3xl bg-red-500 rounded-3xl p-1 font-bold">
+              <Link className="text-3xl bg-amber-300 rounded-sm p-1 font-bold">
                 Contact Us
               </Link>
             </div>
           </div>
         </div>
+
+        {/* //map  expirence cards----------------------------------------> */}
 
         <div className="flex sm:gap-5 justify-center -m-6 w-full mx-auto sm:flex-row flex-col gap-10 ">
           {aboutCard.map((val, index) => {
