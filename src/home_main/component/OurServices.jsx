@@ -8,8 +8,10 @@ export default function OurServices() {
       <div>
         {/* Header section: title and description */}
         <div className="">
-          <h1 className="text-center font-bold text-6xl">OUR SERVICES</h1>
-          <h2 className="text-center sm:w-[800px] mx-auto mt-10 text-3xl text-gray-800 leading-relaxed">
+          <h1 className="text-center font-bold sm:text-6xl text-4xl">
+            OUR SERVICES
+          </h1>
+          <h2 className="text-center sm:w-[800px] mx-auto mt-5 sm:text-3xl text-2xl text-gray-800 leading-relaxed">
             At HappyPaws Care, we treat your pets like family. From vet
             appointments to healthy pet food and expert advice, we’re here to
             keep your furry friend happy, healthy, and well-loved — because
