@@ -1,12 +1,26 @@
-import React from "react";
-import { Route, Routes } from "react-router";
+import React, { useEffect, useState } from "react";
+import { Link, Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
-
+import { IoIosArrowDown } from "react-icons/io";
+import { CiLogin } from "react-icons/ci";
+import { LiaSignInAltSolid } from "react-icons/lia";
+import { h1 } from "framer-motion/client";
+import { motion } from "framer-motion";
+import DeskTopNavbar from "./component/DeskTopNavbar";
 export default function HomeMain() {
+  const [token, setToken] = useState(true);
+  const [toggleMenu, setToggleMenu] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setToken(token);
+
+    console.log(token);
+  }, []);
   return (
     <>
       <div className="min-h-screen">
-        <div className="h-[12vh] bg-gray-100"></div>
+        <DeskTopNavbar />
+
         <div className="h-[calc(100vh-12vh)]">
           <Routes>
             <Route path="/" element={<HomePage />} />
