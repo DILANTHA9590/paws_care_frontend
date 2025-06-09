@@ -11,6 +11,7 @@ import { PiDogThin } from "react-icons/pi";
 import OurServices from "../component/OurServices";
 import { div } from "framer-motion/client";
 import PetSupportSection from "../component/PetSupportSection";
+import AboutUs from "../component/AboutUs";
 export default function HomePage() {
   const [index, setIndex] = useState(0);
 
@@ -27,6 +28,7 @@ export default function HomePage() {
       {/* Main container for the Services section */}
       <OurServices />
       <PetSupportSection />
+      <AboutUs />
     </>
   );
 }
