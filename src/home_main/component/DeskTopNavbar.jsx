@@ -11,6 +11,8 @@ export default function DeskTopNavbar() {
   const [usertoggleMenu, setToggleMenu] = useState(false);
 
   const [showMobileNav, setShowMobileNav] = useState(false);
+
+  console.log("show ", showMobileNav);
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -20,10 +22,12 @@ export default function DeskTopNavbar() {
   return (
     <div>
       <div className="w-full h-screen absolute bg-black/10 z-10">
-        <div>
-          <div></div>
-          <div></div>
-        </div>
+        <motion.div
+          className="w-[70%] bg-white h-full"
+          initial={{
+            x: -300,
+          }}
+        ></motion.div>
       </div>
       <div className="h-[12vh] bg-gray-100 font-bold">
         <div className="h-full flex items-center justify-between px-10 text-2xl">
@@ -145,11 +149,36 @@ export default function DeskTopNavbar() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-y-1.5 sm:hidden">
-            <div className="w-15 h-1 bg-black"></div>
-            <div className="w-16 h-1 bg-black"></div>
+          <div
+            className={`flex flex-col  sm:hidden relative z-40   ${
+              showMobileNav ? "gap-0" : "gap-2"
+            }`}
+            onClick={() => setShowMobileNav(!showMobileNav)}
+          >
+            <motion.div
+              className="w-17 h-1 bg-black "
+              initial={false}
+              animate={{
+                rotate: showMobileNav ? 135 : 0,
+              }}
+            ></motion.div>
+            <motion.div
+              className={`w-19 h-1 bg-black   ${
+                showMobileNav ? "hidden" : "block"
+              } `}
+            ></motion.div>
+            <motion.div
+              className="w-17 h-1 bg-black"
+              initial={false}
+              animate={{
+                rotate: showMobileNav ? -135 : 0,
+              }}
+            ></motion.div>
+            {/* <motion.div className="w-11 h-1 bg-black"></motion.div> */}
 
-            <div className="w-11 h-1 bg-black"></div>
+            {/* <motion.div className="w-11 h-1 bg-black"></motion.div> */}
+
+            {/* <motion.div className="w-16 h-1 bg-black"></motion.div> */}
           </div>
         </div>
       </div>
