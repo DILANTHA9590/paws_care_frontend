@@ -9,10 +9,8 @@ import { div } from "framer-motion/client";
 export default function DeskTopNavbar() {
   const [token, setToken] = useState(true);
   const [usertoggleMenu, setToggleMenu] = useState(false);
-
   const [showMobileNav, setShowMobileNav] = useState(false);
 
-  console.log("show ", showMobileNav);
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -21,13 +19,16 @@ export default function DeskTopNavbar() {
   }, []);
   return (
     <div>
-      <div className="w-full h-screen absolute bg-black/10 z-10">
-        <motion.div
-          className="w-[70%] bg-white h-full"
-          initial={{
-            x: -300,
-          }}
-        ></motion.div>
+      <div className="sm:hidden block">
+        <div className="w-full h-screen absolute bg-black/10 z-10">
+          <motion.div
+            className="w-[70%] bg-white h-full"
+            initial={false}
+            animate={{
+              x: showMobileNav ? 0 : -300,
+            }}
+          ></motion.div>
+        </div>
       </div>
       <div className="h-[12vh] bg-gray-100 font-bold">
         <div className="h-full flex items-center justify-between px-10 text-2xl">
@@ -150,7 +151,7 @@ export default function DeskTopNavbar() {
             </div>
           </div>
           <div
-            className={`flex flex-col  sm:hidden relative z-40   ${
+            className={`flex flex-col  sm:hidden relative z-40  focus:outline-0 ${
               showMobileNav ? "gap-0" : "gap-2"
             }`}
             onClick={() => setShowMobileNav(!showMobileNav)}
