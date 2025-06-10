@@ -17,19 +17,73 @@ export default function DeskTopNavbar() {
 
     console.log(token);
   }, []);
+
+  // mob nav Arrey -------------------------------->
+
+  const mobileNavLinks = [
+    { name: "Home", link: "/" },
+    { name: "About", link: "/about" },
+    { name: "Shop", link: "/" },
+    { name: "Contact Us", link: "/contact" },
+    { name: "Book now", link: "/" },
+  ];
   return (
     <div>
+      {/* mobile nav started ----------------------------------------------------> */}
       <div className="sm:hidden block">
-        <div className="w-full h-screen absolute bg-black/10 z-10">
+        <div className="w-full h-screen absolute bg-black/50 backdrop-blur-sm z-10">
           <motion.div
-            className="w-[70%] bg-white h-full"
+            className="w-[70%] bg-white h-full shadow-xl"
             initial={false}
             animate={{
               x: showMobileNav ? 0 : -300,
             }}
-          ></motion.div>
+          >
+            <div className="h-full flex flex-col p-4">
+              <div className="flex justify-center py-6">
+                <div className="h-30 w-30 bg-gray-200 rounded-full flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="flex-1">
+                {mobileNavLinks.map((val, index) => {
+                  const { name, link } = val;
+                  console.log(link);
+                  return (
+                    <div
+                      key={index}
+                      className="px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <Link
+                        to={`${link}`}
+                        className="block text-gray-700 hover:text-indigo-600 font-medium"
+                      >
+                        {name}
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
+
+      {/* mobile nav started ----------------------------------------------------> */}
       <div className="h-[12vh] bg-gray-100 font-bold">
         <div className="h-full flex items-center justify-between px-10 text-2xl">
           <div className="flex items-center gap-2">
