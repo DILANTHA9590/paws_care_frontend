@@ -7,6 +7,7 @@ import { LiaSignInAltSolid } from "react-icons/lia";
 import { h1 } from "framer-motion/client";
 import { motion } from "framer-motion";
 import DeskTopNavbar from "./component/DeskTopNavbar";
+import AboutUs from "./component/AboutUs";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -25,6 +26,7 @@ export default function HomeMain() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="contact" element={<h1>ContactUs</h1>} />
+            <Route path="about" element={<AboutUs />} />
             <Route path="pet foods" element={<h1>pet foods</h1>} />
           </Routes>
         </div>
