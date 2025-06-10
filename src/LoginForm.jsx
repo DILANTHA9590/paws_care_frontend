@@ -53,33 +53,83 @@ export default function LoginForm() {
   };
 
   return (
-    <>
-      <div className="h-screen flex justify-center items-center">
-        <div className="sm:w-[25%]">
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-y-7 border p-6 rounded h-[40vh] justify-center">
-              <h1 className="text-center">Login Form</h1>
-              <input
-                type="email"
-                value={email}
-                className="border p-4"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} // මෙතන password line එකේ typing error එකක් තිබ්බා
-                className="border p-4"
-                required
-              />
-              <button type="submit" className="block">
-                Login
-              </button>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
+              <p className="text-gray-600 mt-2">Sign in to your account</p>
             </div>
-          </form>
+
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.01]"
+              >
+                Sign In
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <a
+                href="#"
+                className="text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+              >
+                Forgot password?
+              </a>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 px-8 py-4 text-center">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{" "}
+              <a
+                href="#"
+                className="text-indigo-600 hover:text-indigo-500 font-medium"
+              >
+                Sign up
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
