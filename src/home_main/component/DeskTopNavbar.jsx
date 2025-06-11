@@ -5,6 +5,7 @@ import { CiLogin } from "react-icons/ci";
 import { LiaSignInAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
+import MobileNav from "./mobileNav";
 
 export default function DeskTopNavbar() {
   const [token, setToken] = useState(true);
@@ -31,56 +32,9 @@ export default function DeskTopNavbar() {
     <div>
       {/* mobile nav started ----------------------------------------------------> */}
       <div className="sm:hidden block">
-        <div className="w-full h-screen absolute bg-black/50 backdrop-blur-sm z-10">
-          <motion.div
-            className="w-[70%] bg-white h-full shadow-xl"
-            initial={false}
-            animate={{
-              x: showMobileNav ? 0 : -300,
-            }}
-          >
-            <div className="h-full flex flex-col p-4">
-              <div className="flex justify-center py-6">
-                <div className="h-30 w-30 bg-gray-200 rounded-full flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                </div>
-              </div>
+        {/* Overlay */}
 
-              <div className="flex-1">
-                {mobileNavLinks.map((val, index) => {
-                  const { name, link } = val;
-                  console.log(link);
-                  return (
-                    <div
-                      key={index}
-                      className="px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                      <Link
-                        to={`${link}`}
-                        className="block text-gray-700 hover:text-indigo-600 font-medium"
-                      >
-                        {name}
-                      </Link>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        <MobileNav showMobileNav={showMobileNav} />
       </div>
 
       {/* mobile nav started ----------------------------------------------------> */}
@@ -205,35 +159,40 @@ export default function DeskTopNavbar() {
             </div>
           </div>
           <div
-            className={`flex flex-col  sm:hidden relative z-40  focus:outline-0 ${
-              showMobileNav ? "gap-0" : "gap-2"
-            }`}
+            className="sm:hidden flex flex-col justify-center items-center w-8 h-8 relative z-40 gap-1 cursor-pointer"
             onClick={() => setShowMobileNav(!showMobileNav)}
           >
+            {/* Top Line */}
             <motion.div
-              className="w-17 h-1 bg-black "
+              className="w-6 h-0.5 bg-black absolute"
               initial={false}
               animate={{
-                rotate: showMobileNav ? 135 : 0,
+                rotate: showMobileNav ? 45 : 0,
+                y: showMobileNav ? 0 : -8,
               }}
-            ></motion.div>
+              transition={{ duration: 0.3 }}
+            />
+
+            {/* Middle Line */}
             <motion.div
-              className={`w-19 h-1 bg-black   ${
-                showMobileNav ? "hidden" : "block"
-              } `}
-            ></motion.div>
-            <motion.div
-              className="w-17 h-1 bg-black"
+              className="w-6 h-0.5 bg-black absolute"
               initial={false}
               animate={{
-                rotate: showMobileNav ? -135 : 0,
+                opacity: showMobileNav ? 0 : 1,
               }}
-            ></motion.div>
-            {/* <motion.div className="w-11 h-1 bg-black"></motion.div> */}
+              transition={{ duration: 0.2 }}
+            />
 
-            {/* <motion.div className="w-11 h-1 bg-black"></motion.div> */}
-
-            {/* <motion.div className="w-16 h-1 bg-black"></motion.div> */}
+            {/* Bottom Line */}
+            <motion.div
+              className="w-6 h-0.5 bg-black absolute"
+              initial={false}
+              animate={{
+                rotate: showMobileNav ? -45 : 0,
+                y: showMobileNav ? 0 : 8,
+              }}
+              transition={{ duration: 0.3 }}
+            />
           </div>
         </div>
       </div>
