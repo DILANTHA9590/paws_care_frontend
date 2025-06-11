@@ -71,7 +71,7 @@ export default function AboutUs() {
             }}
           >
             <Link
-              className="bg-orange-500 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block"
+              className="bg-orange-400 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block"
               onClick={() => {
                 console.log("hallow");
               }}
