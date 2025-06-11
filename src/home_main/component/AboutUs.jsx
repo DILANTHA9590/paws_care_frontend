@@ -70,7 +70,12 @@ export default function AboutUs() {
               duration: 1.5,
             }}
           >
-            <Link className="bg-orange-500 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block">
+            <Link
+              className="bg-orange-500 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block"
+              onClick={() => {
+                console.log("hallow");
+              }}
+            >
               More About Us
             </Link>
           </motion.div>
