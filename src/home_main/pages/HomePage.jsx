@@ -7,6 +7,7 @@ import OurServices from "../component/OurServices";
 import PetSupportSection from "../component/PetSupportSection";
 import AboutUs from "../component/AboutUs";
 import DoctorHomeSection from "../component/DoctorHomeSection";
+import Footer from "../component/Footer";
 export default function HomePage() {
   return (
     <>
@@ -18,6 +19,7 @@ export default function HomePage() {
       <AboutUs />
 
       <DoctorHomeSection />
+      <Footer />
     </>
   );
 }
