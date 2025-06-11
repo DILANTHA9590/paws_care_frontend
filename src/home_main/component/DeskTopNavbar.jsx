@@ -21,13 +21,6 @@ export default function DeskTopNavbar() {
 
   // mob nav Arrey -------------------------------->
 
-  const mobileNavLinks = [
-    { name: "Home", link: "/" },
-    { name: "About", link: "/about" },
-    { name: "Shop", link: "/" },
-    { name: "Contact Us", link: "/contact" },
-    { name: "Book now", link: "/" },
-  ];
   return (
     <div>
       {/* mobile nav started ----------------------------------------------------> */}
@@ -54,7 +47,7 @@ export default function DeskTopNavbar() {
               <Link to="/about">About</Link>
               <Link to="/shop">Shop</Link>
               <Link to="/contact">Contact Us</Link>
-              <Link to="/booking">Book Now</Link>
+              <Link to="/bookdoctor">Book Now</Link>
             </div>
           </div>
           <div className="sm:block hidden">
