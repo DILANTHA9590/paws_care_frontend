@@ -17,6 +17,7 @@ export default function AboutUs() {
             transition={{
               duration: 1.1,
             }}
+            viewport={{ once: true }}
           >
             About Us
           </motion.h1>
@@ -32,6 +33,7 @@ export default function AboutUs() {
             transition={{
               duration: 1.3,
             }}
+            viewport={{ once: true }}
           >
             Our goal: Happy & Healthy Pets
           </motion.h2>
@@ -48,6 +50,7 @@ export default function AboutUs() {
             transition={{
               duration: 1.5,
             }}
+            viewport={{ once: true }}
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -69,6 +72,7 @@ export default function AboutUs() {
             transition={{
               duration: 1.5,
             }}
+            viewport={{ once: true }}
           >
             <Link
               className="bg-orange-400 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block"
