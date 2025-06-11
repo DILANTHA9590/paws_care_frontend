@@ -44,8 +44,32 @@ export default function AdminDoctors() {
         console.error(error);
         toast.error("Failed to fetch doctors.");
       });
-  }, [searchInput, page]);
+  }, [searchInput, page, loaded]);
 
+  //DELETE DOCTORS BY DOCTOR ID------------------------------------->
+  function clickHandleDelete(doctorId) {
+    setLoaded(false);
+    console.log(doctorId);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/api/doctors/${doctorId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div className="h-[85vh] p-4 overflow-y-auto relative">
       {/* Search & Add Doctor Button */}
@@ -136,8 +160,13 @@ export default function AdminDoctors() {
                     <td className="px-4 py-2 text-sm text-blue-600 cursor-pointer">
                       <CiEdit size={20} />
                     </td>
+
+                    {/* Delete button ----------------------------------------------------------------------> */}
                     <td className="px-4 py-2 text-sm text-red-600 cursor-pointer">
-                      <MdDelete size={20} />
+                      <MdDelete
+                        size={20}
+                        onClick={() => clickHandleDelete(_id)}
+                      />
                     </td>
                   </tr>
                 );
