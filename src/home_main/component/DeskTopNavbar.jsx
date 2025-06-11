@@ -84,7 +84,7 @@ export default function DeskTopNavbar() {
 
                       <div className="flex items-center">
                         <CiLogin />
-                        <h1> Login</h1>
+                        <Link to="/login">Login</Link>
                       </div>
                       <div className="flex items-center">
                         <LiaSignInAltSolid className="rotate-89b " />
