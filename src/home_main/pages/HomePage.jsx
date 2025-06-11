@@ -62,7 +62,7 @@ export default function HomePage() {
       <PetSupportSection />
       <AboutUs />
 
-      <div className="w-[70%] mx-auto py-10  sm:block hidden ">
+      <div className="w-[70%] mx-auto py-10  sm:block hidden">
         <h2 className="text-3xl font-bold text-center text-amber-700 mb-6">
           🐾 Meet Our Veterinary Experts
         </h2>
@@ -92,6 +92,42 @@ export default function HomePage() {
           <Link href="#" className="text-amber-600 underline text-sm">
             View More
           </Link>
+        </div>
+      </div>
+      <div className="w-full py-10 flex justify-center">
+        <div className="flex flex-col items-center bg-amber-50 p-6 rounded-xl shadow-lg max-w-md w-full">
+          <h2 className="text-3xl font-bold text-amber-700 mb-6 text-center">
+            🐾 Meet Our Veterinary Experts
+          </h2>
+
+          <img
+            src={doctor[index].image}
+            alt={doctor[index].name}
+            className="h-[40vh] w-[40vh] object-cover rounded-full border-4 border-amber-400 mb-4"
+          />
+
+          <h1 className="text-xl font-semibold text-amber-800 mb-1">
+            {doctor[index].name}
+          </h1>
+          <h2 className="text-sm text-gray-700 mb-6">
+            {doctor[index].Specialist}
+          </h2>
+
+          <div className="flex justify-center mb-4">
+            {Array.from({ length: doctor.length }).map((_, dotIndex) => (
+              <div
+                key={dotIndex}
+                onClick={() => setIndex(dotIndex)}
+                className={`h-4 w-4 mx-1 rounded-full cursor-pointer transition-all duration-300 ${
+                  dotIndex === index ? "bg-amber-600 scale-110" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+
+          <span className="text-sm text-amber-700 underline cursor-pointer">
+            View More
+          </span>
         </div>
       </div>
     </>
