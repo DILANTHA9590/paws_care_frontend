@@ -1,4 +1,5 @@
 import axios from "axios";
+import { div } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 
@@ -15,8 +16,6 @@ export default function AllDoctors() {
       axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/doctors/getbydays`),
     ])
       .then(([bookingRes, todayRes]) => {
-        console.log(todayRes);
-        console.log(todayRes);
         setDoctors(bookingRes.data.doctors);
         setTodayDoctors(todayRes.data.filteredDoctors);
 
@@ -35,17 +34,18 @@ export default function AllDoctors() {
       </h2>
 
       {/* === All Doctors Section === */}
-      <Link>
-        <section className="mb-8">
-          {!loaded ? (
-            <p className="text-center text-gray-600">Loading doctors...</p>
-          ) : doctors.length === 0 ? (
-            <p className="text-center text-red-600">
-              No doctors available at the moment.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {doctors.map((doc) => (
+
+      <section className="mb-8 p-3">
+        {!loaded ? (
+          <p className="text-center text-gray-600">Loading doctors...</p>
+        ) : doctors.length === 0 ? (
+          <p className="text-center text-red-600">
+            No doctors available at the moment.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {doctors.map((doc) => (
+              <Link to={`/doctor/${doc.doctorId}`}>
                 <div
                   key={doc._id}
                   className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center text-center"
@@ -68,11 +68,12 @@ export default function AllDoctors() {
                     {doc.experience} years experience
                   </p>
                 </div>
-              ))}
-            </div>
-          )}
-        </section>
-      </Link>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
       {/* === Today's Available Doctors Section === */}
       <section>
         <h2 className="text-2xl font-bold mb-4 text-center text-green-700">
