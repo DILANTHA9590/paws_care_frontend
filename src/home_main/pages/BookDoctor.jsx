@@ -1,5 +1,9 @@
-import React from "react";
+import AllDoctors from "../component/AllDoctors";
 
 export default function BookDoctor() {
-  return <div>BookDoctor</div>;
+  return (
+    <div>
+      <AllDoctors />
+    </div>
+  );
 }
