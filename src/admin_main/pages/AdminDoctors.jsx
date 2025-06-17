@@ -36,13 +36,14 @@ export default function AdminDoctors() {
       })
       .then((res) => {
         console.log(res);
-        setUserData(res.data.userData || []);
+        setUserData(res.data?.userData || []);
         setTotalPages(res.data.totalPages || 1);
         setLoaded(true);
       })
       .catch((error) => {
         console.error(error);
         toast.error("Failed to fetch doctors.");
+        setLoaded(true);
       });
   }, [searchInput, page, loaded]);
 
@@ -98,7 +99,7 @@ export default function AdminDoctors() {
       {/* Loading Spinner */}
       {!loaded ? (
         <div className="w-full h-full flex justify-center items-center">
-          <div className="w-16 h-16 border-4 border-white border-t-amber-300 rounded-full animate-spin" />
+          <div className="w-16 h-16 border-4 border-white border-t-amber-700 rounded-full animate-spin" />
         </div>
       ) : userData.length <= 0 ? (
         <div className="w-full h-full flex justify-center items-center">
