@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import DeskTopNavbar from "./component/DeskTopNavbar";
 import AboutUs from "./component/AboutUs";
 import BookDoctor from "./pages/BookDoctor";
+import DoctorOverview from "./pages/DoctorOverview";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -30,6 +31,7 @@ export default function HomeMain() {
             <Route path="about" element={<AboutUs />} />
             <Route path="pet foods" element={<h1>pet foods</h1>} />
             <Route path="bookdoctor" element={<BookDoctor />} />
+            <Route path="doctor/:id" element={<DoctorOverview />} />
           </Routes>
         </div>
       </div>
