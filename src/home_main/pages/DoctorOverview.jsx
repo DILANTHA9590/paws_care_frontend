@@ -2,7 +2,7 @@ import axios from "axios";
 import { button, div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export default function DoctorOverview() {
   const [doctorDetails, setDoctorDetails] = useState("");
@@ -10,11 +10,18 @@ export default function DoctorOverview() {
   const [loaded, setLoaded] = useState(false);
   const [totalPages, setTotalPages] = useState(null);
   const [curruntpage, setCurruntPage] = useState();
+  const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
   console.log(curruntpage);
 
   const { id } = useParams();
 
   useEffect(() => {
+    if (!id) {
+      return navigate("/bookdoctor");
+    }
+
     axios
       .all([
         axios.get(
@@ -31,19 +38,38 @@ export default function DoctorOverview() {
       ])
       .then(([doctorRes, reviewRes]) => {
         setDoctorDetails(doctorRes.data?.doctor || []);
-        settDoctorRiview(reviewRes.data.reviews || []);
+        settDoctorRiview(reviewRes.data?.reviews || []);
         setTotalPages(reviewRes.data?.totalPages || []);
 
         setLoaded(true);
         console.log(reviewRes);
       })
       .catch((error) => {
-        console.error("Error fetching doctor or reviews:", error);
+        const status = error.response?.status;
+
+        if (status === 404) {
+          toast.error("🔍 Doctor not found! Redirecting...");
+          navigate("/bookdoctor");
+        } else if (status === 500) {
+          toast.error("🚨 Server error. Please try again later.");
+          setError(true);
+          // ❗ Clear doctor data to show error message
+        } else {
+          toast.error("❗Unexpected error occurred.");
+        }
       });
+
+    setLoaded(true);
   }, [id, curruntpage]);
 
   return (
     <div>
+      {(loaded == error) == true && (
+        <div className="w-full h-screen flex flex-col items-center justify-center text-red-600">
+          <h2 className="text-2xl font-semibold mb-2">🚨 {error}</h2>
+          <p>Please try again later.</p>
+        </div>
+      )}
       {loaded ? (
         <div className="h-screen w-full flex flex-col">
           {/* Top Doctor Info Section */}
