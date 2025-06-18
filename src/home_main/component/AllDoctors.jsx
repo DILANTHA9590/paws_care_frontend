@@ -1,12 +1,30 @@
 import axios from "axios";
 import { div } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
 
 export default function AllDoctors() {
   const [doctors, setDoctors] = useState([]);
   const [todayDoctors, setTodayDoctors] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const navigate = useNavigate();
+  console.log(todayDoctors);
+
+  function handleBookNow(doctorId) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login before booking a doctor.");
+      navigate("/login");
+      return;
+    }
+
+    navigate("/book-doctor", {
+      state: {
+        doctorId,
+      },
+    });
+  }
 
   useEffect(() => {
     Promise.all([
@@ -44,12 +62,9 @@ export default function AllDoctors() {
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {doctors.map((doc) => (
-              <Link to={`/doctor/${doc.doctorId}`}>
-                <div
-                  key={doc._id}
-                  className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center text-center"
-                >
+            {doctors.map((doc, index) => (
+              <Link to={`/doctor/${doc.doctorId}`} key={doc._id}>
+                <div className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center text-center">
                   <img
                     src={doc.image}
                     alt={doc.name}
@@ -110,8 +125,11 @@ export default function AllDoctors() {
                   👨‍⚕️ {doctor.experience}+ Years
                 </p>
 
-                <button className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm cursor-default">
-                  Book Now
+                <button
+                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm cursor-default"
+                  onClick={() => handleBookNow(doctor.doctorId)}
+                >
+                  Schedule Appointment
                 </button>
               </div>
             ))}
