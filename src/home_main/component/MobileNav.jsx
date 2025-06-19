@@ -46,7 +46,6 @@ export default function MobileNav({ showMobileNav, setNumber, number }) {
                     <Link
                       key={index}
                       to={link}
-                      onClick={() => setShowMobileNav(false)}
                       className="text-lg font-medium text-gray-700 hover:text-black transition"
                     >
                       {name}
