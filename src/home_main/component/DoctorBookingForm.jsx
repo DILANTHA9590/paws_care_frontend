@@ -1,9 +1,17 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { FaPlus } from "react-icons/fa6";
+import PetIDDropDownMenu from "./doctor_booking_form/petIDDropDownMenu";
 
 export default function DoctorBookingForm() {
   const location = useLocation();
   const { doctorId } = location.state || {};
+  const [errMobNo, setErrMobNo] = useState(false);
+  const [showmenu, setShowmenu] = useState(false);
+
+  console.log("ssssssssssssssss", showmenu);
+
+  console.log(errMobNo);
 
   const [bookingData, setBookingData] = useState({
     doctorId: doctorId,
@@ -22,7 +30,6 @@ export default function DoctorBookingForm() {
   };
 
   function handleSubmit(e) {
-    console.log("llll");
     e.preventDefault();
 
     const name = "mobileno";
@@ -30,8 +37,10 @@ export default function DoctorBookingForm() {
 
     if (isNaN(number) && bookingData.mobileno.length > 10) {
       setBookingData((prev) => {
-        return { ...prev, [name]: "InValid Number" };
+        return { ...prev, [name]: "" };
       });
+
+      setErrMobNo(true);
     }
   }
 
@@ -59,9 +68,28 @@ export default function DoctorBookingForm() {
 
           {/* Pet ID */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Pet ID
-            </label>
+            <div className="flex items-center justify-between h-[40px] relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Pet ID
+              </label>
+
+              <div className="flex  gap-x-3 items-center relative h-full p-7">
+                <h1>Need Help Finding Pet ID</h1>
+                <h1 className="text-green-700 ">
+                  {" "}
+                  <FaPlus
+                    onClick={() => setShowmenu(!showmenu)}
+                    className="relative"
+                  />
+                </h1>
+              </div>
+
+              {showmenu && (
+                <div className="absolute bottom-0 right-0 ">
+                  <PetIDDropDownMenu />
+                </div>
+              )}
+            </div>
             <input
               type="text"
               name="petId"
@@ -83,8 +111,10 @@ export default function DoctorBookingForm() {
               name="mobileno"
               value={bookingData.mobileno}
               onChange={handleChange}
-              placeholder="07XXXXXXXX"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              placeholder={`  ${errMobNo ? "Invalid Number" : "07XXXXXXXX"} `}
+              className={`w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none ${
+                errMobNo ? "text-red-700" : "text-black"
+              }`}
               required
             />
           </div>
@@ -93,7 +123,7 @@ export default function DoctorBookingForm() {
           <div>
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-xl transition duration-200"
+              className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-xl transition duration-200`}
             >
               Book Appointment
             </button>
