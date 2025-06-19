@@ -2,7 +2,7 @@ import { link } from "framer-motion/client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-export default function MobileNav({ showMobileNav, setNumber, number }) {
+export default function MobileNavBar({ showMobileNav, setNumber, number }) {
   const mobileNavLinks = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
