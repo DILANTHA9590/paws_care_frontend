@@ -62,7 +62,7 @@ export default function DeskTopNavbar() {
                       alt="profile"
                     />
                   </div>
-
+                  {/* show mobile nav =------------------------------------------- */}
                   {usertoggleMenu && token && (
                     <motion.div
                       initial={false}
