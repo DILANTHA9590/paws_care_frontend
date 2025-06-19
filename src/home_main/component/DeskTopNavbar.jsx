@@ -48,6 +48,7 @@ export default function DeskTopNavbar() {
               <Link to="/shop">Shop</Link>
               <Link to="/contact">Contact Us</Link>
               <Link to="/bookdoctor">Book Now</Link>
+              {token && <Link to="/bookdoctor">MY Account</Link>}
             </div>
           </div>
           <div className="sm:block hidden">
