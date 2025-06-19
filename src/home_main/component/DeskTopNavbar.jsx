@@ -5,7 +5,7 @@ import { CiLogin } from "react-icons/ci";
 import { LiaSignInAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
-import MobileNav from "./mobileNav";
+import MobileNav from "./MobileNav";
 
 export default function DeskTopNavbar() {
   const [token, setToken] = useState(true);
