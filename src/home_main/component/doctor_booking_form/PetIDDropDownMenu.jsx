@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function PetIDDropDownMenu() {
+export default function PetIdDropDownMenu() {
   const [petData, setPetData] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
