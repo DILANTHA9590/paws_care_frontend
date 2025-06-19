@@ -1,17 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import PetDataDropDown from "./bookingComponent/PetDataDropDown";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function DoctorBookingForm() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { doctorId } = location.state || {};
   const [errMobNo, setErrMobNo] = useState(false);
   const [showmenu, setShowmenu] = useState(false);
-
-  console.log("ssssssssssssssss", showmenu);
-
-  console.log(errMobNo);
 
   const [bookingData, setBookingData] = useState({
     doctorId: doctorId,
@@ -32,9 +31,16 @@ export default function DoctorBookingForm() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login first");
+      navigate("/login");
+    }
+
     const name = "mobileno";
     const number = parseInt(bookingData.mobileno);
 
+    //check is valid mobile no
     if (isNaN(number) && bookingData.mobileno.length > 10) {
       setBookingData((prev) => {
         return { ...prev, [name]: "" };
@@ -42,6 +48,19 @@ export default function DoctorBookingForm() {
 
       setErrMobNo(true);
     }
+
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/bookings`, bookingData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
