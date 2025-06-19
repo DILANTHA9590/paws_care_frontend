@@ -5,7 +5,7 @@ import { CiLogin } from "react-icons/ci";
 import { LiaSignInAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
-import MobileNav from "./MobileNav";
+import MobileNavBar from "./MobileNavBar";
 
 export default function DeskTopNavbar() {
   const [token, setToken] = useState(true);
@@ -27,7 +27,7 @@ export default function DeskTopNavbar() {
       <div className="sm:hidden block">
         {/* Overlay */}
 
-        <MobileNav showMobileNav={showMobileNav} />
+        <MobileNavBar showMobileNav={showMobileNav} />
       </div>
 
       {/* mobile nav started ----------------------------------------------------> */}
