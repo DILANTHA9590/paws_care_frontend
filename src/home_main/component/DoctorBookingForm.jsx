@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import PetIdDropDownMenu from "./doctor_booking_form/petIDDropDownMenu";
+import PetDataDropDown from "./bookingComponent/PetDataDropDown";
 
 export default function DoctorBookingForm() {
   const location = useLocation();
@@ -86,10 +86,11 @@ export default function DoctorBookingForm() {
 
               {showmenu && (
                 <div className="absolute bottom-0 right-0 ">
-                  <PetIdDropDownMenu />
+                  <PetDataDropDown />
                 </div>
               )}
             </div>
+
             <input
               type="text"
               name="petId"
