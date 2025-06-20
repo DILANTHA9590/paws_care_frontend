@@ -11,6 +11,7 @@ import AboutUs from "./component/AboutUs";
 import BookDoctor from "./pages/BookDoctor";
 import DoctorOverview from "./pages/DoctorOverview";
 import DoctorBookingForm from "./component/DoctorBookingForm";
+import ProductsPage from "./pages/ProductsPage";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -35,6 +36,7 @@ export default function HomeMain() {
 
             <Route path="/book-doctor" element={<DoctorBookingForm />} />
             <Route path="doctor/:id" element={<DoctorOverview />} />
+            <Route path="products" element={<ProductsPage />} />
           </Routes>
         </div>
       </div>
