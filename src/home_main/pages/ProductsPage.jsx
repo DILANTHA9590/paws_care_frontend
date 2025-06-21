@@ -1,14 +1,17 @@
 import axios from "axios";
 import { div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [searchInput, setSearchInput] = useState();
-  const [maxvalue, setMaxValue] = useState(0);
-  const [minvalue, setMinValue] = useState(0);
+  const [price, setPrice] = useState({
+    minPrice: "",
+    maxPrice: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,8 +20,8 @@ export default function ProductsPage() {
         .get(`${import.meta.env.VITE_BACKEND_URL}/api/products/getproduct`, {
           params: {
             search: searchInput,
-            maxPrice: undefined,
-            minPrice: undefined,
+            maxPrice: price?.maxPrice || undefined,
+            minPrice: price?.minPrice || undefined,
           },
         })
         .then((res) => {
@@ -39,6 +42,22 @@ export default function ProductsPage() {
     navigate("/product-overview", { state: { product } });
   };
 
+  function handlePrice(e) {
+    const { name, value } = e.target;
+
+    setPrice((prev) => {
+      if (value <= -1) {
+        console.log("inside this 1");
+        toast.error("Enter valid price range ");
+        return { ...prev, [name]: "" };
+      } else {
+        console.log("inside this 2");
+        setLoaded(false);
+        return { ...prev, [name]: value };
+      }
+    });
+  }
+
   return (
     <div className="h-full bg-gray-100 p-6 overflow-hidden overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 px-4 py-6 bg-white shadow rounded-xl w-full ">
@@ -48,14 +67,12 @@ export default function ProductsPage() {
             type="text"
             placeholder="Search products..."
             className="w-full sm:w-[300px] border border-gray-300 px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-500
-            
-            
             "
-            value={searchInput}
             onChange={(e) => {
               setSearchInput(e.target.value);
               setLoaded(false);
             }}
+            value={searchInput}
           />
           <button className="bg-blue-600 text-white px-5 py-2 rounded-r-full hover:bg-blue-700 transition duration-200">
             Search
@@ -66,15 +83,19 @@ export default function ProductsPage() {
         <div className="flex gap-3 w-full md:w-auto justify-center md:justify-end">
           <input
             type="number"
-            value={minvalue}
-            placeholder="Min Price"
+            name="minPrice"
+            value={price.minPrice}
+            placeholder={price.minPrice === "" && "minValue"}
             className="w-full sm:w-[120px] border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handlePrice}
           />
           <input
             type="number"
-            value={maxvalue}
-            placeholder={`max`}
+            name="maxPrice"
+            value={price.maxPrice}
+            placeholder={price.maxPrice === "" && "MaxValue"}
             className="w-full sm:w-[120px] border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handlePrice}
           />
         </div>
       </div>
