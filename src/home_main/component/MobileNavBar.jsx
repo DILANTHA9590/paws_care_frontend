@@ -6,7 +6,7 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
   const mobileNavLinks = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Shop", link: "/" },
+    { name: "Shop", link: "/products" },
     { name: "Contact Us", link: "/contact" },
     { name: "Book now", link: "/" },
   ];
