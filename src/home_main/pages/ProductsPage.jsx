@@ -2,7 +2,7 @@ import axios from "axios";
 import { div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -25,6 +25,7 @@ export default function ProductsPage() {
           },
         })
         .then((res) => {
+          console.log(res.data.products);
           setProducts(res.data.products);
           setLoaded(true);
         })
@@ -39,7 +40,7 @@ export default function ProductsPage() {
     <div className="bg-amber-300 h-screen w-full">ss</div>;
   }
   const handleViewDetails = (product) => {
-    navigate("/product-overview", { state: { product } });
+    navigate("/productoverview", { state: { product } });
   };
 
   function handlePrice(e) {
@@ -110,6 +111,7 @@ export default function ProductsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {products.map((product) => {
             const {
+              productId,
               brand,
               description,
               image,
@@ -121,44 +123,48 @@ export default function ProductsPage() {
             } = product;
 
             return (
-              <div
-                key={_id}
-                className="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden flex flex-col"
-              >
-                <div>
-                  <img
-                    src={image[0]}
-                    alt={productName}
-                    className="w-full h-48 object-center"
-                  />
-                </div>
-                <div className="p-4 flex flex-col flex-grow">
-                  <h2 className="text-lg font-semibold">{productName}</h2>
-                  <p className="text-sm text-gray-500">Brand: {brand}</p>
-                  <p className="text-sm text-gray-500 mb-2">Pet: {petType}</p>
-                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                    {description}
-                  </p>
+              <Link to={`/product/${productId}`}>
+                <div
+                  key={_id}
+                  className="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 overflow-hidden flex flex-col"
+                >
+                  <div>
+                    <img
+                      src={image[0]}
+                      alt={productName}
+                      className="w-full h-48 object-center"
+                    />
+                  </div>
+                  <div className="p-4 flex flex-col flex-grow">
+                    <h2 className="text-lg font-semibold">{productName}</h2>
+                    <p className="text-sm text-gray-500">Brand: {brand}</p>
+                    <p className="text-sm text-gray-500 mb-2">Pet: {petType}</p>
+                    <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                      {description}
+                    </p>
 
-                  <div className="mt-auto">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-green-600 font-bold">${price}</span>
-                      {lastPrice && lastPrice > price && (
-                        <span className="line-through text-gray-400 text-sm">
-                          ${lastPrice}
+                    <div className="mt-auto">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-green-600 font-bold">
+                          ${price}
                         </span>
-                      )}
-                    </div>
+                        {lastPrice && lastPrice > price && (
+                          <span className="line-through text-gray-400 text-sm">
+                            ${lastPrice}
+                          </span>
+                        )}
+                      </div>
 
-                    <button
-                      onClick={() => handleViewDetails(product)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition duration-200"
-                    >
-                      View Details
-                    </button>
+                      <button
+                        onClick={() => handleViewDetails(productId)}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition duration-200"
+                      >
+                        View Details
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
