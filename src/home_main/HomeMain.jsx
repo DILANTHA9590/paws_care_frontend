@@ -12,6 +12,7 @@ import BookDoctor from "./pages/BookDoctor";
 import DoctorOverview from "./pages/DoctorOverview";
 import DoctorBookingForm from "./component/DoctorBookingForm";
 import ProductsPage from "./pages/ProductsPage";
+import ProductOverView from "./pages/ProductOverView";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -34,9 +35,10 @@ export default function HomeMain() {
             <Route path="pet foods" element={<h1>pet foods</h1>} />
             <Route path="bookdoctor" element={<BookDoctor />} />
 
-            <Route path="/book-doctor" element={<DoctorBookingForm />} />
+            <Route path="book-doctor" element={<DoctorBookingForm />} />
             <Route path="doctor/:id" element={<DoctorOverview />} />
             <Route path="products" element={<ProductsPage />} />
+            <Route path="product/:id" element={<ProductOverView />} />
           </Routes>
         </div>
       </div>
