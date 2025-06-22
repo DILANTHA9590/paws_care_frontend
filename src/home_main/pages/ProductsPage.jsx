@@ -3,11 +3,14 @@ import { div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import NetworkErr from "../component/err_ui/NetworkErr";
+import ServerErr from "../component/err_ui/ServerErr";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [searchInput, setSearchInput] = useState();
+  const [err, setErr] = useState();
   const [price, setPrice] = useState({
     minPrice: "",
     maxPrice: "",
@@ -30,19 +33,24 @@ export default function ProductsPage() {
           setLoaded(true);
         })
         .catch((err) => {
-          console.log(err);
           setLoaded(true);
+          console.log(err);
+
+          if (err.status) {
+            setErr(err.status); // set interl server erros
+          } else {
+            setErr("network"); //set network errs
+          }
         });
     }
   }, [searchInput, loaded]);
 
-  if (loaded) {
-    <div className="bg-amber-300 h-screen w-full">ss</div>;
-  }
+  // Add navigation to Product Overview page with product ID------------------------------------------------->
   const handleViewDetails = (product) => {
     navigate("/productoverview", { state: { product } });
   };
 
+  // Handles price input changes for min/max price fields.-------------------------------------------------->
   function handlePrice(e) {
     const { name, value } = e.target;
 
@@ -57,6 +65,25 @@ export default function ProductsPage() {
         return { ...prev, [name]: value };
       }
     });
+  }
+
+  // If the error code is 400, 403, 404, or 500, show the server error message on screen.------------>
+
+  if ([400, 403, 404, 500].includes(err)) {
+    return (
+      <>
+        <ServerErr />
+      </>
+    );
+  }
+
+  //show network err-------------------------------------->
+  if (err == "network") {
+    return (
+      <>
+        <NetworkErr />
+      </>
+    );
   }
 
   return (
@@ -101,12 +128,14 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {loaded && products.length === 0 && (
+      {/* // show no product found status --------------------------------------------------------> */}
+      {!err && loaded && products.length === 0 && (
         <div className=" flex justify-center items-center h-full">
           <p className=" text-gray-600 ">No products found.</p>
         </div>
       )}
 
+      {/* implement product card------------------------------------------------------------------------>  */}
       {loaded ? (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {products.map((product) => {
@@ -154,7 +183,7 @@ export default function ProductsPage() {
                           </span>
                         )}
                       </div>
-
+                      {/* button for navigate product overview page --------------------------------------------------> */}
                       <button
                         onClick={() => handleViewDetails(productId)}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition duration-200"
@@ -169,6 +198,7 @@ export default function ProductsPage() {
           })}
         </div>
       ) : (
+        // loading screen ----------------------------------------------------->
         <div className="h-full flex justify-center items-center bg-white">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
