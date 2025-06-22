@@ -45,7 +45,7 @@ export default function DeskTopNavbar() {
             <div className="flex gap-4 text-2xl">
               <Link to="/">Home</Link>
               <Link to="/about">About</Link>
-              <Link to="/shop">Shop</Link>
+              <Link to="/products">Shop</Link>
               <Link to="/contact">Contact Us</Link>
               <Link to="/bookdoctor">Book Now</Link>
               {token && <Link to="/bookdoctor">MY Account</Link>}
