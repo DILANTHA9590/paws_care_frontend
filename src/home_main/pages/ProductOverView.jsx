@@ -91,12 +91,15 @@ export default function ProductOverView() {
             </div>
 
             <div className="mt-4 md:mt-6">
-              <p className="text-xl font-bold text-green-700">Rs. {price}</p>
-              {lastPrice && (
-                <p className="text-sm text-gray-400 line-through">
-                  Rs. {lastPrice}
-                </p>
-              )}
+              <p className="text-xl font-bold text-green-700">
+                {price > lastPrice && (
+                  <span className="line-through text-red-600 block">
+                    Rs.{price.toFixed(2)}
+                  </span>
+                )}
+
+                <span>Rs.{lastPrice.toFixed(2)}</span>
+              </p>
             </div>
             <div className="flex gap-4 mt-4 md:mt-6">
               <button className="bg-blue-600 text-white px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
