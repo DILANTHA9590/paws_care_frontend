@@ -175,11 +175,11 @@ export default function ProductsPage() {
                     <div className="mt-auto">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-green-600 font-bold">
-                          ${price}
+                          Rs.{lastPrice.toFixed(2)}
                         </span>
-                        {lastPrice && lastPrice > price && (
+                        {price > lastPrice && (
                           <span className="line-through text-gray-400 text-sm">
-                            ${lastPrice}
+                            Rs.{price.toFixed(2)}
                           </span>
                         )}
                       </div>
