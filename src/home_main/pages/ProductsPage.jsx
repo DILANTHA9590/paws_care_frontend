@@ -184,10 +184,7 @@ export default function ProductsPage() {
                         )}
                       </div>
                       {/* button for navigate product overview page --------------------------------------------------> */}
-                      <button
-                        onClick={() => handleViewDetails(productId)}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition duration-200"
-                      >
+                      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition duration-200">
                         View Details
                       </button>
                     </div>
