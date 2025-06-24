@@ -1,13 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import ImageSlider from "../component/ImageSlider";
+import { FaMinus } from "react-icons/fa";
+import { TiPlus } from "react-icons/ti";
+import { CountContext } from "../../utills/context/countContext";
+import { pre } from "framer-motion/client";
 
 export default function ProductOverView() {
+  const { count, setCount } = useContext(CountContext);
+
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
   const [err, setErr] = useState(null);
   const [productData, setProductData] = useState();
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -45,6 +52,21 @@ export default function ProductOverView() {
     productName,
     quantityInStock,
   } = productData || {};
+
+  function incrementCartCount() {
+    console.log("sssssssssssssss", typeof count);
+    setCount((prev) => prev + 1);
+  }
+
+  function decrementCartCount() {
+    setCount((prev) => {
+      if (prev > 1) {
+        return prev - 1;
+      } else {
+        return prev;
+      }
+    });
+  }
 
   return (
     <div className="h-full bg-gradient-to-p-4 md:p-6">
@@ -101,7 +123,16 @@ export default function ProductOverView() {
                 <span>Rs.{lastPrice.toFixed(2)}</span>
               </p>
             </div>
-            <div className="flex gap-4 mt-4 md:mt-6">
+            <div className="flex gap-3">
+              <button onClick={decrementCartCount} className="border p-3">
+                <FaMinus />
+              </button>
+              <h1 className=" p-3">{count}</h1>
+              <button onClick={incrementCartCount} className="border p-3">
+                <TiPlus />
+              </button>
+            </div>
+            <div className="flex gap-4 mt-4 md:mt-6 ">
               <button className="bg-blue-600 text-white px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
                 Buy Now
               </button>
@@ -112,6 +143,7 @@ export default function ProductOverView() {
           </div>
         </div>
       )}
+      1
     </div>
   );
 }
