@@ -18,7 +18,7 @@ import Cart from "./pages/cart";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const [count, setCount] = useState(1);
+  const [cartCount, setCartCount] = useState(1);
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
@@ -27,7 +27,7 @@ export default function HomeMain() {
   }, []);
   return (
     <>
-      <CountContext.Provider value={{ count, setCount }}>
+      <CountContext.Provider value={{ cartCount, setCartCount }}>
         <div className="min-h-screen">
           <DeskTopNavbar />
 
