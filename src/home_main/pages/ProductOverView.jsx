@@ -7,12 +7,15 @@ import { TiPlus } from "react-icons/ti";
 import { CountContext } from "../../utills/context/countContext";
 import { pre } from "framer-motion/client";
 import { addToCart } from "../../utills/cart";
+import cart from "./cart";
 
 export default function ProductOverView() {
-  const { count, setCount } = useContext(CountContext);
+  const { cartCount, setCartCount } = useContext(CountContext);
 
+  console.log(cartCount);
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
+  const [count, setCount] = useState(1);
   const [err, setErr] = useState(null);
   const [productData, setProductData] = useState();
 
@@ -141,7 +144,7 @@ export default function ProductOverView() {
                 className="bg-gray-200 text-gray-800 px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200"
                 onClick={() => {
                   addToCart(productId, count);
-                  setCount(0);
+                  setCartCount((prev) => prev + count);
                 }}
               >
                 Add To Cart
