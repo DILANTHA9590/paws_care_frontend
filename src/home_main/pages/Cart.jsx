@@ -1,19 +1,29 @@
 import { div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
-import { loadCart } from "../../utills/cart";
+import { clearCart, loadCart } from "../../utills/cart";
 
 export default function cart() {
   const [cart, setCart] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  console.log(loaded);
+
   useEffect(() => {
     const cart = loadCart();
 
-    if (cart.length != 0) {
-      setCart(cart);
-    }
-  }, []);
+    setCart(cart);
+    setLoaded(false);
+  }, [loaded]);
+
+  function clear() {
+    localStorage.removeItem("cart");
+    setLoaded(true);
+  }
   return (
     <>
       <div>
+        <button className="relative" onClick={clear}>
+          Clear Cart
+        </button>
         {cart.length > 0 ? (
           <div>
             {cart.map((val, index) => {
