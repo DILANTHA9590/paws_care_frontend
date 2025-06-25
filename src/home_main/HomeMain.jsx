@@ -14,6 +14,7 @@ import DoctorBookingForm from "./component/DoctorBookingForm";
 import ProductsPage from "./pages/ProductsPage";
 import ProductOverView from "./pages/ProductOverView";
 import { CountContext } from "../utills/context/countContext";
+import Cart from "./pages/cart";
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -42,6 +43,7 @@ export default function HomeMain() {
               <Route path="doctor/:id" element={<DoctorOverview />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="product/:id" element={<ProductOverView />} />
+              <Route path="cart" element={<Cart />} />
             </Routes>
           </div>
         </div>
