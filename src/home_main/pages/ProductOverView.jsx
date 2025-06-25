@@ -6,6 +6,7 @@ import { FaMinus } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { CountContext } from "../../utills/context/countContext";
 import { pre } from "framer-motion/client";
+import { addToCart } from "../../utills/cart";
 
 export default function ProductOverView() {
   const { count, setCount } = useContext(CountContext);
@@ -136,7 +137,13 @@ export default function ProductOverView() {
               <button className="bg-blue-600 text-white px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
                 Buy Now
               </button>
-              <button className="bg-gray-200 text-gray-800 px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200">
+              <button
+                className="bg-gray-200 text-gray-800 px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-gray-300 transition-all duration-200"
+                onClick={() => {
+                  addToCart(productId, count);
+                  setCount(0);
+                }}
+              >
                 Add To Cart
               </button>
             </div>
