@@ -1,4 +1,5 @@
 import axios from "axios";
+import { div } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 
 export default function Cartcart({ productId, qty }) {
@@ -26,43 +27,59 @@ export default function Cartcart({ productId, qty }) {
   }, []);
 
   return (
-    <div className="w-full max-w-7xl mx-auto my-6">
-      {product ? (
-        <div className="border rounded-xl shadow-md p-4 bg-white">
-          <table className="w-full table-auto text-left">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700 text-sm uppercase">
-                <th className="p-2">Image</th>
-                <th className="p-2">Product</th>
-                <th className="p-2">Qty</th>
-                <th className="p-2">Price</th>
-                <th className="p-2">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-t text-sm hover:bg-amber-100">
-                <td className="p-2">
-                  <img
-                    src={product.image[0]}
-                    alt={product.productName}
-                    className="w-16 h-16 object-cover rounded-md"
-                  />
-                </td>
-                <td className="p-2 font-medium">{product.productName}</td>
-                <td className="p-2">{qty}</td>
-                <td className="p-2">Rs. {product.lastPrice.toFixed(2)}</td>
-                <td className="p-2 font-semibold text-green-600">
-                  Rs. {(product.lastPrice * qty).toFixed(2)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="text-center py-10 text-gray-500">
-          Loading product...
-        </div>
-      )}
+    <div className="h-full">
+      <div className="w-full sm:max-w-7xl mx-auto my-6 h-full ">
+        {product ? (
+          <div className="border rounded-xl shadow-md p-4 bg-white overflow-x-auto h-full">
+            <table className="w-full table-fixed h-full">
+              <colgroup>
+                <col className="sm:w-24" /> {/* Image column */}
+                <col className="sm:w-64" /> {/* Product name column */}
+                <col className="sm:w-16" /> {/* Qty column */}
+                <col className="sm:w-24" /> {/* Price column */}
+                <col className="sm:w-24" /> {/* Total column */}
+              </colgroup>
+              <thead>
+                <tr className="bg-gray-100 text-gray-700 text-sm uppercase">
+                  <th className="p-3 font-bold text-left">Image</th>
+                  <th className="p-3 font-bold text-left">Product</th>
+                  <th className="p-3 font-bold text-center">Qty</th>
+                  <th className="p-3 font-bold text-right">Price</th>
+                  <th className="p-3 font-bold text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t hover:bg-amber-50">
+                  <td className="p-3">
+                    <img
+                      src={product.image[0]}
+                      alt={product.productName}
+                      className="w-16 h-16 object-cover rounded-md"
+                    />
+                  </td>
+                  <td
+                    className="p-3 font-medium truncate"
+                    title={product.productName}
+                  >
+                    {product.productName}
+                  </td>
+                  <td className="p-3 text-center">{qty}</td>
+                  <td className="p-3 text-right">
+                    Rs. {product.lastPrice.toFixed(2)}
+                  </td>
+                  <td className="p-3 font-semibold text-green-600 text-right">
+                    Rs. {(product.lastPrice * qty).toFixed(2)}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-10 text-gray-500">
+            Loading product...
+          </div>
+        )}
+      </div>
     </div>
   );
 }
