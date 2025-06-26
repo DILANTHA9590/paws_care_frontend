@@ -22,12 +22,12 @@ export default function cart() {
   }
   return (
     <>
-      <div className="">
+      <div className="h-full overflow-hidden overflow-y-auto">
         <button className="relative" onClick={clear}>
           Clear Cart
         </button>
         {cart.length > 0 ? (
-          <div>
+          <div className="h-full">
             {cart.map((val, index) => {
               const { productId, qty } = val;
 
@@ -37,6 +37,13 @@ export default function cart() {
                 </div>
               );
             })}
+            <div className=" h-[50px] sm:text-3xl p-2 text-2xl">
+              <div className="max-w-7xl mx-auto flex justify-end">
+                <button className="bg-orange-500 p-3 rounded-2xl px-7  text-white">
+                  CheckOut
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <h1> Emty Cart</h1>
