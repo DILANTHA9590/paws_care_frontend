@@ -1,10 +1,12 @@
 import { div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import { clearCart, loadCart } from "../../utills/cart";
+import Cartcart from "../component/Cartcart";
 
 export default function cart() {
   const [cart, setCart] = useState([]);
   const [loaded, setLoaded] = useState(false);
+
   console.log(loaded);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function cart() {
   }
   return (
     <>
-      <div>
+      <div className="">
         <button className="relative" onClick={clear}>
           Clear Cart
         </button>
@@ -30,9 +32,8 @@ export default function cart() {
               const { productId, qty } = val;
 
               return (
-                <div>
-                  <h1>{productId}</h1>
-                  <h1>{qty}</h1>
+                <div key={index} className="">
+                  <Cartcart productId={productId} qty={qty} />
                 </div>
               );
             })}
