@@ -27,8 +27,8 @@ export default function Cartcart({ productId, qty }) {
   }, []);
 
   return (
-    <div className="h-full">
-      <div className="w-full sm:max-w-7xl mx-auto my-6 h-full ">
+    <div>
+      <div className="w-full sm:max-w-7xl mx-auto my-6 l ">
         {product ? (
           <div className="border rounded-xl shadow-md p-4 bg-white overflow-x-auto h-full">
             <table className="w-full table-fixed h-full">
