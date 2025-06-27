@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
-import { IoIosArrowDown } from "react-icons/io";
-import { CiLogin } from "react-icons/ci";
-import { LiaSignInAltSolid } from "react-icons/lia";
-import { h1 } from "framer-motion/client";
-import { motion } from "framer-motion";
 import DeskTopNavbar from "./component/DeskTopNavbar";
 import AboutUs from "./component/AboutUs";
 import BookDoctor from "./pages/BookDoctor";
@@ -13,10 +8,10 @@ import DoctorOverview from "./pages/DoctorOverview";
 import DoctorBookingForm from "./component/DoctorBookingForm";
 import ProductsPage from "./pages/ProductsPage";
 import ProductOverView from "./pages/ProductOverView";
-
 import Shipping from "./pages/shipping";
-
+import CartDetails from "./pages/CartDetails";
 import { CountContext } from "../utills/context/countContext";
+
 export default function HomeMain() {
   const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -45,7 +40,7 @@ export default function HomeMain() {
               <Route path="doctor/:id" element={<DoctorOverview />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="product/:id" element={<ProductOverView />} />
-
+              <Route path="cart" element={<CartDetails />} />
               <Route path="shipping" element={<Shipping />} />
             </Routes>
           </div>
