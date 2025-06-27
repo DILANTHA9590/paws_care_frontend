@@ -8,7 +8,7 @@ import DoctorOverview from "./pages/DoctorOverview";
 import DoctorBookingForm from "./component/DoctorBookingForm";
 import ProductsPage from "./pages/ProductsPage";
 import ProductOverView from "./pages/ProductOverView";
-import Shipping from "./pages/shipping";
+
 import CartDetails from "./pages/CartDetails";
 import { CountContext } from "../utills/context/countContext";
 
@@ -41,7 +41,6 @@ export default function HomeMain() {
               <Route path="products" element={<ProductsPage />} />
               <Route path="product/:id" element={<ProductOverView />} />
               <Route path="cart" element={<CartDetails />} />
-              <Route path="shipping" element={<Shipping />} />
             </Routes>
           </div>
         </div>
