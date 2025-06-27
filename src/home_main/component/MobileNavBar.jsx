@@ -9,6 +9,7 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
     { name: "Shop", link: "/products" },
     { name: "Contact Us", link: "/contact" },
     { name: "Book now", link: "/" },
+    { name: "Cart", link: "/cart" },
   ];
 
   return (
