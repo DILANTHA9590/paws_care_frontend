@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import { clearCart, loadCart } from "../../utills/cart";
 import Cartcart from "../component/Cartcart";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function cart() {
   const [cart, setCart] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [price, setPrice] = useState();
 
-  console.log("sssssssssssss", price);
-
-  console.log(loaded);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cart = loadCart();
@@ -36,7 +36,44 @@ export default function cart() {
     setLoaded(true);
   }
 
-  function handleCheckOut() {}
+  function handleCheckOut() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in to place your order.", {
+        position: "top-center",
+        autoClose: 10000,
+      });
+      return;
+    }
+
+    navigate("/shipping", {
+      state: {
+        cart: loadCart(),
+        total: price.total,
+        discount: price.discount,
+      },
+    });
+
+    // const data = {
+    //   orderId: "ORD123456",
+    //   name: "John Doe",
+    //   mobileNumber: "0712345678",
+    //   address: "123 Main Street, Colombo",
+    //   email: "john.doe@example.com",
+    //   orderedItems: cart, // empty array
+    //   date: new Date(), // will default to now if omitted
+    //   paymentId: "PAY987654321",
+    //   status: "Pending", // one of: Pending, Processing, Completed, Cancelled
+    // };
+    // axios
+    //   .post(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, data)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }
   return (
     <>
       <h1>{price?.total}</h1>
