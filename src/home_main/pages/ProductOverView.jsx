@@ -5,9 +5,7 @@ import ImageSlider from "../component/ImageSlider";
 import { FaMinus } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { CountContext } from "../../utills/context/countContext";
-import { pre } from "framer-motion/client";
 import { addToCart } from "../../utills/cart";
-import cart from "./cart";
 
 export default function ProductOverView() {
   const { cartCount, setCartCount } = useContext(CountContext);
@@ -58,7 +56,6 @@ export default function ProductOverView() {
   } = productData || {};
 
   function incrementCartCount() {
-    console.log("sssssssssssssss", typeof count);
     setCount((prev) => prev + 1);
   }
 
