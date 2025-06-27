@@ -11,6 +11,7 @@ import ProductOverView from "./pages/ProductOverView";
 
 import CartDetails from "./pages/CartDetails";
 import { CountContext } from "../utills/context/countContext";
+import ShippingPage from "./pages/ShippingPage";
 
 export default function HomeMain() {
   const [token, setToken] = useState(true);
@@ -35,12 +36,12 @@ export default function HomeMain() {
               <Route path="about" element={<AboutUs />} />
               <Route path="pet foods" element={<h1>pet foods</h1>} />
               <Route path="bookdoctor" element={<BookDoctor />} />
-
               <Route path="book-doctor" element={<DoctorBookingForm />} />
               <Route path="doctor/:id" element={<DoctorOverview />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="product/:id" element={<ProductOverView />} />
               <Route path="cart" element={<CartDetails />} />
+              <Route path="shipping" element={<ShippingPage />} />
             </Routes>
           </div>
         </div>
