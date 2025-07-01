@@ -1,17 +1,210 @@
-import React from "react";
+import { IoClose } from "react-icons/io5";
+import React, { useEffect, useState } from "react";
+import { clearCart, loadCart } from "../../utills/cart";
+import Cartcart from "../component/Cartcart";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import ShippingData from "../component/ShippingData";
 
 export default function ShippingPage() {
-  const location = useLocation();
-  const data = location.state;
+  const [cart, setCart] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [price, setPrice] = useState();
+  const [showForm, setShowForm] = useState(false);
+  const [err, setErr] = useState(false);
 
-  console.log(data);
+  const [customerData, setCustomerData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const cart = loadCart();
+
+    setCart(cart);
+
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/products/quote`, {
+        orderedItems: loadCart(),
+      })
+      .then((res) => {
+        setPrice(res.data.paymentDetails);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setLoaded(false);
+  }, [loaded]);
+
+  function clear() {
+    localStorage.removeItem("cart");
+    setLoaded(true);
+  }
+
+  function handleCheckOut() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please log in to place your order.", {
+        position: "top-center",
+        autoClose: 10000,
+      });
+      return;
+    }
+
+    setShowForm(true);
+
+    const name = "phone";
+
+    if (isNaN(Number(customerData.phone))) {
+      setErr(true);
+      setCustomerData((prev) => ({
+        ...prev,
+        phone: "Invalid Number",
+      }));
+    }
+
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
+  }
+  function handleFormChange(e) {
+    setCustomerData({ ...customerData, [e.target.name]: e.target.value });
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    console.log("Order Placed with:", customerData);
+
+    // API call or logic to save order here...
+
+    toast.success("Order placed successfully!", {
+      position: "top-center",
+    });
+
+    clear(); // clear cart
+    navigate("/"); // redirect to home or success page
+  }
 
   return (
     <>
+      <h1>{price?.total}</h1>
       <div>
-        <h1>{data.discount}</h1>
-        <h1>{data.total}</h1>
+        <div className="overflow-hidden overflow-y-auto h-[70vh]">
+          <button className="relative" onClick={clear}>
+            Clear Cart
+          </button>
+          {cart.length > 0 ? (
+            <div className="">
+              {cart.map((val, index) => {
+                const { productId, qty } = val;
+
+                return (
+                  <div key={index}>
+                    <ShippingData productId={productId} qty={qty} />
+                  </div>
+                );
+              })}
+              <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg border-t border-gray-200 z-50 ">
+                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between p-4 space-y-2 sm:space-y-0">
+                  <div className="flex flex-col sm:flex-row sm:space-x-8 text-gray-800">
+                    <h2 className="text-lg sm:text-2xl font-medium">
+                      Total Discount:{" "}
+                      <span className="text-orange-500">
+                        Rs. {price?.discount.toFixed(2)}
+                      </span>
+                    </h2>
+                    <h2 className="text-lg sm:text-2xl font-medium">
+                      Total:{" "}
+                      <span className="text-green-600">
+                        Rs. {price?.total.toFixed(2)}
+                      </span>
+                    </h2>
+                  </div>
+                  {!showForm && (
+                    <button
+                      type="submit"
+                      onClick={handleCheckOut}
+                      className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold rounded-lg px-6 py-3 shadow-md"
+                    >
+                      Place Order
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <h1>Empty Cart</h1>
+          )}
+        </div>
       </div>
+
+      {/* Customer Details Form */}
+      {showForm && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center  backdrop-blur-sm">
+          <form
+            className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md relative"
+            onSubmit={handleCheckOut}
+          >
+            <IoClose
+              className="absolute right-0 top-0 text-4xl  pr-2"
+              onClick={() => setShowForm(false)}
+            />
+            <h2 className="text-2xl font-bold mb-6 text-center">
+              Enter Shipping Details
+            </h2>
+
+            <div className="mb-4">
+              <label className="block mb-1 font-medium">Name</label>
+              <input
+                type="text"
+                name="name"
+                value={customerData.name}
+                onChange={handleFormChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                placeholder="Your Name"
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block mb-1 font-medium">Phone Number</label>
+              <input
+                type="tel"
+                name="phone"
+                value={customerData.phone}
+                onChange={handleFormChange}
+                className={`w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400  ${
+                  err && "text-red-700"
+                }`}
+                placeholder="07XXXXXXXX"
+                required
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="block mb-1 font-medium">Address</label>
+              <textarea
+                name="address"
+                value={customerData.address}
+                onChange={handleFormChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                placeholder="Your Address"
+                required
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold rounded-lg px-6 py-3 shadow-md"
+            >
+              Place Order
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 }
