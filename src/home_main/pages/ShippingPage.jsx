@@ -91,7 +91,7 @@ export default function ShippingPage() {
         console.log("LLLLLLLL", paymentDetails);
         navigate("/payment", {
           state: {
-            paymentDetails,
+            paymentDetails: paymentDetails,
           },
         });
       })
