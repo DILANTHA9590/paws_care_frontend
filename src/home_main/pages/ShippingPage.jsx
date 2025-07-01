@@ -10,13 +10,15 @@ import ShippingData from "../component/ShippingData";
 export default function ShippingPage() {
   const [cart, setCart] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [paymentProcess, setPaymentProcess] = useState(false);
   const [price, setPrice] = useState();
   const [showForm, setShowForm] = useState(false);
   const [err, setErr] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState();
 
   const [customerData, setCustomerData] = useState({
     name: "",
-    phone: "",
+    mobileNumber: "",
     address: "",
   });
 
@@ -46,7 +48,9 @@ export default function ShippingPage() {
     setLoaded(true);
   }
 
-  function handleCheckOut() {
+  function handleCheckOut(e) {
+    setPaymentProcess(true);
+    e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Please log in to place your order.", {
@@ -58,17 +62,42 @@ export default function ShippingPage() {
 
     setShowForm(true);
 
-    const name = "phone";
-
     if (isNaN(Number(customerData.phone))) {
       setErr(true);
       setCustomerData((prev) => ({
         ...prev,
-        phone: "Invalid Number",
+        mobileNumber: "Invalid Number",
       }));
     }
 
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/products`);
+    // const order = {
+    //   customerData,
+    //   orderedItems: cart,
+    // };
+
+    customerData.orderedItems = cart;
+
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, customerData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setPaymentProcess(false);
+        setPaymentDetails(res.data.paymentData);
+
+        console.log("LLLLLLLL", paymentDetails);
+        navigate("/payment", {
+          state: {
+            paymentDetails,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   function handleFormChange(e) {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
@@ -126,7 +155,7 @@ export default function ShippingPage() {
                   {!showForm && (
                     <button
                       type="submit"
-                      onClick={handleCheckOut}
+                      onClick={() => setShowForm(true)}
                       className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold rounded-lg px-6 py-3 shadow-md"
                     >
                       Place Order
@@ -173,7 +202,7 @@ export default function ShippingPage() {
               <label className="block mb-1 font-medium">Phone Number</label>
               <input
                 type="tel"
-                name="phone"
+                name="mobileNumber:"
                 value={customerData.phone}
                 onChange={handleFormChange}
                 className={`w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400  ${
@@ -203,6 +232,19 @@ export default function ShippingPage() {
               Place Order
             </button>
           </form>
+        </div>
+      )}
+      {paymentProcess && (
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-70 z-50 backdrop-blur-2xl">
+          <div className="text-center">
+            <div className="w-20 h-20 border-8 border-t-8 border-t-yellow-400 border-gray-200 rounded-full animate-spin mx-auto"></div>
+            <h2 className="text-white text-xl mt-4 font-semibold">
+              Placing Your Order...
+            </h2>
+            <p className="text-gray-300 text-sm">
+              Please wait while we process your payment
+            </p>
+          </div>
         </div>
       )}
     </>
