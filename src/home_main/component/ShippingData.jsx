@@ -17,7 +17,7 @@ export default function ShippingData({ productId, qty }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
     // submit logic here
   };
 
@@ -36,6 +36,11 @@ export default function ShippingData({ productId, qty }) {
           }
         })
         .catch((err) => {
+          setLoaded(true);
+
+          if (err.message.status) {
+            setLoaded(true);
+          }
           console.log(err);
         });
     }
