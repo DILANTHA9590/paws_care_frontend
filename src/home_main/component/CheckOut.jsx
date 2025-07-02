@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { div } from "framer-motion/client";
+import toast from "react-hot-toast";
 
 export default function CheckOut() {
   const location = useLocation();
@@ -30,10 +31,22 @@ export default function CheckOut() {
     if (result.error) {
       setError(result.error.message);
       setLoading(false);
+
+      axios
+        .put(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
+          status: "payment_fail",
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (result.paymentIntent.status === "succeeded") {
+      toast.success("Payment successfully");
+
       setSuccess(true);
-      await axios.post("/api/update-order-status", {
-        orderId: orderId,
+      axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
         status: "paid",
       });
       setLoading(false);
@@ -47,7 +60,7 @@ export default function CheckOut() {
           <h1>lllllll</h1>
         </>
       ) : (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+        <div className="flex justify-center items-center min-h-screen bg-gray-300 p-4">
           <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
             <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
               Complete Your Payment
