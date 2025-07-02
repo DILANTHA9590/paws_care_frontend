@@ -70,11 +70,6 @@ export default function ShippingPage() {
       }));
     }
 
-    // const order = {
-    //   customerData,
-    //   orderedItems: cart,
-    // };
-
     customerData.orderedItems = cart;
 
     axios
@@ -88,13 +83,13 @@ export default function ShippingPage() {
         setPaymentProcess(false);
         setPaymentDetails(res.data.paymentData);
 
-        console.log("LLLLLLLL", paymentDetails);
         navigate("/payment", {
           state: {
-            paymentDetails: paymentDetails,
+            paymentDetails: res.data.paymentData,
           },
         });
       })
+
       .catch((err) => {
         console.log(err);
       });
