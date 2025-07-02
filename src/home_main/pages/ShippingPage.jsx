@@ -6,6 +6,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import ShippingData from "../component/ShippingData";
+import ServerErr from "../component/err_ui/ServerErr";
+import NetworkErr from "../component/err_ui/NetworkErr";
 
 export default function ShippingPage() {
   const [cart, setCart] = useState([]);
@@ -62,7 +64,7 @@ export default function ShippingPage() {
 
     setShowForm(true);
 
-    if (isNaN(Number(customerData.phone))) {
+    if (isNaN(Number(customerData.mobileNumber))) {
       setErr(true);
       setCustomerData((prev) => ({
         ...prev,
@@ -92,6 +94,12 @@ export default function ShippingPage() {
 
       .catch((err) => {
         console.log(err);
+        setPaymentProcess(false);
+        if (err.status) {
+          setErr(err.status);
+        } else {
+          setErr("network");
+        }
       });
   }
   function handleFormChange(e) {
@@ -112,6 +120,22 @@ export default function ShippingPage() {
     navigate("/"); // redirect to home or success page
   }
 
+  if ([400, 403, 404, 500].includes(err)) {
+    return (
+      <>
+        <ServerErr />
+      </>
+    );
+  }
+
+  //show network err-------------------------------------->
+  if (err == "network") {
+    return (
+      <>
+        <NetworkErr />
+      </>
+    );
+  }
   return (
     <>
       <h1>{price?.total}</h1>
@@ -197,7 +221,7 @@ export default function ShippingPage() {
               <label className="block mb-1 font-medium">Phone Number</label>
               <input
                 type="tel"
-                name="mobileNumber:"
+                name="mobileNumber"
                 value={customerData.phone}
                 onChange={handleFormChange}
                 className={`w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400  ${
