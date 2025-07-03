@@ -1,9 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import toast from "react-hot-toast";
 import { data, useNavigate } from "react-router";
+import { TokenContext } from "./utills/context/countContext";
 
 export default function LoginForm() {
+  const { token, setToken } = useContext(TokenContext);
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -24,6 +28,7 @@ export default function LoginForm() {
         password,
       })
       .then((res) => {
+        setToken(res.data.token);
         //set token local storage
         localStorage.setItem("token", res.data.token || "");
 
