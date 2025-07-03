@@ -1,8 +1,12 @@
 import { link } from "framer-motion/client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
+import { TokenContext } from "../../utills/context/countContext";
+
 export default function MobileNavBar({ showMobileNav, setNumber, number }) {
+  const { token, setToken } = useContext(TokenContext);
+
   const mobileNavLinks = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
@@ -10,15 +14,18 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
     { name: "Contact Us", link: "/contact" },
     { name: "Book now", link: "/" },
     { name: "Cart", link: "/cart" },
+    { name: "Order", link: "/cart", hidden: "hidden" },
+    { name: "My Bookings", link: "/cart", hidden: "hidden" },
+    { name: "My pets", link: "/cart", hidden: "hidden" },
   ];
 
   return (
     <>
-      <div className="sm:hidden block">
+      <div className="sm:hidden block relative">
         {/* Overlay */}
         <div
           className={`fixed ${
-            showMobileNav && "inset-0 bg-black/30 backdrop-blur-sm"
+            showMobileNav && "inset-0 bg-black/30 backdrop-blur-sm hi"
           } z-10`}
         >
           {/* Sidebar */}
@@ -42,12 +49,14 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
               {/* Navigation Links */}
               <nav className="flex flex-col space-y-4">
                 {mobileNavLinks.map((val, index) => {
-                  const { name, link } = val;
+                  const { name, link, hidden } = val;
                   return (
                     <Link
                       key={index}
                       to={link}
-                      className="text-lg font-medium text-gray-700 hover:text-black transition"
+                      className={`text-lg font-medium text-gray-700 hover:text-black transition  ${
+                        token ? "block" : hidden
+                      } `}
                     >
                       {name}
                     </Link>
