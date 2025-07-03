@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { IoIosArrowDown } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
@@ -6,18 +6,14 @@ import { LiaSignInAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
 import MobileNavBar from "./MobileNavBar";
+import ShowProfileNav from "./ShowProfileNav";
+import { TokenContext } from "../../utills/context/countContext";
 
 export default function DeskTopNavbar() {
-  const [token, setToken] = useState(true);
   const [usertoggleMenu, setToggleMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setToken(token);
-
-    console.log(token);
-  }, []);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { token } = useContext(TokenContext);
 
   // mob nav Arrey -------------------------------->
 
@@ -40,7 +36,7 @@ export default function DeskTopNavbar() {
               alt="logo"
             />
           </div>
-
+          {/* Desktop Nav Links -----------------------------------------------------------------> */}
           <div className="sm:block hidden ">
             <div className="flex gap-4 text-2xl">
               <Link to="/">Home</Link>
@@ -48,7 +44,15 @@ export default function DeskTopNavbar() {
               <Link to="/products">Shop</Link>
               <Link to="/contact">Contact Us</Link>
               <Link to="/bookdoctor">Book Now</Link>
-              {token && <Link to="/bookdoctor">MY Account</Link>}
+              {token && (
+                <div className="relative ">
+                  <Link onClick={() => setShowProfileMenu(!showProfileMenu)}>
+                    My Profiles
+                  </Link>
+
+                  {showProfileMenu && <ShowProfileNav />}
+                </div>
+              )}
             </div>
           </div>
           <div className="sm:block hidden">
@@ -134,7 +138,7 @@ export default function DeskTopNavbar() {
 
                       <div className="flex items-center ">
                         <CiLogin />
-                        <h1> Login</h1>
+                        <Link to="/login">Login</Link>
                       </div>
                       <div className="flex items-center">
                         <LiaSignInAltSolid className="rotate-89b " />
