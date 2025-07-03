@@ -8,6 +8,7 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
   const { token, setToken } = useContext(TokenContext);
 
   const mobileNavLinks = [
+    { name: "Login", link: "/login" },
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
     { name: "Shop", link: "/products" },
