@@ -8,7 +8,7 @@ export default function Footer() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="bg-amber-100 relative text-amber-900 mt-10 overflow-hidden"
+      className="bg-amber-100 relative -z-10 text-amber-900 mt-10 overflow-hidden "
     >
       {/* Paw pattern overlay */}
       <div className="absolute inset-0 bg-[url('/paw-pattern.png')] opacity-5 bg-cover bg-center pointer-events-none"></div>
