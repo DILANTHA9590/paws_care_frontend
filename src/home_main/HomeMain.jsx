@@ -9,14 +9,15 @@ import DoctorBookingForm from "./component/DoctorBookingForm";
 import ProductsPage from "./pages/ProductsPage";
 import ProductOverView from "./pages/ProductOverView";
 import CartDetails from "./pages/CartDetails";
-import { CountContext } from "../utills/context/countContext";
+import { CountContext, TokenContext } from "../utills/context/countContext";
 import ShippingPage from "./pages/ShippingPage";
 import CheckOut from "./component/CheckOut";
 
 export default function HomeMain() {
-  const [token, setToken] = useState(true);
+  // const [token, setToken] = useState(true);
   const [toggleMenu, setToggleMenu] = useState(false);
   const [cartCount, setCartCount] = useState(1);
+  const [token, setToken] = useState();
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
