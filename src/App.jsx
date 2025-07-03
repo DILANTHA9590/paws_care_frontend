@@ -16,15 +16,6 @@ const stripePromise = loadStripe(
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-  useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-    } else {
-      setToken(undefined);
-    }
-  }, []);
-
   return (
     <>
       <TokenContext.Provider value={{ token, setToken }}>
