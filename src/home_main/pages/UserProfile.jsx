@@ -2,11 +2,14 @@ import { div } from "framer-motion/client";
 import React from "react";
 
 export default function UserProfile() {
-  return (
-    <div className="">
-      <div className=" w-[30%] bg-amber-500"></div>
+  const navLinks = [
+    { name: "Bookings", link: "/order" },
+    { name: "Orders", link: "/order" },
+  ];
 
-      <div className="w-[70%] bg-amber-800"></div>
+  return (
+    <div className="bg-gray-800 h-full flex    ">
+      <div className=" w-full  bg-amber-800 h-full"></div>
     </div>
   );
 }
