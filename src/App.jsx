@@ -14,11 +14,14 @@ const stripePromise = loadStripe(
   "pk_test_51RSFLcP2O6eKPEmTYzM7SuHBXwwjcSDhD4S8E1kKiA2S6TSiuYZKJcPrctaGfcL4UX1IzqkiKwvr5ffaWzaqBXiN00R5Ne6Qug"
 );
 function App() {
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
+
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
+    } else {
+      setToken(undefined);
     }
   }, []);
 
