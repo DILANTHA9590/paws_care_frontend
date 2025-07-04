@@ -10,9 +10,7 @@ import LoginForm from "./LoginForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { TokenContext } from "./utills/context/countContext";
-const stripePromise = loadStripe(
-  "pk_test_51RSFLcP2O6eKPEmTYzM7SuHBXwwjcSDhD4S8E1kKiA2S6TSiuYZKJcPrctaGfcL4UX1IzqkiKwvr5ffaWzaqBXiN00R5Ne6Qug"
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
