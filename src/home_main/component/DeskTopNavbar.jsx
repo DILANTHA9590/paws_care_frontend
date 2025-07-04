@@ -44,6 +44,7 @@ export default function DeskTopNavbar() {
               <Link to="/products">Shop</Link>
               <Link to="/contact">Contact Us</Link>
               <Link to="/bookdoctor">Book Now</Link>
+              <Link to="/cart">Cart</Link>
               {token && (
                 <div className="relative ">
                   <Link onClick={() => setShowProfileMenu(!showProfileMenu)}>
