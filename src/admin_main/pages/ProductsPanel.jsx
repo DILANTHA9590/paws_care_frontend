@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { GrSearch } from "react-icons/gr";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router";
+import { TokenContext } from "../../utills/context/countContext";
 
 export default function ProductsPanel() {
+  const { token } = useContext(TokenContext);
   const [productData, setProductData] = useState([]);
   const [searchinput, setSearchInput] = useState("");
   const [totalPage, setTotalPages] = useState(1);
@@ -44,6 +46,21 @@ export default function ProductsPanel() {
         console.log(err);
       });
   }, [searchinput, page, loaded]);
+
+  function handleDelete(orderId) {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/api/products/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div className="h-[85vh] p-4 overflow-y-auto relative">
@@ -116,6 +133,7 @@ export default function ProductsPanel() {
             <tbody className="divide-y divide-gray-100">
               {productData.map((product, index) => {
                 const {
+                  productId,
                   image,
                   productName,
                   brand,
@@ -134,6 +152,9 @@ export default function ProductsPanel() {
                         alt="Product"
                         className="w-10 h-10 rounded-full object-cover"
                       />
+                      <td className="px-4 py-2 text-sm text-gray-700">
+                        {productId}
+                      </td>
                     </td>
                     <td className="px-4 py-2 text-sm text-gray-700">
                       {productName}
@@ -148,14 +169,23 @@ export default function ProductsPanel() {
                     <td className="px-4 py-2 text-sm text-gray-700">
                       {quantityInStock}
                     </td>
-
+                    {/* product Edit button ------------------------------------------------------------------------------------------------------> */}
                     <td className="text-center text-blue-700">
                       {" "}
                       <CiEdit size={20} className="inline-block text-center" />
                     </td>
+
+                    {/* product  delete button ------------------------------------------------------------------------------------------------------> */}
                     <td className="text-center text-red-600">
                       {" "}
-                      <MdDelete size={20} className="inline-block" />
+                      <MdDelete
+                        size={20}
+                        className="inline-block"
+                        onClick={() => {
+                          setloaded(false);
+                          handleDelete(productId);
+                        }}
+                      />
                     </td>
                   </tr>
                 );
