@@ -1,14 +1,18 @@
 // Checkout.jsx
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { div } from "framer-motion/client";
 import toast from "react-hot-toast";
+import { CiCoins1 } from "react-icons/ci";
+import { TokenContext } from "../../utills/context/countContext";
 
 export default function CheckOut() {
-  const location = useLocation();
+  const { token } = useContext(TokenContext);
 
+  const location = useLocation();
+  // get order id and paymentid prev page  using use loacation --------------------------->
   const { clientSecret, orderId } = location.state.paymentDetails;
 
   const stripe = useStripe();
@@ -16,7 +20,9 @@ export default function CheckOut() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
+  //  * Handles the payment submission using Stripe.-------------------------------->
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
@@ -32,12 +38,22 @@ export default function CheckOut() {
       setError(result.error.message);
       setLoading(false);
 
+      // If Stripe promise fails, update order status to payment failed
+
       axios
-        .put(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
-          status: "payment_fail",
-        })
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
+          {
+            status: "payment_fail",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
-          console.log(res);
+          toast.error("Payment failed. Your order was not paid.");
         })
         .catch((err) => {
           console.log(err);
@@ -46,9 +62,29 @@ export default function CheckOut() {
       toast.success("Payment successfully");
 
       setSuccess(true);
-      axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`, {
-        status: "paid",
-      });
+
+      // If Stripe promise success, update order status to payment paid
+
+      axios
+        .put(
+          `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
+          {
+            status: "paid",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          toast.success(res.data.message);
+          navigate("/myorders");
+          console.log("run this bro");
+        })
+        .catch((err) => {
+          toast.error("something went awrong please try again");
+        });
       setLoading(false);
     }
   };
@@ -56,10 +92,9 @@ export default function CheckOut() {
   return (
     <div>
       {!clientSecret ? (
-        <>
-          <h1>lllllll</h1>
-        </>
+        <></>
       ) : (
+        // card details input strip  form------------------------------------------------>
         <div className="flex justify-center items-center min-h-screen bg-gray-300 p-4">
           <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
             <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
@@ -93,6 +128,7 @@ export default function CheckOut() {
               </button>
             </form>
 
+            {/* payment succss after show suceess mesagge------------------------> */}
             {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
             {success && (
               <p className="mt-4 text-green-600 text-center">
