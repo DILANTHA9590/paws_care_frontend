@@ -9,6 +9,7 @@ import AdminDashBoard from "./pages/AdminDashBoard";
 import AddProduct from "./components/AddProduct";
 import UpdateUser from "./components/UpdateUser";
 import ManageReviews from "./pages/ManageReviews";
+import AdminOrders from "./pages/AdminOrders";
 
 export default function AdminHome() {
   return (
@@ -56,6 +57,12 @@ export default function AdminHome() {
               🩺 Doctors
             </Link>
             <Link
+              to="/admin/manageorders"
+              className="hover:bg-blue-600 px-4 py-2 rounded transition"
+            >
+              📦 Manage Orders
+            </Link>
+            <Link
               to="/admin/image"
               className="hover:bg-blue-600 px-4 py-2 rounded transition"
             >
@@ -85,6 +92,7 @@ export default function AdminHome() {
 
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="managereviews" element={<ManageReviews />} />
+            <Route path="manageorders" element={<AdminOrders />} />
           </Routes>
         </main>
       </div>
