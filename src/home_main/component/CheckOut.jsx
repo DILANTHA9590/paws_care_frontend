@@ -44,7 +44,7 @@ export default function CheckOut() {
         .put(
           `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
           {
-            status: "payment_fail",
+            status: "Payment_fail",
           },
           {
             headers: {
@@ -69,7 +69,7 @@ export default function CheckOut() {
         .put(
           `${import.meta.env.VITE_BACKEND_URL}/api/orders/${orderId}`,
           {
-            status: "paid",
+            status: "Paid",
           },
           {
             headers: {
