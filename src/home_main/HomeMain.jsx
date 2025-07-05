@@ -14,6 +14,7 @@ import ShippingPage from "./pages/ShippingPage";
 import CheckOut from "./component/CheckOut";
 import UserProfile from "./pages/UserProfile";
 import MyOrder from "./pages/MyOrder";
+import MyPets from "./pages/MyPets";
 
 export default function HomeMain() {
   // const [token, setToken] = useState(true);
@@ -48,6 +49,7 @@ export default function HomeMain() {
               <Route path="payment" element={<CheckOut />} />
               <Route path="userprofile" element={<UserProfile />} />
               <Route path="myorders" element={<MyOrder />} />
+              <Route path="mypets" element={<MyPets />} />
             </Routes>
           </div>
         </div>
