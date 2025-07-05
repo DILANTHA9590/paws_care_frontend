@@ -64,9 +64,9 @@ export default function MyOrder() {
                 className={`px-3 py-1 rounded-full text-sm font-semibold ${
                   order.status === "Pending"
                     ? "bg-yellow-200 text-yellow-800"
-                    : order.status === "Completed"
-                    ? "bg-green-200 text-green-800"
-                    : "bg-gray-200 text-gray-800"
+                    : order.status === "Paid"
+                    ? "bg-green-400 text-green-800"
+                    : "bg-red-600 text-gray-800"
                 }`}
               >
                 {order.status}
@@ -80,7 +80,7 @@ export default function MyOrder() {
               })}
             </p>
             <p>
-              <strong>Total Price:</strong> ${order.totalPrice}
+              <strong>Total Price:</strong> Rs : {order.totalPrice}
             </p>
             <p>
               <strong>Shipping Address:</strong> {order.address}
@@ -94,7 +94,7 @@ export default function MyOrder() {
               <ul className="list-disc list-inside">
                 {order.orderedItems.map((item, idx) => (
                   <li key={idx}>
-                    {item.productName} x {item.quantity} - ${item.price}
+                    {item.productName} x {item.quantity} - Rs : {item.price}
                   </li>
                 ))}
               </ul>
