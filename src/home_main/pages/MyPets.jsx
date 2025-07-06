@@ -59,6 +59,25 @@ export default function MyPets() {
     return <NetworkErr />;
   }
 
+  function handleDeletePet(petId) {
+    setLoaded(false);
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/api/pets/${petId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // if auth needed
+        },
+      })
+      .then((res) => {
+        toast.success("Pet deleted successfully");
+        // Optionally refresh pet list or update state here
+        setLoaded(false); // example to trigger re-fetch
+      })
+      .catch((err) => {
+        toast.error("Failed to delete pet");
+        console.error(err);
+      });
+  }
+
   return (
     <div className="h-full">
       {/* Button to toggle the Add Pet form visibility */}
@@ -131,7 +150,12 @@ export default function MyPets() {
                       <button className="w-full py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         Edit Details
                       </button>
-                      <button className="w-full py-2 bg-red-400 text-white rounded-lg hover:bg-red-600 transition-colors">
+                      <button
+                        className="w-full py-2 bg-red-400 text-white rounded-lg hover:bg-red-600 transition-colors"
+                        onClick={() => {
+                          handleDeletePet(pet.petId);
+                        }}
+                      >
                         Remove Pet
                       </button>
                       <button className="w-full py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition-colors">
