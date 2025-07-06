@@ -15,6 +15,7 @@ import CheckOut from "./component/CheckOut";
 import UserProfile from "./pages/UserProfile";
 import MyOrder from "./pages/MyOrder";
 import MyPets from "./pages/MyPets";
+import MyBookings from "./pages/MyBookings";
 
 export default function HomeMain() {
   // const [token, setToken] = useState(true);
@@ -50,6 +51,7 @@ export default function HomeMain() {
               <Route path="userprofile" element={<UserProfile />} />
               <Route path="myorders" element={<MyOrder />} />
               <Route path="mypets" element={<MyPets />} />
+              <Route path="mybookings" element={<MyBookings />} />
             </Routes>
           </div>
         </div>
