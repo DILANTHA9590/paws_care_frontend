@@ -16,8 +16,12 @@ export default function ShowProfileNav() {
       <Link className="hover:backdrop-blur-2xl" to="/myorders">
         My Orders
       </Link>
-      <Link className="hover:backdrop-blur-2xl">My Pets</Link>
-      <Link className="hover:backdrop-blur-2xl">My Bookings</Link>
+      <Link className="hover:backdrop-blur-2xl" to={"/mypets"}>
+        My Pets
+      </Link>
+      <Link className="hover:backdrop-blur-2xl" to={"/mybookings"}>
+        My Bookings
+      </Link>
       <Link
         className="hover:backdrop-blur-2xl"
         onClick={() => {
