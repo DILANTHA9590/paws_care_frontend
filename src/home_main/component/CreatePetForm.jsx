@@ -8,9 +8,13 @@ import axios from "axios";
 export default function CreatePetForm({ setLoaded, setShowAddPet }) {
   const { token } = useContext(TokenContext);
 
+  // State to track image upload progress
   const [isUploading, setIsUploading] = useState(false);
+  // State to store uploaded image URL
   const [image, addImage] = useState("");
   const navigate = useNavigate();
+
+  // State to store all form input values
   const [formData, setFormData] = useState({
     name: "",
     breed: "",
@@ -21,16 +25,19 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
     image: "",
   });
 
+  // Handle form input changes and update formData state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle image file input change and upload to Cloudinary
   const setImageUrl = async (e) => {
     setIsUploading(true);
 
     const files = e.target.files;
 
+    // Upload each selected file and store URLs
     const imageUrl = [];
     for (let i = 0; i < files.length; i++) {
       const url = await uploadImageToCloudinary(files[i]);
@@ -38,29 +45,37 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
     }
     setIsUploading(false);
 
+    // Store the first uploaded image URL locally
     addImage(imageUrl[0]);
 
+    // Update formData with uploaded image URL(s)
     setFormData((prev) => ({
       ...prev,
       image: imageUrl.toString(),
     }));
 
+    // Indicate loading is complete
     setLoaded(true);
 
+    // Notify user of successful upload
     toast.success("Image uploaded");
   };
 
+  // Handle form submission to add a new pet
   function handleAddPet(e) {
     e.preventDefault();
 
+    // Redirect to login if no valid token found
     if (!token) {
       navigate("/login");
       return;
     }
 
+    // Set loading and hide form on submission
     setLoaded(false);
     setShowAddPet(false);
 
+    // Send form data to backend API to create new pet record
     axios
       .post(
         `${import.meta.env.VITE_BACKEND_URL}/api/pets`,
@@ -74,20 +89,25 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
         }
       )
       .then((res) => {
+        // Notify user of success response from server
         toast.success(res.data.message);
       })
       .catch((err) => {
+        // Log any errors from API request
         console.log(err);
       });
   }
+
   return (
     <div className="h-full">
+      {/* Pet creation form */}
       <form
         className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-5"
         onSubmit={handleAddPet}
       >
         <h2 className="text-2xl font-semibold text-center mb-4">Add New Pet</h2>
 
+        {/* Input for pet name */}
         <div>
           <label className="block mb-1 font-medium">Pet Name</label>
           <input
@@ -101,6 +121,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           />
         </div>
 
+        {/* Input for pet breed */}
         <div>
           <label className="block mb-1 font-medium">Breed</label>
           <input
@@ -114,6 +135,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           />
         </div>
 
+        {/* Inputs for age and weight side-by-side */}
         <div className="flex gap-4">
           <div className="flex-1">
             <label className="block mb-1 font-medium">Age (years)</label>
@@ -144,6 +166,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           </div>
         </div>
 
+        {/* Dropdown to select gender */}
         <div>
           <label className="block mb-1 font-medium">Gender</label>
           <select
@@ -160,6 +183,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           </select>
         </div>
 
+        {/* Input for pet type */}
         <div>
           <label className="block mb-1 font-medium">Type</label>
           <input
@@ -173,11 +197,13 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           />
         </div>
 
+        {/* File input for image upload with uploading state */}
         <div>
           <label className="block mb-1 font-medium">Image URL</label>
 
           <div>
             {isUploading ? (
+              // Show loading animation while uploading
               <div>
                 <div className="flex w-full items-center justify-center gap-x-5 animate-bounce">
                   <div className="w-6 h-6 rounded bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
@@ -190,6 +216,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
                 </h1>
               </div>
             ) : (
+              // File input for selecting images
               <input
                 type="file"
                 multiple
@@ -201,6 +228,7 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
           </div>
         </div>
 
+        {/* Submit button to add pet */}
         <button
           type="submit"
           className="w-full bg-purple-600 text-white py-3 rounded font-semibold hover:bg-purple-700 transition"
