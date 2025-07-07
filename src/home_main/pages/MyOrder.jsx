@@ -12,6 +12,7 @@ export default function MyOrder() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Fetch orders when component mounts
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -20,6 +21,7 @@ export default function MyOrder() {
     }
 
     setLoading(true);
+
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, {
         headers: {
@@ -27,7 +29,7 @@ export default function MyOrder() {
         },
       })
       .then((res) => {
-        setOrders(res.data.orderData || []); // Adjust based on your response structure
+        setOrders(res.data.orderData || []);
       })
       .catch((err) => {
         console.error(err);
@@ -36,65 +38,98 @@ export default function MyOrder() {
       .finally(() => setLoading(false));
   }, [token, navigate]);
 
+  // ✅ Show loading spinner while fetching
   if (loading) {
     return <Loading />;
   }
 
+  // ✅ Show fallback if no orders
   if (!orders.length) {
     return (
-      <div className="text-center py-10 text-lg text-gray-700">
-        You have no orders yet.
+      <div className="text-center py-10 text-lg text-gray-500 italic">
+        🛒 You have no orders yet.
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6">My Orders</h1>
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-4xl font-extrabold mb-8 text-purple-700 text-center">
+        🧾 My Orders
+      </h1>
 
-      <ul className="space-y-6">
+      <ul className="space-y-8">
         {orders.map((order) => (
           <li
             key={order._id}
-            className="border rounded-lg p-4 shadow hover:shadow-md transition"
+            className="border border-purple-300 rounded-xl p-6 shadow-lg hover:shadow-2xl transition duration-300 bg-white"
           >
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="font-bold text-xl">Order ID: {order.orderId}</h2>
+            {/* ✅ Order header with ID + Status badge */}
+            <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
+              <h2 className="text-xl font-bold text-purple-900">
+                Order ID:{" "}
+                <span className="text-indigo-600">{order.orderId}</span>
+              </h2>
               <span
-                className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                className={`px-4 py-1 rounded-full text-sm font-bold shadow-sm ${
                   order.status === "Pending"
-                    ? "bg-yellow-200 text-yellow-800"
+                    ? "bg-yellow-100 text-yellow-800"
                     : order.status === "Paid"
-                    ? "bg-green-400 text-green-800"
-                    : "bg-red-600 text-gray-800"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
                 }`}
               >
                 {order.status}
               </span>
             </div>
-            <p>
-              <strong>Date:</strong>{" "}
-              {new Date(order.date).toLocaleString(undefined, {
-                dateStyle: "medium",
-                timeStyle: "short",
-              })}
-            </p>
-            <p>
-              <strong>Total Price:</strong> Rs : {order.totalPrice}
-            </p>
-            <p>
-              <strong>Shipping Address:</strong> {order.address}
-            </p>
-            <p>
-              <strong>Contact:</strong> {order.name} - {order.mobileNumber}
-            </p>
 
+            {/* ✅ Order details section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+              <div>
+                <p>
+                  <strong>Date:</strong>{" "}
+                  <span className="text-purple-700">
+                    {new Date(order.date).toLocaleString(undefined, {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </span>
+                </p>
+                <p>
+                  <strong>Total:</strong>{" "}
+                  <span className="text-green-700">Rs {order.totalPrice}</span>
+                </p>
+              </div>
+
+              <div>
+                <p>
+                  <strong>Shipping Address:</strong>{" "}
+                  <span className="text-purple-700">{order.address}</span>
+                </p>
+                <p>
+                  <strong>Contact:</strong>{" "}
+                  <span className="text-purple-700">
+                    {order.name} - {order.mobileNumber}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* ✅ Ordered items list */}
             <div className="mt-4">
-              <h3 className="font-semibold mb-2">Ordered Items:</h3>
-              <ul className="list-disc list-inside">
+              <h3 className="font-semibold text-gray-800 mb-2">
+                🗂️ Ordered Items:
+              </h3>
+              <ul className="space-y-1">
                 {order.orderedItems.map((item, idx) => (
-                  <li key={idx}>
-                    {item.productName} x {item.quantity} - Rs : {item.price}
+                  <li
+                    key={idx}
+                    className="flex justify-between bg-purple-50 rounded px-3 py-2"
+                  >
+                    <span>
+                      {item.productName} x {item.quantity}
+                    </span>
+                    <span>Rs {item.price}</span>
                   </li>
                 ))}
               </ul>
