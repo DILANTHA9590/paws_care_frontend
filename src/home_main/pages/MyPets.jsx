@@ -18,14 +18,12 @@ export default function MyPets() {
   const [err, setErr] = useState();
 
   useEffect(() => {
-    // Check if user is authenticated, redirect to login if no token
     if (!token) {
       navigate("/login");
       toast.error("Please login again");
       return;
     }
 
-    // Fetch user's pets data from backend API using token for authorization
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/pets/mypets`, {
         headers: {
@@ -33,12 +31,10 @@ export default function MyPets() {
         },
       })
       .then((res) => {
-        // Set pets state with received data or empty array if none
         setPets(res.data?.petData || []);
         setLoaded(true);
       })
       .catch((err) => {
-        // Show error toast and set error status for UI handling
         toast.error("Please try again later");
         if (err.status) {
           setErr(err.status);
@@ -48,12 +44,9 @@ export default function MyPets() {
       });
   }, [loaded]);
 
-  // Display server error component for HTTP error status codes
   if ([400, 500, 404, 403].includes(err)) {
     return <ServerErr />;
   }
-
-  // Display network error component if error is due to network issues
 
   if (err === "network") {
     return <NetworkErr />;
@@ -64,13 +57,12 @@ export default function MyPets() {
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/api/pets/${petId}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // if auth needed
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         toast.success("Pet deleted successfully");
-        // Optionally refresh pet list or update state here
-        setLoaded(false); // example to trigger re-fetch
+        setLoaded(false);
       })
       .catch((err) => {
         toast.error("Failed to delete pet");
@@ -78,15 +70,31 @@ export default function MyPets() {
       });
   }
 
+  // Motion container variants for stagger effect
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  // Motion item variant for each pet card
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="h-full">
-      {/* Button to toggle the Add Pet form visibility */}
+      {/* Button to toggle Add Pet */}
       <div
         className="flex justify-end "
         onClick={() => setShowAddPet(!ShowAddPet)}
       >
         <button className="inline-flex items-center gap-2 px-5 py-3 bg-purple-400 text-white text-lg font-semibold rounded-full shadow-md hover:bg-purple-700 hover:shadow-lg transition-all duration-300 ">
-          {/* Plus icon SVG */}
           <svg
             className="w-5 h-5"
             fill="none"
@@ -104,24 +112,26 @@ export default function MyPets() {
         </button>
       </div>
 
-      {/* Conditional rendering: Show pet list or Add Pet form */}
       {!ShowAddPet ? (
         <div className="h-full p-8 bg-gradient-to-br from-blue-50 to-white ">
-          {/* Show loading spinner until data is loaded */}
           {!loaded ? (
             <div className="h-full ">
               <Loading />
             </div>
           ) : pets.length > 0 ? (
-            // Display grid of pet cards
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+              variants={container}
+              initial="hidden"
+              animate="visible"
+            >
               {pets.map((pet) => (
                 <motion.div
                   key={pet._id}
                   className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col transition-transform duration-300 hover:shadow-2xl"
-                  whileHover={{ scale: 1.03 }}
+                  variants={item}
+                  whileHover={{ scale: 1.04 }}
                 >
-                  {/* Pet image */}
                   <div className="aspect-w-16 aspect-h-10">
                     <img
                       src={pet.image}
@@ -129,7 +139,6 @@ export default function MyPets() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  {/* Pet details */}
                   <div className="p-6 flex flex-col flex-1">
                     <h2 className="text-2xl font-semibold mb-2 text-gray-800">
                       {pet.name}
@@ -145,7 +154,6 @@ export default function MyPets() {
                       ⚖️ Weight: {pet.weight} kg
                     </p>
 
-                    {/* Action buttons for each pet */}
                     <div className="mt-auto flex flex-col gap-2">
                       <button className="w-full py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         Edit Details
@@ -165,15 +173,23 @@ export default function MyPets() {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
-            // Show message if no pets found
             <p className="text-center text-gray-500">No pets found.</p>
           )}
         </div>
       ) : (
-        // Show Add Pet form when toggled
-        <CreatePetForm setLoaded={setLoaded} setShowAddPet={setShowAddPet} />
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{ opacity: 3 }}
+          transition={{
+            duration: 1,
+          }}
+        >
+          <CreatePetForm setLoaded={setLoaded} setShowAddPet={setShowAddPet} />
+        </motion.div>
       )}
     </div>
   );
