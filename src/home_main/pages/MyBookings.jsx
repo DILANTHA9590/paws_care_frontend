@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import Loading from "../component/err_ui/Loading";
+import ServerErr from "../component/err_ui/ServerErr";
+import NetworkErr from "../component/err_ui/NetworkErr";
 
 export default function MyBookings() {
   const { token } = useContext(TokenContext);
@@ -12,7 +14,6 @@ export default function MyBookings() {
   const [bookingData, setBookingData] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  // 🚦 Fetch bookings on mount
   useEffect(() => {
     if (!token) {
       // ✅ Redirect if no token
@@ -28,31 +29,60 @@ export default function MyBookings() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          setBookingData(res.data?.bookings || []);
-          if (bookingData.length == 0) {
+          if (res.data?.bookings.length > 0) {
+            setBookingData(res.data?.bookings || []);
+          } else {
             toast.success("No available bookings found.");
           }
           setLoaded(true);
         })
         .catch((err) => {
-          toast.error("Failed to load bookings. Please try again later.");
+          // toast.error("Failed to load bookings. Please try again later.");
           console.error(err);
+          if (err.status) {
+            setErr(res.status);
+          } else {
+            setErr("network");
+          }
           setLoaded(true);
         });
     }
   }, [token, loaded]);
+
+  const [err, setErr] = useState();
+  // 🚦 Fetch bookings on mount
+
+  if ([500].includes(err)) {
+    setLoaded(false);
+    return (
+      <>
+        <ServerErr />
+      </>
+    );
+  }
+
+  if (err == "network") {
+    setLoaded(false);
+    return (
+      <>
+        <NetworkErr />
+      </>
+    );
+  }
+
+  console.log("setErr", err);
 
   // 🗑️ Handle booking delete
   const handleDeleteBooking = (bookingId) => {
     if (!window.confirm("Are you sure you want to delete this booking?"))
       return;
 
-    setLoaded(false);
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
+        setLoaded(false);
         toast.success("Booking deleted successfully");
       })
       .catch((err) => {
@@ -141,7 +171,9 @@ export default function MyBookings() {
 
               {/* 🗑️ Delete button */}
               <button
-                onClick={() => handleDeleteBooking(booking._id)}
+                onClick={() => {
+                  handleDeleteBooking(booking._id);
+                }}
                 className="text-red-600 hover:text-red-800 transition"
                 aria-label="Delete Booking"
                 title="Delete Booking"
