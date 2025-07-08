@@ -13,6 +13,7 @@ export default function MyBookings() {
   const navigate = useNavigate();
   const [bookingData, setBookingData] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [err, setErr] = useState();
 
   useEffect(() => {
     if (!token) {
@@ -40,7 +41,7 @@ export default function MyBookings() {
           // toast.error("Failed to load bookings. Please try again later.");
           console.error(err);
           if (err.status) {
-            setErr(res.status);
+            setErr(err.status);
           } else {
             setErr("network");
           }
@@ -49,11 +50,9 @@ export default function MyBookings() {
     }
   }, [token, loaded]);
 
-  const [err, setErr] = useState();
   // 🚦 Fetch bookings on mount
 
   if ([500].includes(err)) {
-    setLoaded(false);
     return (
       <>
         <ServerErr />
@@ -62,7 +61,6 @@ export default function MyBookings() {
   }
 
   if (err == "network") {
-    setLoaded(false);
     return (
       <>
         <NetworkErr />
