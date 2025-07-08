@@ -72,7 +72,7 @@ export default function DeskTopNavbar() {
                   <div>
                     <img
                       onClick={() => setToggleMenu(true)}
-                      className="w-25 border-amber-400 h-25 rounded-full border"
+                      className="w-35 border-amber-400 h-25 rounded-full  "
                       src={
                         image
                           ? image
