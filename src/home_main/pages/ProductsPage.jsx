@@ -34,7 +34,6 @@ export default function ProductsPage() {
         })
         .catch((err) => {
           setLoaded(true);
-          console.log(err);
 
           if (err.status) {
             setErr(err.status); // set interl server erros
