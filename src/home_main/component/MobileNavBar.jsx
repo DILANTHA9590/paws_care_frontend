@@ -13,11 +13,11 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
     { name: "About", link: "/about" },
     { name: "Shop", link: "/products" },
     { name: "Contact Us", link: "/contact" },
-    { name: "Book now", link: "/" },
+    { name: "Book now", link: "/bookdoctor" },
     { name: "Cart", link: "/cart" },
-    { name: "Order", link: "/cart", hidden: "hidden" },
-    { name: "My Bookings", link: "/cart", hidden: "hidden" },
-    { name: "My pets", link: "/cart", hidden: "hidden" },
+    { name: "Order", link: "/myorders", hidden: "hidden" },
+    { name: "My Bookings", link: "/mybookings", hidden: "hidden" },
+    { name: "My pets", link: "/mypets", hidden: "hidden" },
   ];
 
   return (
