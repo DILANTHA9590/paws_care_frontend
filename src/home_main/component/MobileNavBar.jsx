@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { ImageContext, TokenContext } from "../../utills/context/countContext";
 
 export default function MobileNavBar({ showMobileNav, setShowMobileNav }) {
-  const { token } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
   const { image } = useContext(ImageContext);
 
   const mobileNavLinks = [
@@ -48,11 +48,23 @@ export default function MobileNavBar({ showMobileNav, setShowMobileNav }) {
         >
           {/* Profile / Logo */}
           <div className="flex justify-center mb-6">
-            <img
-              src={image}
-              alt="Profile"
-              className="h-20 w-20 rounded-full object-cover"
-            />
+            {token ? (
+              <>
+                <img
+                  src={image}
+                  alt="Profile"
+                  className="h-20 w-20 rounded-full object-cover"
+                />
+              </>
+            ) : (
+              <>
+                <img
+                  src="https://res.cloudinary.com/dfmsi6xmw/image/upload/v1751976851/w7aiug9avfcwvwxida9i.webp"
+                  alt="Profile"
+                  className="h-20 w-20 rounded-full object-cover"
+                />
+              </>
+            )}
           </div>
 
           {/* Navigation Links */}
@@ -93,7 +105,13 @@ export default function MobileNavBar({ showMobileNav, setShowMobileNav }) {
           </nav>
 
           {/* Sign Out Button */}
-          <button className="w-full text-center py-2 mt-8 text-white bg-red-500 hover:bg-red-600 rounded-lg transition">
+          <button
+            className="w-full text-center py-2 mt-8 text-white bg-red-500 hover:bg-red-600 rounded-lg transition"
+            onClick={() => {
+              localStorage.removeItem("token");
+              setToken(null);
+            }}
+          >
             Sign Out
           </button>
         </motion.div>
