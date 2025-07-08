@@ -2,10 +2,11 @@ import { link } from "framer-motion/client";
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-import { TokenContext } from "../../utills/context/countContext";
+import { ImageContext, TokenContext } from "../../utills/context/countContext";
 
-export default function MobileNavBar({ showMobileNav, setNumber, number }) {
+export default function MobileNavBar({ showMobileNav, setShowMobileNav }) {
   const { token, setToken } = useContext(TokenContext);
+  const { image, setImage } = useContext(ImageContext);
 
   const mobileNavLinks = [
     { name: "Login", link: "/login" },
@@ -18,6 +19,12 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
     { name: "Order", link: "/myorders", hidden: "hidden" },
     { name: "My Bookings", link: "/mybookings", hidden: "hidden" },
     { name: "My pets", link: "/mypets", hidden: "hidden" },
+    {
+      name: "Go to Profile",
+      link: "/userprofile",
+      hidden: "hidden",
+      setsvg: "true",
+    },
   ];
 
   return (
@@ -37,6 +44,9 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
               x: showMobileNav ? 0 : -300,
               opacity: showMobileNav ? 3 : 0,
             }}
+            transition={{
+              duration: showMobileNav ? 0.2 : 0,
+            }}
           >
             {/* Top Section */}
             <div className="space-y-6">
@@ -44,22 +54,44 @@ export default function MobileNavBar({ showMobileNav, setNumber, number }) {
 
               {/* Profile / Logo */}
               <div className="flex justify-center">
-                <div className="h-20 w-20 bg-black rounded-full" />
+                <img src={image} alt="" className="h-34 w-34" />
               </div>
 
               {/* Navigation Links */}
-              <nav className="flex flex-col space-y-4">
+              <nav className="flex flex-col space-y-4 ">
                 {mobileNavLinks.map((val, index) => {
-                  const { name, link, hidden } = val;
+                  const { name, link, hidden, setsvg } = val;
                   return (
                     <Link
+                      onClick={() => {
+                        setShowMobileNav(false);
+                      }}
                       key={index}
                       to={link}
                       className={`text-lg font-medium text-gray-700 hover:text-black transition  ${
                         token ? "block" : hidden
                       } `}
                     >
-                      {name}
+                      <div className={`${setsvg && "flex items-center"}`}>
+                        {name}
+
+                        {setsvg == "true" && (
+                          <svg
+                            className="pl-1. text-blue-300 font-bold"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                          </svg>
+                        )}
+                      </div>
                     </Link>
                   );
                 })}
