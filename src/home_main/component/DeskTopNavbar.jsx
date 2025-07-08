@@ -28,7 +28,10 @@ export default function DeskTopNavbar() {
       <div className="sm:hidden block">
         {/* Overlay */}
 
-        <MobileNavBar showMobileNav={showMobileNav} />
+        <MobileNavBar
+          showMobileNav={showMobileNav}
+          setShowMobileNav={setShowMobileNav}
+        />
       </div>
 
       {/* mobile nav started ----------------------------------------------------> */}
