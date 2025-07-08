@@ -21,7 +21,7 @@ export default function UserProfile() {
     // If no token, redirect to login
     if (!token) {
       toast.error("Please Sign In Again");
-      navigate("/login");
+      navigate("/");
       return;
     }
 
