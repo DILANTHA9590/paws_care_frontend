@@ -7,13 +7,18 @@ import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
 import MobileNavBar from "./MobileNavBar";
 import ShowProfileNav from "./ShowProfileNav";
-import { TokenContext } from "../../utills/context/countContext";
+import { ImageContext, TokenContext } from "../../utills/context/countContext";
 
 export default function DeskTopNavbar() {
   const [usertoggleMenu, setToggleMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { token } = useContext(TokenContext);
+  const { image, setImage } = useContext(ImageContext);
+
+  if (!image) {
+    setImage(() => localStorage.getItem("image"));
+  }
 
   // mob nav Arrey -------------------------------->
 
@@ -58,17 +63,22 @@ export default function DeskTopNavbar() {
           </div>
           <div className="sm:block hidden">
             <div className="flex items-center gap-2">
+              {/* if user log and show user profile image */}
               {token ? (
                 <div className="relative  flex flex-col  items-center">
                   <div>
                     <img
                       onClick={() => setToggleMenu(true)}
-                      className="w-20 h-20 rounded-full"
-                      src="https://th.bing.com/th/id/OIP.l93Rr1tSI165Dpr6sAFlqAHaHa?w=190&h=190&c=7&r=0&o=7&pid=1.7&rm=3"
+                      className="w-25 border-amber-400 h-25 rounded-full border"
+                      src={
+                        image
+                          ? image
+                          : "https://res.cloudinary.com/dfmsi6xmw/image/upload/v1751976851/w7aiug9avfcwvwxida9i.webp"
+                      }
                       alt="profile"
                     />
                   </div>
-                  {/* show mobile nav =------------------------------------------- */}
+
                   {usertoggleMenu && token && (
                     <motion.div
                       initial={false}
@@ -108,12 +118,14 @@ export default function DeskTopNavbar() {
                   )}
                 </div>
               ) : (
+                // Guest user profile icon (shown when user is NOT logged in)
+
                 <div className="relative  flex flex-col  items-center">
                   <div>
                     <img
                       onClick={() => setToggleMenu(true)}
-                      className="w-20 h-20 rounded-full"
-                      src="https://th.bing.com/th/id/OIP.l93Rr1tSI165Dpr6sAFlqAHaHa?w=190&h=190&c=7&r=0&o=7&pid=1.7&rm=3"
+                      className="w-40 h-25 rounded-full"
+                      src="https://res.cloudinary.com/dfmsi6xmw/image/upload/v1751976851/w7aiug9avfcwvwxida9i.webp"
                       alt="profile"
                     />
                   </div>
