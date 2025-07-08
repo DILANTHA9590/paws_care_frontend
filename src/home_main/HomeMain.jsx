@@ -52,6 +52,7 @@ export default function HomeMain() {
               <Route path="myorders" element={<MyOrder />} />
               <Route path="mypets" element={<MyPets />} />
               <Route path="mybookings" element={<MyBookings />} />
+              <Route path="edit-pet" element={<MyBookings />} />
             </Routes>
           </div>
         </div>
