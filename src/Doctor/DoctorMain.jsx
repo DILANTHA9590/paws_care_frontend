@@ -1,8 +1,13 @@
 import { div, h1 } from "framer-motion/client";
 import React, { useState } from "react";
 import { Link, Route, Routes } from "react-router";
+import DoctorDashBoard from "./pages/DoctorDashBoard";
+import AboutUs from "../home_main/component/AboutUs";
+import MyBookings from "./pages/MyBookings";
 
 export default function DoctorMain() {
+  const [input, setInput] = useState();
+  const [switchInput, setSwitchInput] = useState();
   const [iindex, setIndex] = useState(0);
   const navLinks = [
     {
@@ -11,8 +16,8 @@ export default function DoctorMain() {
       id: 0,
     },
     {
-      name: "DASHBOARD",
-      link: "/doctor/dashboard",
+      name: "My BOOKINGS",
+      link: "/doctor/mybookings",
       id: 1,
     },
 
@@ -30,7 +35,7 @@ export default function DoctorMain() {
 
     {
       name: "DASHBOARD",
-      link: "doctor/dashboard",
+      link: "/doctor/dashboard",
       id: 4,
     },
 
@@ -40,6 +45,7 @@ export default function DoctorMain() {
       id: 5,
     },
   ];
+
   return (
     <div className="h-[100vh]  flex">
       <div className="bg-red-500 h-[100%] w-[20%] ">
@@ -78,8 +84,16 @@ export default function DoctorMain() {
         </div>
       </div>
       <div className="bg-blue-600 h-[100%] w-[80%]">
-        <div className="h-[20%] bg-amber-700"></div>
-        <div className="h-[80%] bg-blue-400"></div>
+        <div className="h-[10%] bg-amber-100 flex justify-center items-center">
+          <input type="text" className="border w-7xl p-4" />
+          <h1 className="p-4 bg-amber-300 border">Search</h1>
+        </div>
+        <div className="h-[90%] bg-blue-400">
+          <Routes>
+            <Route path="dashboard" element={<DoctorDashBoard />} />
+            <Route path="mybookings" element={<MyBookings />} />
+          </Routes>
+        </div>
         <div></div>
       </div>
     </div>
