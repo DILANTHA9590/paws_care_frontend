@@ -4,6 +4,7 @@ import { Link, Route, Routes } from "react-router";
 import DoctorDashBoard from "./pages/DoctorDashBoard";
 import AboutUs from "../home_main/component/AboutUs";
 import MyBookings from "./pages/MyBookings";
+import UpdateMedicalHistory from "./components/UpdateMedicalHistory";
 
 export default function DoctorMain() {
   const [input, setInput] = useState();
@@ -92,6 +93,10 @@ export default function DoctorMain() {
           <Routes>
             <Route path="dashboard" element={<DoctorDashBoard />} />
             <Route path="mybookings" element={<MyBookings />} />
+            <Route
+              path="updatemedicalhistory"
+              element={<UpdateMedicalHistory />}
+            />
           </Routes>
         </div>
         <div></div>
