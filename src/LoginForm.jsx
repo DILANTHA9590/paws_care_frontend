@@ -44,7 +44,7 @@ export default function LoginForm() {
             state: { ...res.data.payload },
           });
         } else if (type == "doctor") {
-          navigate("");
+          navigate("/doctor/");
         } else if (type == "customer") {
           navigate("/");
         } else {
