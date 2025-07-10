@@ -81,6 +81,7 @@ export default function MyBookings() {
                       navigate("/doctor/updatemedicalhistory", {
                         state: {
                           petId: booking.petId,
+                          doctorId: booking.doctorId,
                         },
                       });
                     }}
