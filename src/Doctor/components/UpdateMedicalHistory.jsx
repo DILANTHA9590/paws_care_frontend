@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { TokenContext } from "../../utills/context/countContext";
+import Loading from "../../home_main/component/err_ui/Loading";
 
 export default function UpdateMedicalHistory() {
+  const { token } = useContext(TokenContext);
   const location = useLocation();
   const { petId, doctorId } = location.state;
+  const [loaded, setLoaded] = useState(true);
+  const navigate = useNavigate();
 
   const [allPrescription, setAllPrescription] = useState([]);
   const [formData, setFormData] = useState({
@@ -25,10 +31,11 @@ export default function UpdateMedicalHistory() {
 
   function addMainFormData(e) {
     const { name, value } = e.target;
-
-    if (name == "treatment")
+    if (name === "treatment") {
       setFormData((prev) => ({ ...prev, [name]: value.split(",") }));
-    return;
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   }
 
   function sethandlePrescription(e) {
@@ -51,7 +58,7 @@ export default function UpdateMedicalHistory() {
 
     setFormData((prev) => ({
       ...prev,
-      prescription: [...prev.prescription, { prescription }],
+      prescription: [...prev.prescription, prescription],
     }));
 
     setPrescription((prev) => ({
@@ -68,10 +75,42 @@ export default function UpdateMedicalHistory() {
   function submitFormData(e) {
     e.preventDefault();
 
-    console.log(
-      "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-      formData
-    );
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    console.log(formData);
+    setLoaded(false);
+    axios
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/medical`,
+        {
+          formData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        toast.success(
+          "Medical history saved successfully! Booking marked as completed"
+        );
+      })
+      .catch((err) => {
+        toast.err("Failed to create medical history");
+        console.log(err);
+      })
+      .finally(() => {
+        setLoaded(true); // ✅
+        navigate("/doctor/mybookings");
+      });
+  }
+
+  if (!loaded) {
+    return <Loading />;
   }
 
   return (
