@@ -73,7 +73,7 @@ export default function AllDoctors() {
                 variants={containerVariant}
               >
                 {doctors.map((doc) => (
-                  <Link to={`/doctor/${doc.doctorId}`} key={doc._id}>
+                  <Link to={`/doctors/${doc.doctorId}`} key={doc._id}>
                     <motion.div
                       variants={cardVariant}
                       className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center text-center"
