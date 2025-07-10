@@ -42,7 +42,7 @@ export default function HomeMain() {
               <Route path="pet foods" element={<h1>pet foods</h1>} />
               <Route path="bookdoctor" element={<BookDoctor />} />
               <Route path="book-doctor" element={<DoctorBookingForm />} />
-              <Route path="doctor/:id" element={<DoctorOverview />} />
+              <Route path="doctors/:id" element={<DoctorOverview />} />
               <Route path="products" element={<ProductsPage />} />
               <Route path="product/:id" element={<ProductOverView />} />
               <Route path="cart" element={<CartDetails />} />
