@@ -14,36 +14,30 @@ export default function DoctorMain() {
     {
       name: "DASHBOARD",
       link: "/doctor/dashboard",
-      id: 0,
     },
     {
       name: "My BOOKINGS",
       link: "/doctor/mybookings",
-      id: 1,
     },
 
     {
       name: "DASHBOARD",
       link: "/doctor/dashboard",
-      id: 2,
     },
 
     {
       name: "DASHBOARD",
       link: "/doctor/dashboard",
-      id: 3,
     },
 
     {
       name: "DASHBOARD",
       link: "/doctor/dashboard",
-      id: 4,
     },
 
     {
       name: "DASHBOARD",
       link: "/doctor/dashboard",
-      id: 5,
     },
   ];
 
@@ -70,7 +64,7 @@ export default function DoctorMain() {
                 <Link
                   to={link}
                   className={`${
-                    iindex == id && "bg-blue-900"
+                    iindex == index && "bg-blue-900"
                   } w-full block p-4 rounded-l-full ml-5 rounded-tl-2xl`}
                 >
                   {name}
