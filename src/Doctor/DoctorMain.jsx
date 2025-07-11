@@ -5,6 +5,7 @@ import DoctorDashBoard from "./pages/DoctorDashBoard";
 import AboutUs from "../home_main/component/AboutUs";
 import MyBookings from "./pages/MyBookings";
 import UpdateMedicalHistory from "./components/UpdateMedicalHistory";
+import DoctorPastAppoiments from "./pages/DoctorPastAppoiments";
 
 export default function DoctorMain() {
   const [input, setInput] = useState();
@@ -16,13 +17,13 @@ export default function DoctorMain() {
       link: "/doctor/dashboard",
     },
     {
-      name: "My BOOKINGS",
+      name: "TODAY,S BOOKINGS",
       link: "/doctor/mybookings",
     },
 
     {
-      name: "DASHBOARD",
-      link: "/doctor/dashboard",
+      name: "PAST BOOKIGS",
+      link: "/doctor/mypastbookings",
     },
 
     {
@@ -83,7 +84,7 @@ export default function DoctorMain() {
           <input type="text" className="border w-7xl p-4" />
           <h1 className="p-4 bg-amber-300 border">Search</h1>
         </div>
-        <div className="h-[90%] bg-blue-400">
+        <div className="h-[90%] bg-white">
           <Routes>
             <Route path="dashboard" element={<DoctorDashBoard />} />
             <Route path="mybookings" element={<MyBookings />} />
@@ -91,6 +92,8 @@ export default function DoctorMain() {
               path="updatemedicalhistory"
               element={<UpdateMedicalHistory />}
             />
+
+            <Route path="mypastbookings" element={<DoctorPastAppoiments />} />
           </Routes>
         </div>
         <div></div>
