@@ -95,9 +95,7 @@ export default function UpdateMedicalHistory() {
         }
       )
       .then((res) => {
-        toast.success(
-          "Medical history saved successfully! Booking marked as completed"
-        );
+        toast.success(res.data.message);
       })
       .catch((err) => {
         toast.err("Failed to create medical history");
@@ -105,7 +103,7 @@ export default function UpdateMedicalHistory() {
       })
       .finally(() => {
         setLoaded(true); // ✅
-        navigate("/doctor/mybookings");
+        // navigate("/doctor/mybookings");
       });
   }
 
