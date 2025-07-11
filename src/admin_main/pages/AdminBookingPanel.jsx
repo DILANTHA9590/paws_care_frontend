@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { GrSearch } from "react-icons/gr";
+import { TokenContext } from "../../utills/context/countContext";
 
 export default function AdminBookingPanel() {
   const [bookingData, setBookingData] = useState([]);
@@ -9,6 +10,7 @@ export default function AdminBookingPanel() {
   const [page, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchInput, setSearchInput] = useState("");
+  const { token } = useContext(TokenContext);
 
   useEffect(() => {
     axios
@@ -18,8 +20,13 @@ export default function AdminBookingPanel() {
           page,
           limit: 10,
         },
+
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then((res) => {
+        console.log(res);
         setBookingData(res.data.bookings || []);
         setTotalPages(res.data.totalPages || 1);
         setLoaded(true);
