@@ -3,6 +3,8 @@ import { TokenContext } from "../../utills/context/countContext";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Loading from "../../home_main/component/err_ui/Loading";
+import { div } from "framer-motion/client";
 
 export default function MyBookings() {
   const { token } = useContext(TokenContext);
@@ -39,13 +41,17 @@ export default function MyBookings() {
   }, [token]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">My Bookings</h1>
+    <div className="p-4 h-[100%]">
+      <h1 className="text-2xl font-bold mb-4 text-center">Today’s Bookings</h1>
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="h-full">
+          <Loading />
+        </div>
       ) : bookingData.length === 0 ? (
-        <p>No bookings found.</p>
+        <div className="h-full flex justify-center items-center">
+          <p>No bookings found.</p>
+        </div>
       ) : (
         <table className="w-full border-collapse border border-gray-300">
           <thead className="bg-gray-200">
