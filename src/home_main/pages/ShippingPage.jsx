@@ -4,13 +4,14 @@ import { clearCart, loadCart } from "../../utills/cart";
 import Cartcart from "../component/Cartcart";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
-import ShippingData from "../component/ShippingData";
+import { useLocation, useNavigate } from "react-router";
+
 import ServerErr from "../component/err_ui/ServerErr";
 import NetworkErr from "../component/err_ui/NetworkErr";
 
 export default function ShippingPage() {
-  const [cart, setCart] = useState([]);
+  const location = useLocation();
+  const cartData = location.state.item;
   const [loaded, setLoaded] = useState(false);
   const [paymentProcess, setPaymentProcess] = useState(false);
   const [price, setPrice] = useState();
@@ -27,13 +28,9 @@ export default function ShippingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const cart = loadCart();
-
-    setCart(cart);
-
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/products/quote`, {
-        orderedItems: loadCart(),
+        orderedItems: cartData,
       })
       .then((res) => {
         setPrice(res.data.paymentDetails);
@@ -72,7 +69,7 @@ export default function ShippingPage() {
       }));
     }
 
-    customerData.orderedItems = cart;
+    customerData.orderedItems = cartData;
 
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/orders`, customerData, {
@@ -144,14 +141,14 @@ export default function ShippingPage() {
           <button className="relative" onClick={clear}>
             Clear Cart
           </button>
-          {cart.length > 0 ? (
+          {cartData.length > 0 ? (
             <div className="">
-              {cart.map((val, index) => {
+              {cartData.map((val, index) => {
                 const { productId, qty } = val;
 
                 return (
                   <div key={index}>
-                    <ShippingData productId={productId} qty={qty} />
+                    <Cartcart productId={productId} qty={qty} />
                   </div>
                 );
               })}
