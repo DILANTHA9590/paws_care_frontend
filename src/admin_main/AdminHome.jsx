@@ -10,6 +10,7 @@ import AddProduct from "./components/AddProduct";
 import UpdateUser from "./components/UpdateUser";
 import ManageReviews from "./pages/ManageReviews";
 import AdminOrders from "./pages/AdminOrders";
+import DoctorCreate from "./pages/DoctorCreate";
 
 export default function AdminHome() {
   return (
@@ -93,6 +94,7 @@ export default function AdminHome() {
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="managereviews" element={<ManageReviews />} />
             <Route path="manageorders" element={<AdminOrders />} />
+            <Route path="createdoctor" element={<DoctorCreate />} />
           </Routes>
         </main>
       </div>
