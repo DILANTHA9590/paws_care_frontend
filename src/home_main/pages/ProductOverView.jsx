@@ -69,6 +69,18 @@ export default function ProductOverView() {
     });
   }
 
+  function handleClickBuyNow(productId) {
+    navigate("/shipping", {
+      state: {
+        item: [
+          {
+            qty: 1,
+            productId: productId,
+          },
+        ],
+      },
+    });
+  }
   return (
     <div className="h-full bg-gradient-to-p-4 md:p-6">
       {!loaded ? (
@@ -134,7 +146,12 @@ export default function ProductOverView() {
               </button>
             </div>
             <div className="flex gap-4 mt-4 md:mt-6 ">
-              <button className="bg-blue-600 text-white px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200">
+              <button
+                className="bg-blue-600 text-white px-4 py-2 md:px-5 md:py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
+                onClick={() => {
+                  handleClickBuyNow(productId);
+                }}
+              >
                 Buy Now
               </button>
               <button
