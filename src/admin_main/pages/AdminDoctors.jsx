@@ -89,7 +89,7 @@ export default function AdminDoctors() {
           <GrSearch className="text-xl text-gray-500" />
         </div>
         <Link
-          to="/add-doctor"
+          to="/admin/createdoctor"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
         >
           ADD DOCTOR +
