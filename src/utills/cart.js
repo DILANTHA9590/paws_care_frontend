@@ -28,6 +28,18 @@ export function addToCart(productId, qty) {
   saveCart(cart);
 }
 
+export function deleteCart(productId) {
+  console.log(productId);
+  let cart = loadCart();
+
+  let updatedCart = cart.filter((item) => {
+    console.log(item.productId);
+    return item.productId !== productId;
+  });
+
+  saveCart(updatedCart);
+}
+
 function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
