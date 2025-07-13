@@ -9,12 +9,13 @@ export default function CartDetails() {
   const [cart, setCart] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [price, setPrice] = useState();
+  const [pricee, setPricee] = useState(false);
 
   const navigate = useNavigate();
 
+  // Load cart and price
   useEffect(() => {
     const cart = loadCart();
-
     setCart(cart);
 
     axios
@@ -29,12 +30,15 @@ export default function CartDetails() {
       });
 
     setLoaded(false);
-  }, [loaded]);
+  }, [loaded, pricee]);
+
+  // Clear cart items
   function clear() {
     localStorage.removeItem("cart");
     setLoaded(true);
   }
 
+  // Handle checkout
   function handleCheckOut() {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -47,31 +51,42 @@ export default function CartDetails() {
 
     navigate("/shipping", {
       state: {
-        cart: loadCart(),
-        total: price.total,
-        discount: price.discount,
+        item: loadCart(),
       },
     });
   }
 
   return (
     <>
-      <h1>{price?.total}</h1>
-      <div className="h-full overflow-hidden overflow-y-auto">
-        <button className="relative" onClick={clear}>
+      <div className="relative p-4 h-[100%]  overflow-hidden">
+        <h1 className="text-xl font-bold mb-4">Cart Details</h1>
+
+        {/* Clear Cart button */}
+        <button
+          onClick={clear}
+          className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow-md"
+        >
           Clear Cart
         </button>
+
         {cart.length > 0 ? (
           <div className="h-full">
             {cart.map((val, index) => {
               const { productId, qty } = val;
 
               return (
-                <div key={index} className="">
-                  <Cartcart productId={productId} qty={qty} />
+                <div key={index}>
+                  <Cartcart
+                    productId={productId}
+                    qty={qty}
+                    setLoaded={setLoaded}
+                    loaded={loaded}
+                  />
                 </div>
               );
             })}
+
+            {/* Bottom bar */}
             <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg border-t border-gray-200 z-50">
               <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between p-4 space-y-2 sm:space-y-0">
                 <div className="flex flex-col sm:flex-row sm:space-x-8 text-gray-800">
@@ -88,6 +103,8 @@ export default function CartDetails() {
                     </span>
                   </h2>
                 </div>
+
+                {/* Checkout button */}
                 <button
                   onClick={handleCheckOut}
                   className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold rounded-lg px-6 py-3 shadow-md"
@@ -98,7 +115,9 @@ export default function CartDetails() {
             </div>
           </div>
         ) : (
-          <h1> Emty Cart</h1>
+          <div className="text-center text-gray-500 h-full flex justify-center items-center">
+            <h1> Empty Cart</h1>
+          </div>
         )}
       </div>
     </>
