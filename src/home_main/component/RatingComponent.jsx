@@ -4,6 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { TokenContext } from "../../utills/context/countContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 export default function RatingComponent({ setShowRating, userData }) {
   // Get token from context
@@ -14,6 +15,8 @@ export default function RatingComponent({ setShowRating, userData }) {
 
   // Local state for selected star index
   const [iindex, setIndex] = useState(1);
+
+  navigate = useNavigate();
 
   // Local state for form data
   const [ratingData, setRatingData] = useState({
@@ -43,6 +46,7 @@ export default function RatingComponent({ setShowRating, userData }) {
       })
       .then((res) => {
         toast.success("Review submitted successfully");
+        navigate("/mybookings");
       })
       .catch((err) => {
         toast.error("Failed to submit review");
