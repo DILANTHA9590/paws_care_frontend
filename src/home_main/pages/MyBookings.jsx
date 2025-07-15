@@ -220,14 +220,16 @@ export default function MyBookings() {
 
               {/* ✅ Add Review Button */}
               <div className="mt-4">
-                <button
-                  onClick={() => {
-                    setShowRating(true); // 🔗 Replace this with your navigation
-                  }}
-                  className="inline-block px-5 py-2 bg-purple-600 text-white font-semibold rounded-full shadow hover:bg-purple-700 transition"
-                >
-                  ➕ Add Review
-                </button>
+                {booking.isConfirm == "no" && (
+                  <button
+                    onClick={() => {
+                      setShowRating(true); // 🔗 Replace this with your navigation
+                    }}
+                    className="inline-block px-5 py-2 bg-purple-600 text-white font-semibold rounded-full shadow hover:bg-purple-700 transition"
+                  >
+                    ➕ Add Review
+                  </button>
+                )}
               </div>
 
               {showRating && (
