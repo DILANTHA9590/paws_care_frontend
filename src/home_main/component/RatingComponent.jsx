@@ -1,38 +1,67 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
 import { CiStar } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
+import { TokenContext } from "../../utills/context/countContext";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function RatingComponent({ setShowRating, userData }) {
-  console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", userData);
+  // Get token from context
+  const { token } = useContext(TokenContext);
+
+  // Destructure doctor and user from props
   const { doctor, user } = userData;
+
+  // Local state for selected star index
   const [iindex, setIndex] = useState(1);
+
+  // Local state for form data
   const [ratingData, setRatingData] = useState({
+    accept: true,
     doctorId: doctor,
     customerId: user,
     rating: iindex,
     comment: "",
   });
 
-  console.log(iindex);
-
-  function o(e) {
+  // Submit review handler
+  function handleSubmitReview(e) {
     e.preventDefault();
-    console.log(ratingData);
+
+    // If no token, show error
+    if (!token) {
+      toast.error("Please login first");
+      return;
+    }
+
+    // Send POST request to backend
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/reviews`, ratingData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("Review submitted successfully");
+      })
+      .catch((err) => {
+        toast.error("Failed to submit review");
+      });
   }
 
+  // Update form field values
   function setFieldData(e) {
     const { value, name } = e.target;
-
     setRatingData((prev) => ({ ...prev, [name]: value }));
   }
+
   return (
-    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center  backdrop-blur-sm">
+    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-blur-sm">
       <form
         className="max-w-md mx-auto p-6 bg-white rounded-lg shadow space-y-4"
-        onSubmit={o}
+        onSubmit={handleSubmitReview}
       >
-        {/* Accept */}
+        {/* Close button */}
         <div className="flex justify-end">
           <IoClose
             onClick={() => {
@@ -40,7 +69,8 @@ export default function RatingComponent({ setShowRating, userData }) {
             }}
           />
         </div>
-        {/* Doctor ID */}
+
+        {/* Doctor ID (disabled) */}
         <div>
           <label
             htmlFor="doctorId"
@@ -61,7 +91,7 @@ export default function RatingComponent({ setShowRating, userData }) {
           />
         </div>
 
-        {/* Customer ID */}
+        {/* Customer ID (disabled) */}
         <div>
           <label
             htmlFor="customerId"
@@ -77,12 +107,11 @@ export default function RatingComponent({ setShowRating, userData }) {
             name="customerId"
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Enter Customer ID"
-            setFieldData
             required
           />
         </div>
 
-        {/* Rating */}
+        {/* Star rating selector */}
         <div className="flex items-center justify-between w-full">
           {Array.from({ length: 5 }).map((_, index) => (
             <div
@@ -91,7 +120,7 @@ export default function RatingComponent({ setShowRating, userData }) {
                 setIndex(index + 1);
                 setRatingData((prev) => ({
                   ...prev,
-                  rating: index + 1, // ⭐️ state එකත් update කරන්න!
+                  rating: index + 1, // Update selected rating
                 }));
               }}
             >
@@ -105,7 +134,7 @@ export default function RatingComponent({ setShowRating, userData }) {
           ))}
         </div>
 
-        {/* Comment */}
+        {/* Comment input */}
         <div>
           <label
             htmlFor="comment"
@@ -120,12 +149,11 @@ export default function RatingComponent({ setShowRating, userData }) {
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Write your comment..."
             required
-            setFieldData
             onChange={setFieldData}
           ></textarea>
         </div>
 
-        {/* Submit */}
+        {/* Submit button */}
         <button
           type="submit"
           className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
