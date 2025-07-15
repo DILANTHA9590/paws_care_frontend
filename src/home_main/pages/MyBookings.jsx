@@ -7,6 +7,9 @@ import { MdDelete } from "react-icons/md";
 import Loading from "../component/err_ui/Loading";
 import ServerErr from "../component/err_ui/ServerErr";
 import NetworkErr from "../component/err_ui/NetworkErr";
+import { CiStar } from "react-icons/ci";
+import { IoClose } from "react-icons/io5";
+import RatingComponent from "../component/RatingComponent";
 
 export default function MyBookings() {
   const { token } = useContext(TokenContext);
@@ -14,16 +17,23 @@ export default function MyBookings() {
   const [bookingData, setBookingData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [err, setErr] = useState();
+  const [iindex, setIndex] = useState([1]);
+  const [showRating, setShowRating] = useState(false);
+
+  const [ratingData, setRatingData] = useState({
+    doctorId: "",
+    customerId: "",
+    rating: "",
+    Comment: "",
+  });
 
   useEffect(() => {
     if (!token) {
-      // ✅ Redirect if no token
       navigate("/login");
       toast.error("Please sign in again");
       return;
     }
 
-    // ✅ Fetch bookings
     if (!loaded) {
       axios
         .get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/customer`, {
@@ -38,7 +48,6 @@ export default function MyBookings() {
           setLoaded(true);
         })
         .catch((err) => {
-          // toast.error("Failed to load bookings. Please try again later.");
           console.error(err);
           if (err.status) {
             setErr(err.status);
@@ -49,8 +58,6 @@ export default function MyBookings() {
         });
     }
   }, [token, loaded]);
-
-  // 🚦 Fetch bookings on mount
 
   if ([500].includes(err)) {
     return (
@@ -68,9 +75,6 @@ export default function MyBookings() {
     );
   }
 
-  console.log("setErr", err);
-
-  // 🗑️ Handle booking delete
   const handleDeleteBooking = (bookingId) => {
     if (!window.confirm("Are you sure you want to delete this booking?"))
       return;
@@ -89,12 +93,10 @@ export default function MyBookings() {
       });
   };
 
-  // ⏳ Loading state
   if (!loaded) {
     return <Loading />;
   }
 
-  // ❌ No bookings
   if (bookingData.length === 0 && loaded) {
     return (
       <div className="h-full flex flex-col justify-center items-center p-8 text-center">
@@ -122,7 +124,6 @@ export default function MyBookings() {
     );
   }
 
-  // 🎨 Booking status badge with dynamic color
   const StatusBadge = ({ status }) => {
     const colors = {
       confirm: "bg-green-100 text-green-800",
@@ -142,85 +143,106 @@ export default function MyBookings() {
   };
 
   return (
-    <div className="mx-auto p-8 h-full overflow-hidden overflow-y-auto">
-      {/* ✅ Page Heading */}
-      <h1 className="text-4xl font-extrabold mb-8 text-center text-purple-700 tracking-wide">
-        🗓️ My Bookings
-      </h1>
+    <div>
+      <div className="mx-auto p-8 h-full overflow-hidden overflow-y-auto ">
+        <h1 className="text-4xl font-extrabold mb-8 text-center text-purple-700 tracking-wide">
+          🗓️ My Bookings
+        </h1>
 
-      {/* ✅ Bookings list */}
-      <ul className="space-y-6">
-        {bookingData.map((booking) => (
-          <li
-            key={booking._id}
-            className="border border-purple-300 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white"
-          >
-            {/* ✅ Top section with status and delete */}
-            <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
-              <div className="flex items-center">
-                <StatusBadge status={booking.status} />
-                <h2 className="text-xl font-bold text-purple-900">
-                  Booking Number:{" "}
-                  <span className="text-indigo-600">
-                    {booking.bookingNumber}
-                  </span>
-                </h2>
+        <ul className="space-y-6">
+          {bookingData.map((booking) => (
+            <li
+              key={booking._id}
+              className="border border-purple-300 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white"
+            >
+              <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
+                <div className="flex items-center">
+                  <StatusBadge status={booking.status} />
+                  <h2 className="text-xl font-bold text-purple-900">
+                    Booking Number:{" "}
+                    <span className="text-indigo-600">
+                      {booking.bookingNumber}
+                    </span>
+                  </h2>
+                </div>
+
+                <button
+                  onClick={() => {
+                    handleDeleteBooking(booking._id);
+                  }}
+                  className="text-red-600 hover:text-red-800 transition"
+                  aria-label="Delete Booking"
+                  title="Delete Booking"
+                >
+                  <MdDelete size={26} />
+                </button>
               </div>
 
-              {/* 🗑️ Delete button */}
-              <button
-                onClick={() => {
-                  handleDeleteBooking(booking._id);
-                }}
-                className="text-red-600 hover:text-red-800 transition"
-                aria-label="Delete Booking"
-                title="Delete Booking"
-              >
-                <MdDelete size={26} />
-              </button>
-            </div>
-
-            {/* ✅ Booking details */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-              <div>
-                <p>
-                  <strong>Booking ID:</strong>{" "}
-                  <span className="text-purple-600">{booking.bookingId}</span>
-                </p>
-                <p>
-                  <strong>Pet ID:</strong>{" "}
-                  <span className="text-purple-600">{booking.petId}</span>
-                </p>
-                <p>
-                  <strong>Doctor ID:</strong>{" "}
-                  <span className="text-purple-600">{booking.doctorId}</span>
-                </p>
-                <p>
-                  <strong>Doctor ID:</strong>{" "}
-                  <span className="text-purple-600">{booking.userId}</span>
-                </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-4">
+                <div>
+                  <p>
+                    <strong>Booking ID:</strong>{" "}
+                    <span className="text-purple-600">{booking.bookingId}</span>
+                  </p>
+                  <p>
+                    <strong>Pet ID:</strong>{" "}
+                    <span className="text-purple-600">{booking.petId}</span>
+                  </p>
+                  <p>
+                    <strong>Doctor ID:</strong>{" "}
+                    <span className="text-purple-600">{booking.doctorId}</span>
+                  </p>
+                  <p>
+                    <strong>User ID:</strong>{" "}
+                    <span className="text-purple-600">{booking.userId}</span>
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <strong>Mobile No:</strong>{" "}
+                    <span className="text-purple-600">{booking.mobileno}</span>
+                  </p>
+                  <p>
+                    <strong>Booked On:</strong>{" "}
+                    <span className="text-purple-600">
+                      {new Date(booking.createdAt).toLocaleDateString(
+                        undefined,
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )}
+                    </span>
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <p>
-                  <strong>Mobile No:</strong>{" "}
-                  <span className="text-purple-600">{booking.mobileno}</span>
-                </p>
-                <p>
-                  <strong>Booked On:</strong>{" "}
-                  <span className="text-purple-600">
-                    {new Date(booking.createdAt).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </span>
-                </p>
+              {/* ✅ Add Review Button */}
+              <div className="mt-4">
+                <button
+                  onClick={() => {
+                    setShowRating(true); // 🔗 Replace this with your navigation
+                  }}
+                  className="inline-block px-5 py-2 bg-purple-600 text-white font-semibold rounded-full shadow hover:bg-purple-700 transition"
+                >
+                  ➕ Add Review
+                </button>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+
+              {showRating && (
+                <RatingComponent
+                  setShowRating={setShowRating}
+                  userData={{
+                    doctor: booking.doctorId,
+                    user: booking.userId,
+                  }}
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
