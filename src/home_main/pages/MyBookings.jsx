@@ -235,7 +235,9 @@ export default function MyBookings() {
               {showRating && (
                 <RatingComponent
                   setShowRating={setShowRating}
+                  setLoaded={setLoaded}
                   userData={{
+                    bookingId: booking.bookingId,
                     doctor: booking.doctorId,
                     user: booking.userId,
                   }}
