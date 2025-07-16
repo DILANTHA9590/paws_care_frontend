@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
+import { TokenContext } from "../../utills/context/countContext";
 
 export default function CustomersPanel() {
+  const { token } = useContext(TokenContext);
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -43,10 +45,30 @@ export default function CustomersPanel() {
         console.error(error);
         toast.error("Failed to fetch users.");
       });
-  }, [searchInput, page]);
+  }, [searchInput, page, loaded]);
 
   function onHandleClickEdit(user) {
     navigate("/admin/updateuser", { state: { ...user } });
+  }
+
+  function handleDeleteUser(email) {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/api/users/${email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("User deleted successfully");
+        // force refresh user list
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to delete user");
+      })
+      .finally(() => {
+        setLoaded(false);
+      });
   }
 
   return (
@@ -159,7 +181,12 @@ export default function CustomersPanel() {
                         onClick={() => onHandleClickEdit(user)}
                       />
                     </td>
-                    <td className="px-4 py-2 text-sm text-red-600 cursor-pointer">
+                    <td
+                      className="px-4 py-2 text-sm text-red-600 cursor-pointer"
+                      onClick={() => {
+                        handleDeleteUser(email);
+                      }}
+                    >
                       <MdDelete size={20} />
                     </td>
                   </tr>
