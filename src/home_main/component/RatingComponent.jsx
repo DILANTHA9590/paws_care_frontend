@@ -31,18 +31,15 @@ export default function RatingComponent({ setShowRating, userData }) {
 
   // Submit review handler
   function handleSubmitReview(e) {
-    setLoaded(false);
-    setShowRating(false);
-
     e.preventDefault();
+    setLoaded(false); // show loading
 
-    // If no token, show error
     if (!token) {
       toast.error("Please login first");
+      setLoaded(true); // back to form
       return;
     }
 
-    // Send POST request to backend
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/reviews`, ratingData, {
         headers: {
@@ -51,11 +48,14 @@ export default function RatingComponent({ setShowRating, userData }) {
       })
       .then((res) => {
         toast.success("Review submitted successfully");
-        setLoaded(true);
         navigate("/mybookings");
+        setShowRating(false); //
       })
       .catch((err) => {
         toast.error("Failed to submit review");
+      })
+      .finally(() => {
+        setLoaded(true);
       });
   }
 
