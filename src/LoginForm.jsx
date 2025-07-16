@@ -1,8 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import toast from "react-hot-toast";
-import { data, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { TokenContext } from "./utills/context/countContext";
 
 export default function LoginForm() {
@@ -10,42 +9,48 @@ export default function LoginForm() {
 
   const navigate = useNavigate();
 
+  // Local state for email and password inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {}, []);
+  // Loading state to disable button and show message
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle form submission (login)
   const handleLogin = (e) => {
     e.preventDefault();
+
+    // Validate inputs
     if (!email || !password) {
       if (!email) toast.error("Email is required");
       if (!password) toast.error("Password is required");
       return;
     }
 
+    setIsLoading(true); // Start loading
+
+    // Send login request
     axios
       .post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
         email,
         password,
       })
       .then((res) => {
-        setToken(res.data.token);
-        //set token local storage
-        localStorage.setItem("token", res.data.token || "");
-
-        // const token = localStorage.getItem("token");
+        setToken(res.data.token); // Set token in context
+        localStorage.setItem("token", res.data.token || ""); // Save token in localStorage
 
         toast.success(res.data?.message || "Login successfully");
 
         const { type } = res.data.payload;
 
-        // Check user type and navigate to the correct authorized dashboard
-        if (type == "admin") {
+        // Navigate user based on their role
+        if (type === "admin") {
           navigate("/admin/", {
             state: { ...res.data.payload },
           });
-        } else if (type == "doctor") {
+        } else if (type === "doctor") {
           navigate("/doctor/");
-        } else if (type == "customer") {
+        } else if (type === "customer") {
           navigate("/");
         } else {
           toast.error("Unknown user type. Please contact support.");
@@ -53,7 +58,10 @@ export default function LoginForm() {
         }
       })
       .catch((error) => {
-        toast.error("error", error.response?.data?.message || "Login failed");
+        toast.error(error.response?.data?.message || "Login failed");
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop loading in any case
       });
   };
 
@@ -62,12 +70,15 @@ export default function LoginForm() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-8">
+            {/* Header */}
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
               <p className="text-gray-600 mt-2">Sign in to your account</p>
             </div>
 
+            {/* Login Form */}
             <form onSubmit={handleLogin} className="space-y-6">
+              {/* Email Input */}
               <div>
                 <label
                   htmlFor="email"
@@ -86,6 +97,7 @@ export default function LoginForm() {
                 />
               </div>
 
+              {/* Password Input */}
               <div>
                 <label
                   htmlFor="password"
@@ -104,14 +116,19 @@ export default function LoginForm() {
                 />
               </div>
 
+              {/* Submit Button with loading */}
               <button
                 type="submit"
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.01]"
+                disabled={isLoading} // disable while loading
+                className={`w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.01] ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Sign In
+                {isLoading ? "Signing in..." : "Sign In"}
               </button>
             </form>
 
+            {/* Forgot password link */}
             <div className="mt-6 text-center">
               <a
                 href="#"
@@ -122,15 +139,17 @@ export default function LoginForm() {
             </div>
           </div>
 
+          {/* Signup link */}
           <div className="bg-gray-50 px-8 py-4 text-center">
             <p className="text-gray-600 text-sm">
               Don't have an account?{" "}
-              <a
-                href="#"
+              <Link
                 className="text-indigo-600 hover:text-indigo-500 font-medium"
+                to={"/createaccount"}
               >
+                {" "}
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </div>
