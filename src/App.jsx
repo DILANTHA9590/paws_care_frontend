@@ -12,6 +12,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { ImageContext, TokenContext } from "./utills/context/countContext";
 import { image } from "framer-motion/client";
 import DoctorMain from "./Doctor/DoctorMain";
+import CreateAccountForm from "./CreateAccountForm";
+import VerifyEmailForm from "./VerifyEmailForm";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -29,7 +31,15 @@ function App() {
                 <Route path="/admin/*" element={<AdminHome />}></Route>
                 <Route path="/doctor/*" element={<DoctorMain />}></Route>
                 <Route path="/login" element={<LoginForm />}></Route>
-                <Route path="/signnup" element={<HomeMain />}></Route>
+                <Route
+                  path="/createaccount"
+                  element={<CreateAccountForm />}
+                ></Route>
+
+                <Route
+                  path="/verifyemail"
+                  element={<VerifyEmailForm />}
+                ></Route>
               </Routes>
             </BrowserRouter>
           </Elements>
