@@ -5,24 +5,27 @@ import { TokenContext } from "../../utills/context/countContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import Loading from "./err_ui/Loading";
 
-export default function RatingComponent({ setShowRating, userData }) {
+export default function RatingComponent({
+  setShowRating,
+  userData,
+  setLoaded,
+}) {
   // Get token from context
   const { token } = useContext(TokenContext);
 
   // Destructure doctor and user from props
-  const { doctor, user } = userData;
+  const { doctor, user, bookingId } = userData;
 
   // Local state for selected star index
   const [iindex, setIndex] = useState(1);
-  const [loaded, setLoaded] = useState(true);
 
   const navigate = useNavigate();
 
   // Local state for form data
   const [ratingData, setRatingData] = useState({
     accept: true,
+    bookingId: bookingId,
     doctorId: doctor,
     customerId: user,
     rating: iindex,
@@ -32,7 +35,6 @@ export default function RatingComponent({ setShowRating, userData }) {
   // Submit review handler
   function handleSubmitReview(e) {
     e.preventDefault();
-    setLoaded(false); // show loading
 
     if (!token) {
       toast.error("Please login first");
@@ -48,14 +50,13 @@ export default function RatingComponent({ setShowRating, userData }) {
       })
       .then((res) => {
         toast.success("Review submitted successfully");
-        navigate("/mybookings");
-        setShowRating(false); //
       })
       .catch((err) => {
         toast.error("Failed to submit review");
       })
       .finally(() => {
-        setLoaded(true);
+        setLoaded(false);
+        setShowRating(false);
       });
   }
 
@@ -63,10 +64,6 @@ export default function RatingComponent({ setShowRating, userData }) {
   function setFieldData(e) {
     const { value, name } = e.target;
     setRatingData((prev) => ({ ...prev, [name]: value }));
-  }
-
-  if (!loaded) {
-    return <Loading />;
   }
 
   return (
