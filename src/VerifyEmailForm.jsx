@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useLocation } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 
 export default function VerifyEmailForm() {
   // Get email passed from previous page
@@ -12,6 +12,7 @@ export default function VerifyEmailForm() {
   const [userEmail, setUserEmail] = useState(email);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Handle verify button click
   const handleVerify = async (e) => {
@@ -25,10 +26,11 @@ export default function VerifyEmailForm() {
         otp: otp,
       })
       .then((res) => {
-        console.log(res);
+        toast.success(res.data?.message || "Email verified successfully");
+        navigate("/login");
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.response?.message);
       })
       .finally(() => {
         setIsLoading(false); // always stop loading
