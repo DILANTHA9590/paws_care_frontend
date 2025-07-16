@@ -5,6 +5,7 @@ import { TokenContext } from "../../utills/context/countContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import Loading from "./err_ui/Loading";
 
 export default function RatingComponent({ setShowRating, userData }) {
   // Get token from context
@@ -15,8 +16,9 @@ export default function RatingComponent({ setShowRating, userData }) {
 
   // Local state for selected star index
   const [iindex, setIndex] = useState(1);
+  const [loaded, setLoaded] = useState(true);
 
-  navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Local state for form data
   const [ratingData, setRatingData] = useState({
@@ -24,11 +26,14 @@ export default function RatingComponent({ setShowRating, userData }) {
     doctorId: doctor,
     customerId: user,
     rating: iindex,
-    comment: "",
+    comment: "ss",
   });
 
   // Submit review handler
   function handleSubmitReview(e) {
+    setLoaded(false);
+    setShowRating(false);
+
     e.preventDefault();
 
     // If no token, show error
@@ -46,6 +51,7 @@ export default function RatingComponent({ setShowRating, userData }) {
       })
       .then((res) => {
         toast.success("Review submitted successfully");
+        setLoaded(true);
         navigate("/mybookings");
       })
       .catch((err) => {
@@ -57,6 +63,10 @@ export default function RatingComponent({ setShowRating, userData }) {
   function setFieldData(e) {
     const { value, name } = e.target;
     setRatingData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  if (!loaded) {
+    return <Loading />;
   }
 
   return (
