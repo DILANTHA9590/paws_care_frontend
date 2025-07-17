@@ -4,7 +4,6 @@ import { IoIosArrowDown } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
 import { LiaSignInAltSolid } from "react-icons/lia";
 import { motion } from "framer-motion";
-import { div } from "framer-motion/client";
 import MobileNavBar from "./MobileNavBar";
 import ShowProfileNav from "./ShowProfileNav";
 import { ImageContext, TokenContext } from "../../utills/context/countContext";
@@ -51,7 +50,7 @@ export default function DeskTopNavbar() {
               <Link to="/about">About</Link>
               <Link to="/products">Shop</Link>
               <Link to="/contact">Contact Us</Link>
-              <Link to="/bookdoctor">Book Now</Link>
+              <Link to="/bookdoctor">Book Vet</Link>
               <Link to="/cart">Cart</Link>
               {token && (
                 <div className="relative ">
@@ -72,7 +71,7 @@ export default function DeskTopNavbar() {
                   <div>
                     <img
                       onClick={() => setToggleMenu(true)}
-                      className="w-35 border-amber-400 h-25 rounded-full  "
+                      className="w-35 border-amber-400  rounded-full  "
                       src={
                         image
                           ? image
@@ -111,11 +110,6 @@ export default function DeskTopNavbar() {
                         <h1>Signup</h1>
                       </div>
 
-                      <div className="flex items-center">
-                        <LiaSignInAltSolid className="rotate-89b " />
-
-                        <h1>Log Out</h1>
-                      </div>
                       <h1></h1>
                     </motion.div>
                   )}
@@ -167,9 +161,6 @@ export default function DeskTopNavbar() {
                   )}
                 </div>
               )}
-              <div className="flex">
-                <h1 className="">Contact Us</h1>
-              </div>
             </div>
           </div>
           <div
