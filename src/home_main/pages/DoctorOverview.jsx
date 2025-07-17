@@ -3,6 +3,7 @@ import { button, div, h1 } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router";
+import Loading from "../component/err_ui/Loading";
 
 export default function DoctorOverview() {
   const [doctorDetails, setDoctorDetails] = useState("");
@@ -60,7 +61,15 @@ export default function DoctorOverview() {
       });
 
     setLoaded(true);
-  }, [id, curruntpage]);
+  }, [id, curruntpage, loaded]);
+
+  if (!loaded) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <div>
