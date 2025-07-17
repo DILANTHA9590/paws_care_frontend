@@ -7,8 +7,6 @@ import { MdDelete } from "react-icons/md";
 import Loading from "../component/err_ui/Loading";
 import ServerErr from "../component/err_ui/ServerErr";
 import NetworkErr from "../component/err_ui/NetworkErr";
-import { CiStar } from "react-icons/ci";
-import { IoClose } from "react-icons/io5";
 import RatingComponent from "../component/RatingComponent";
 
 export default function MyBookings() {
@@ -17,15 +15,7 @@ export default function MyBookings() {
   const [bookingData, setBookingData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [err, setErr] = useState();
-  const [iindex, setIndex] = useState([1]);
-  const [showRating, setShowRating] = useState(false);
-
-  const [ratingData, setRatingData] = useState({
-    doctorId: "",
-    customerId: "",
-    rating: "",
-    Comment: "",
-  });
+  const [activeBookingId, setActiveBookingId] = useState(null); // ✅
 
   useEffect(() => {
     if (!token) {
@@ -40,6 +30,7 @@ export default function MyBookings() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
+          console.log("ssssss", res);
           if (res.data?.bookings.length > 0) {
             setBookingData(res.data?.bookings || []);
           } else {
@@ -60,19 +51,11 @@ export default function MyBookings() {
   }, [token, loaded]);
 
   if ([500].includes(err)) {
-    return (
-      <>
-        <ServerErr />
-      </>
-    );
+    return <ServerErr />;
   }
 
-  if (err == "network") {
-    return (
-      <>
-        <NetworkErr />
-      </>
-    );
+  if (err === "network") {
+    return <NetworkErr />;
   }
 
   const handleDeleteBooking = (bookingId) => {
@@ -167,9 +150,7 @@ export default function MyBookings() {
                 </div>
 
                 <button
-                  onClick={() => {
-                    handleDeleteBooking(booking._id);
-                  }}
+                  onClick={() => handleDeleteBooking(booking._id)}
                   className="text-red-600 hover:text-red-800 transition"
                   aria-label="Delete Booking"
                   title="Delete Booking"
@@ -203,6 +184,10 @@ export default function MyBookings() {
                     <span className="text-purple-600">{booking.mobileno}</span>
                   </p>
                   <p>
+                    <strong>Is Confirm:</strong>{" "}
+                    <span className="text-purple-600">{booking.isConfirm}</span>
+                  </p>
+                  <p>
                     <strong>Booked On:</strong>{" "}
                     <span className="text-purple-600">
                       {new Date(booking.createdAt).toLocaleDateString(
@@ -219,22 +204,24 @@ export default function MyBookings() {
               </div>
 
               {/* ✅ Add Review Button */}
-              <div className="mt-4">
-                {booking.isConfirm == "no" && (
-                  <button
-                    onClick={() => {
-                      setShowRating(true); // 🔗 Replace this with your navigation
-                    }}
-                    className="inline-block px-5 py-2 bg-purple-600 text-white font-semibold rounded-full shadow hover:bg-purple-700 transition"
-                  >
-                    ➕ Add Review
-                  </button>
-                )}
+              <div
+                className={`mt-4  ${
+                  booking.status === "completed" && booking.isConfirm === "no"
+                    ? "block"
+                    : "hidden"
+                }`}
+              >
+                <button
+                  onClick={() => setActiveBookingId(booking.bookingId)}
+                  className="inline-block px-5 py-2 bg-purple-600 text-white font-semibold rounded-full shadow hover:bg-purple-700 transition"
+                >
+                  ➕ Add Review
+                </button>
               </div>
 
-              {showRating && (
+              {activeBookingId === booking.bookingId && (
                 <RatingComponent
-                  setShowRating={setShowRating}
+                  setShowRating={() => setActiveBookingId(null)}
                   setLoaded={setLoaded}
                   userData={{
                     bookingId: booking.bookingId,
