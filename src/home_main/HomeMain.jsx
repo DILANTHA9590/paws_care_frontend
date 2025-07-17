@@ -17,6 +17,7 @@ import MyOrder from "./pages/MyOrder";
 import MyPets from "./pages/MyPets";
 import MyBookings from "./pages/MyBookings";
 import ContactUs from "./pages/ContactUs";
+import PetMedicalRecord from "./pages/PetMedicalRecord";
 
 export default function HomeMain() {
   // const [token, setToken] = useState(true);
@@ -53,6 +54,7 @@ export default function HomeMain() {
               <Route path="myorders" element={<MyOrder />} />
               <Route path="mypets" element={<MyPets />} />
               <Route path="mybookings" element={<MyBookings />} />
+              <Route path="petmedicalrecord" element={<PetMedicalRecord />} />
             </Routes>
           </div>
         </div>
