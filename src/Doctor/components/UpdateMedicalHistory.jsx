@@ -8,7 +8,7 @@ import Loading from "../../home_main/component/err_ui/Loading";
 export default function UpdateMedicalHistory() {
   const { token } = useContext(TokenContext);
   const location = useLocation();
-  const { petId, doctorId } = location.state;
+  const { petId, doctorId, bookingId } = location.state;
   const [loaded, setLoaded] = useState(true);
   const navigate = useNavigate();
 
@@ -16,6 +16,7 @@ export default function UpdateMedicalHistory() {
   const [formData, setFormData] = useState({
     petId: petId,
     doctorId: doctorId,
+    bookingId: bookingId,
     treatment: "",
     nextVisit: "",
     diagnosis: "",
@@ -96,10 +97,10 @@ export default function UpdateMedicalHistory() {
       )
       .then((res) => {
         toast.success(res.data.message);
+        // navigate("/doctor/mybookings");
       })
       .catch((err) => {
         toast.err("Failed to create medical history");
-        console.log(err);
       })
       .finally(() => {
         setLoaded(true); // ✅
