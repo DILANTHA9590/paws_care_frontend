@@ -46,8 +46,8 @@ export default function MyOrder() {
   // ✅ Show fallback if no orders
   if (!orders.length) {
     return (
-      <div className="text-center py-10 text-lg text-gray-500 italic">
-        🛒 You have no orders yet.
+      <div className="text-center py-10 text-lg text-gray-500 italic h-full flex justify-center items-center ">
+        <h1> 🛒 You have no orders yet.</h1>
       </div>
     );
   }
