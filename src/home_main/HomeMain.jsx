@@ -16,6 +16,7 @@ import UserProfile from "./pages/UserProfile";
 import MyOrder from "./pages/MyOrder";
 import MyPets from "./pages/MyPets";
 import MyBookings from "./pages/MyBookings";
+import ContactUs from "./pages/ContactUs";
 
 export default function HomeMain() {
   // const [token, setToken] = useState(true);
@@ -37,7 +38,7 @@ export default function HomeMain() {
           <div className="h-[calc(100vh-12vh)]">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="contact" element={<h1>ContactUs</h1>} />
+              <Route path="contact" element={<ContactUs />} />
               <Route path="about" element={<AboutUs />} />
               <Route path="pet foods" element={<h1>pet foods</h1>} />
               <Route path="bookdoctor" element={<BookDoctor />} />
