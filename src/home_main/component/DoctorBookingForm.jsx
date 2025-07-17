@@ -65,7 +65,7 @@ export default function DoctorBookingForm() {
   }
 
   return (
-    <div className="h-full bg-gray-100 flex items-center justify-center px-4">
+    <div className="h-full flex items-center justify-center px-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Book Appointment
