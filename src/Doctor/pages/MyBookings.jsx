@@ -88,6 +88,7 @@ export default function MyBookings() {
                         state: {
                           petId: booking.petId,
                           doctorId: booking.doctorId,
+                          bookingId: booking.bookingId,
                         },
                       });
                     }}
