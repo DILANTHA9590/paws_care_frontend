@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // 🟢 ✅ use `react-router-dom` for Link!
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   FaChevronCircleLeft,
   FaChevronCircleRight,
@@ -11,11 +11,27 @@ import { motion } from "framer-motion";
 
 export default function Header() {
   const [index, setIndex] = useState(0);
-  const myimages = ["headerimage1.avif", "headerimage2.jpg"];
+  const myimages = [
+    "headerimage1.avif",
+    "headerimage2.jpg",
+    "3.jpg",
+    "ad.jpeg",
+    "cc.jpeg",
+    "xx.jpeg",
+  ];
+
+  // ✅ AUTO SLIDER - runs once on mount
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev < myimages.length - 1 ? prev + 1 : 0));
+    }, 5000); // 5 sec
+
+    return () => clearInterval(interval); // cleanup
+  }, [myimages.length]);
 
   return (
     <div
-      className="bg-cover bg-center h-screen flex flex-col items-center justify-center relative"
+      className="bg-cover bg-top h-screen flex flex-col items-center justify-center relative"
       style={{ backgroundImage: `url(/${myimages[index]})` }}
     >
       <div className="bg-black/40 w-full h-full absolute inset-0 z-0"></div>
@@ -79,19 +95,18 @@ export default function Header() {
             Your Pet’s Second Home
           </p>
 
-          {/* CTA Buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              to="/shop"
+              to="/products"
               className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-green-700 transition"
             >
               🛒 Shop Now
             </Link>
             <Link
-              to="/book"
+              to="/bookdoctor"
               className="bg-purple-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-purple-700 transition"
             >
-              📅 Book Now
+              📅 Book a Vet
             </Link>
           </div>
         </motion.div>
