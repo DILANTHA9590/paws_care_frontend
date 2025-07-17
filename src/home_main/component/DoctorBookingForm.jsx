@@ -57,6 +57,7 @@ export default function DoctorBookingForm() {
       })
       .then((res) => {
         toast.success(res.data.message);
+        navigate("/mybookings");
       })
       .catch((err) => {
         console.log(err);
