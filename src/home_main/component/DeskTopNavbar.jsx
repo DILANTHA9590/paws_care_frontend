@@ -37,11 +37,7 @@ export default function DeskTopNavbar() {
       <div className="h-[12vh] bg-gray-100 font-bold">
         <div className="h-full flex items-center justify-between px-10 text-2xl">
           <div className="flex items-center gap-2">
-            <img
-              className="w-10 h-10"
-              src="https://th.bing.com/th/id/OIP.on2xxMjEjqaEsBK_xvP_9wHaHa?r=0&pid=ImgDet&w=203&h=203&c=7"
-              alt="logo"
-            />
+            <img className="w-40 h-40" src="happypawslogo.png" alt="logo" />
           </div>
           {/* Desktop Nav Links -----------------------------------------------------------------> */}
           <div className="sm:block hidden ">
