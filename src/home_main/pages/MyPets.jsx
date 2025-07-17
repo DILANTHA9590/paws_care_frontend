@@ -8,6 +8,7 @@ import Loading from "../component/err_ui/Loading";
 import CreatePetForm from "../component/CreatePetForm";
 import NetworkErr from "../component/err_ui/NetworkErr";
 import ServerErr from "../component/err_ui/ServerErr";
+import { div } from "framer-motion/client";
 
 export default function MyPets() {
   const { token } = useContext(TokenContext);
@@ -118,7 +119,7 @@ export default function MyPets() {
 
       {/* ✅ Show Add Form or Pet List */}
       {!ShowAddPet ? (
-        <div className="h-full p-8 bg-gradient-to-br from-blue-50 to-white ">
+        <div className="h-full p-8 bg-gradient-to-br to-white ">
           {!loaded ? (
             // ✅ Show spinner
             <div className="h-full ">
@@ -187,7 +188,11 @@ export default function MyPets() {
             </motion.div>
           ) : (
             // ✅ No pets message
-            <p className="text-center text-gray-500">No pets found.</p>
+            <div className="h-full  flex justify-center items-center">
+              <p className="text-center text-gray-500 text-lg">
+                No pets found.
+              </p>
+            </div>
           )}
         </div>
       ) : (
