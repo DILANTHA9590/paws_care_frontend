@@ -92,6 +92,14 @@ export default function MyPets() {
     visible: { opacity: 1, y: 0 },
   };
 
+  function handleMedical(petId) {
+    navigate("/petmedicalrecord", {
+      state: {
+        petId: petId,
+      },
+    });
+  }
+
   return (
     <div className="h-full">
       {/* ✅ Add Pet toggle button */}
@@ -178,7 +186,12 @@ export default function MyPets() {
                       >
                         Remove Pet
                       </button>
-                      <button className="w-full py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition-colors">
+                      <button
+                        className="w-full py-2 bg-green-400 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        onClick={() => {
+                          handleMedical(pet.petId);
+                        }}
+                      >
                         View Medical Records
                       </button>
                     </div>
