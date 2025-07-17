@@ -72,8 +72,6 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
     }
 
     // Set loading and hide form on submission
-    setLoaded(false);
-    setShowAddPet(false);
 
     // Send form data to backend API to create new pet record
     axios
@@ -95,6 +93,10 @@ export default function CreatePetForm({ setLoaded, setShowAddPet }) {
       .catch((err) => {
         // Log any errors from API request
         console.log(err);
+      })
+      .finally(() => {
+        setLoaded(false);
+        setShowAddPet(false);
       });
   }
 
