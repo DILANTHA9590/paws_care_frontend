@@ -9,6 +9,7 @@ import { TokenContext } from "../utills/context/countContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export default function DoctorMain() {
   const [iindex, setIndex] = useState(0);
@@ -50,7 +51,12 @@ export default function DoctorMain() {
           navigate("/login");
         }
       });
-  }, []);
+  }, [token]);
+
+  function logOut() {
+    localStorage.removeItem("token");
+    navigate("/");
+  }
 
   const navLinks = [
     { name: "DASHBOARD", link: "/doctor/" },
@@ -114,6 +120,15 @@ export default function DoctorMain() {
               </Link>
             ))}
           </nav>
+          <div className="px-10">
+            <button
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-md transition duration-200"
+              onClick={logOut}
+            >
+              <FaSignOutAlt />
+              LOG OUT
+            </button>
+          </div>
 
           <div className="text-center text-sm opacity-70 py-4">
             &copy; 2025 Doctor App

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import CustomersPanel from "./pages/CustomersPanel";
 import ProductsPanel from "./pages/ProductsPanel";
@@ -11,8 +11,19 @@ import UpdateUser from "./components/UpdateUser";
 import ManageReviews from "./pages/ManageReviews";
 import AdminOrders from "./pages/AdminOrders";
 import DoctorCreate from "./pages/DoctorCreate";
+import { FaSignOutAlt } from "react-icons/fa";
+import { TokenContext } from "../utills/context/countContext";
 
 export default function AdminHome() {
+  const { token } = useContext(TokenContext);
+
+  useEffect(() => {
+    er;
+  }, []);
+  function logOut() {
+    localStorage.removeItem("token");
+    navigate("/");
+  }
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
@@ -76,6 +87,16 @@ export default function AdminHome() {
             >
               🌟 Manege reviews
             </Link>
+
+            <div className="px-5 p-4">
+              <button
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-md transition duration-200"
+                onClick={logOut}
+              >
+                <FaSignOutAlt />
+                LOG OUT
+              </button>
+            </div>
           </nav>
         </aside>
 
