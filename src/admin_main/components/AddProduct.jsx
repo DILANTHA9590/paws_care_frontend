@@ -76,10 +76,11 @@ export default function AddProduct() {
         },
       })
       .then((res) => {
-        console.log(res);
+        toast.success("Product created successfully! 🎉");
+        navigate("/admin/products");
       })
       .catch((err) => {
-        console.log(err);
+        toast.error("Something went wrong. Try again!");
       });
   };
 
@@ -138,7 +139,6 @@ export default function AddProduct() {
               onChange={handleSetField}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Alternative Names"
-              required="true"
             />
 
             <textarea
