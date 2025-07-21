@@ -5,6 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaSignOutAlt } from "react-icons/fa";
+import NotFound from "../home_main/component/err_ui/NotFound";
+import SuspenseUi from "../home_main/component/err_ui/SuspenseUi";
 
 // 🔹 Lazy imports
 const DoctorDashBoard = React.lazy(() => import("./pages/DoctorDashBoard"));
@@ -170,7 +172,7 @@ export default function DoctorMain() {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<SuspenseUi />}>
               <Routes>
                 <Route path="/" element={<DoctorDashBoard />} />
                 <Route path="mybookings" element={<MyBookings />} />
@@ -184,6 +186,7 @@ export default function DoctorMain() {
                 />
                 <Route path="meeting" element={<OnlineMeeting />} />
               </Routes>
+              <Route path="*" element={<NotFound />} />
             </Suspense>
           </div>
         </div>
