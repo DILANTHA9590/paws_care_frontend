@@ -185,8 +185,8 @@ export default function DoctorMain() {
                   element={<DoctorPastAppoiments />}
                 />
                 <Route path="meeting" element={<OnlineMeeting />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
-              <Route path="*" element={<NotFound />} />
             </Suspense>
           </div>
         </div>
