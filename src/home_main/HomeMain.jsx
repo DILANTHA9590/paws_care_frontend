@@ -41,9 +41,7 @@ export default function HomeMain() {
         <div className="min-h-screen">
           <DeskTopNavbar />
           <div className="h-[calc(100vh-12vh)]">
-            <Suspense
-              fallback={<div className="text-center p-10">Loading...</div>}
-            >
+            <Suspense fallback={<SuspenseUi />}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="contact" element={<ContactUs />} />
