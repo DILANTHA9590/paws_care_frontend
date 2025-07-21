@@ -1,28 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Suspense } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import DoctorDashBoard from "./pages/DoctorDashBoard";
-import MyBookings from "./pages/MyBookings";
-import UpdateMedicalHistory from "./components/UpdateMedicalHistory";
-import DoctorPastAppoiments from "./pages/DoctorPastAppoiments";
-import OnlineMeeting from "./pages/OnlineMeeting";
 import { TokenContext } from "../utills/context/countContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FaSignOutAlt } from "react-icons/fa";
 
+// 🔹 Lazy imports
+const DoctorDashBoard = React.lazy(() => import("./pages/DoctorDashBoard"));
+const MyBookings = React.lazy(() => import("./pages/MyBookings"));
+const UpdateMedicalHistory = React.lazy(() =>
+  import("./components/UpdateMedicalHistory")
+);
+const DoctorPastAppoiments = React.lazy(() =>
+  import("./pages/DoctorPastAppoiments")
+);
+const OnlineMeeting = React.lazy(() => import("./pages/OnlineMeeting"));
+
 export default function DoctorMain() {
   const [iindex, setIndex] = useState(0);
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
-  const { token } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
   const [loaded, setLoaded] = useState(false);
   const [name, setName] = useState("");
 
   useEffect(() => {
     if (!token) {
       navigate("/");
-
       return;
     }
 
@@ -36,25 +41,20 @@ export default function DoctorMain() {
         if (res.data.result) {
           toast.success("Doctor authorization successful!");
           setName(res.data.name);
-          console.log(res);
         } else {
           navigate("/login");
           toast.error("Unauthorized! Please login to your doctor account.");
         }
       })
       .catch((err) => {
-        if (err.response && err.response.status === 403) {
-          toast.error("Unauthorized! Please login to your doctor account.");
-          navigate("/login");
-        } else {
-          toast.error("Something went wrong. Please try again.");
-          navigate("/login");
-        }
+        toast.error("Unauthorized! Please login to your doctor account.");
+        navigate("/login");
       });
   }, [token]);
 
   function logOut() {
     localStorage.removeItem("token");
+    if (setToken) setToken(null);
     navigate("/");
   }
 
@@ -65,14 +65,13 @@ export default function DoctorMain() {
     { name: "ONLINE MEETINGS", link: "/doctor/meeting" },
   ];
 
-  // Filter links based on search text
   const filteredLinks = navLinks.filter((nav) =>
     nav.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const handleResultClick = (link) => {
     navigate(link);
-    setSearchText(""); // Clear search text
+    setSearchText("");
   };
 
   return (
@@ -83,13 +82,8 @@ export default function DoctorMain() {
           <motion.div
             className="text-center mb-6"
             initial={{ opacity: 0 }}
-            animate={{
-              opacity: 3,
-            }}
-            transition={{
-              duration: 3,
-              ease: "easeInOut",
-            }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 3, ease: "easeInOut" }}
           >
             <img
               src="https://th.bing.com/th/id/R.5639850d01bdb34de26e3b5754e34347?rik=7%2fJgZHjGcrQe7g&riu=http%3a%2f%2fwww.freeimageslive.com%2fgalleries%2fmedical%2fpics%2fdoctors_diagnostic_tools.jpg&ehk=RYBDd55Vx%2bibHXzBnlkHXr2BohZ0yV3wKObrwhuMypE%3d&risl=&pid=ImgRaw&r=0"
@@ -120,6 +114,7 @@ export default function DoctorMain() {
               </Link>
             ))}
           </nav>
+
           <div className="px-10">
             <button
               className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-md transition duration-200"
@@ -158,7 +153,6 @@ export default function DoctorMain() {
               Search
             </button>
 
-            {/* Filtered Results Dropdown */}
             {searchText && filteredLinks.length > 0 && (
               <div className="absolute top-full mt-1 w-1/2 bg-white border border-gray-300 rounded shadow-lg z-50">
                 {filteredLinks.map((nav, idx) => (
@@ -176,16 +170,21 @@ export default function DoctorMain() {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
-            <Routes>
-              <Route path="/" element={<DoctorDashBoard />} />
-              <Route path="mybookings" element={<MyBookings />} />
-              <Route
-                path="updatemedicalhistory"
-                element={<UpdateMedicalHistory />}
-              />
-              <Route path="mypastbookings" element={<DoctorPastAppoiments />} />
-              <Route path="meeting" element={<OnlineMeeting />} />
-            </Routes>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<DoctorDashBoard />} />
+                <Route path="mybookings" element={<MyBookings />} />
+                <Route
+                  path="updatemedicalhistory"
+                  element={<UpdateMedicalHistory />}
+                />
+                <Route
+                  path="mypastbookings"
+                  element={<DoctorPastAppoiments />}
+                />
+                <Route path="meeting" element={<OnlineMeeting />} />
+              </Routes>
+            </Suspense>
           </div>
         </div>
       </div>

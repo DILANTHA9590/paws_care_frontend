@@ -1,29 +1,42 @@
-import React, { useContext, useEffect } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import CustomersPanel from "./pages/CustomersPanel";
-import ProductsPanel from "./pages/ProductsPanel";
-import AdminBookingPanel from "./pages/AdminBookingPanel";
-import ImageUploader from "./pages/ImageUpload";
-import AdminDoctors from "./pages/AdminDoctors";
-import AdminDashBoard from "./pages/AdminDashBoard";
-import AddProduct from "./components/AddProduct";
-import UpdateUser from "./components/UpdateUser";
-import ManageReviews from "./pages/ManageReviews";
-import AdminOrders from "./pages/AdminOrders";
-import DoctorCreate from "./pages/DoctorCreate";
+import React, { useContext, useEffect, Suspense } from "react";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 import { TokenContext } from "../utills/context/countContext";
+import toast from "react-hot-toast";
+
+// 🔹 Lazy imports
+const CustomersPanel = React.lazy(() => import("./pages/CustomersPanel"));
+const ProductsPanel = React.lazy(() => import("./pages/ProductsPanel"));
+const AdminBookingPanel = React.lazy(() => import("./pages/AdminBookingPanel"));
+const ImageUploader = React.lazy(() => import("./pages/ImageUpload"));
+const AdminDoctors = React.lazy(() => import("./pages/AdminDoctors"));
+const AdminDashBoard = React.lazy(() => import("./pages/AdminDashBoard"));
+const AddProduct = React.lazy(() => import("./components/AddProduct"));
+const UpdateUser = React.lazy(() => import("./components/UpdateUser"));
+const ManageReviews = React.lazy(() => import("./pages/ManageReviews"));
+const AdminOrders = React.lazy(() => import("./pages/AdminOrders"));
+const DoctorCreate = React.lazy(() => import("./pages/DoctorCreate"));
 
 export default function AdminHome() {
-  const { token } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    er;
-  }, []);
+    if (!token) {
+      navigate("/login");
+      toast.success("Please login first!");
+      return;
+    }
+  }, [token]); // ✅ dependency add karapan
+
   function logOut() {
+    console.log("run this bro");
+    toast.success("Logged out successfully!");
     localStorage.removeItem("token");
+    if (setToken) setToken(null);
     navigate("/");
   }
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
@@ -80,12 +93,11 @@ export default function AdminHome() {
             >
               📁 Upload Image
             </Link>
-
             <Link
               to="/admin/managereviews"
               className="hover:bg-blue-600 px-4 py-2 rounded transition"
             >
-              🌟 Manege reviews
+              🌟 Manage Reviews
             </Link>
 
             <div className="px-5 p-4">
@@ -102,21 +114,24 @@ export default function AdminHome() {
 
         {/* Main Content */}
         <main className="flex-1 p-6 bg-white overflow-y-auto shadow-inner">
-          <Routes>
-            <Route path="/*" element={<AdminDashBoard />} />
-            <Route path="manageusers" element={<CustomersPanel />} />
-            <Route path="products" element={<ProductsPanel />} />
-            <Route path="manageappointment" element={<AdminBookingPanel />} />
-            <Route path="image" element={<ImageUploader />} />
-            <Route path="managedoctors" element={<AdminDoctors />} />
-            <Route path="reviews" element={<h1>Admin Reviews</h1>} />
-            <Route path="updateuser" element={<UpdateUser />} />
-
-            <Route path="addproduct" element={<AddProduct />} />
-            <Route path="managereviews" element={<ManageReviews />} />
-            <Route path="manageorders" element={<AdminOrders />} />
-            <Route path="createdoctor" element={<DoctorCreate />} />
-          </Routes>
+          <Suspense
+            fallback={<div className="text-center p-10">Loading...</div>}
+          >
+            <Routes>
+              <Route path="/*" element={<AdminDashBoard />} />
+              <Route path="manageusers" element={<CustomersPanel />} />
+              <Route path="products" element={<ProductsPanel />} />
+              <Route path="manageappointment" element={<AdminBookingPanel />} />
+              <Route path="image" element={<ImageUploader />} />
+              <Route path="managedoctors" element={<AdminDoctors />} />
+              <Route path="reviews" element={<h1>Admin Reviews</h1>} />
+              <Route path="updateuser" element={<UpdateUser />} />
+              <Route path="addproduct" element={<AddProduct />} />
+              <Route path="managereviews" element={<ManageReviews />} />
+              <Route path="manageorders" element={<AdminOrders />} />
+              <Route path="createdoctor" element={<DoctorCreate />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </div>
