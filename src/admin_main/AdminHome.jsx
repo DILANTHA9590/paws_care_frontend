@@ -3,6 +3,8 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 import { TokenContext } from "../utills/context/countContext";
 import toast from "react-hot-toast";
+import NotFound from "../home_main/component/err_ui/NotFound";
+import SuspenseUi from "../home_main/component/err_ui/SuspenseUi";
 
 // 🔹 Lazy imports
 const CustomersPanel = React.lazy(() => import("./pages/CustomersPanel"));
@@ -114,9 +116,7 @@ export default function AdminHome() {
 
         {/* Main Content */}
         <main className="flex-1 p-6 bg-white overflow-y-auto shadow-inner">
-          <Suspense
-            fallback={<div className="text-center p-10">Loading...</div>}
-          >
+          <Suspense fallback={<SuspenseUi />}>
             <Routes>
               <Route path="/*" element={<AdminDashBoard />} />
               <Route path="manageusers" element={<CustomersPanel />} />
@@ -130,6 +130,7 @@ export default function AdminHome() {
               <Route path="managereviews" element={<ManageReviews />} />
               <Route path="manageorders" element={<AdminOrders />} />
               <Route path="createdoctor" element={<DoctorCreate />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </main>

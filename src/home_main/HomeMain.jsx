@@ -2,6 +2,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
 import DeskTopNavbar from "./component/DeskTopNavbar";
 import { CountContext } from "../utills/context/countContext";
+import NotFound from "./component/err_ui/NotFound";
+import SuspenseUi from "./component/err_ui/SuspenseUi";
 
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const ContactUs = React.lazy(() => import("./pages/ContactUs"));
@@ -60,6 +62,8 @@ export default function HomeMain() {
                 <Route path="mypets" element={<MyPets />} />
                 <Route path="mybookings" element={<MyBookings />} />
                 <Route path="petmedicalrecord" element={<PetMedicalRecord />} />
+                {/* <Route path="pe" element={<SuspenseUi />} /> */}
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </div>

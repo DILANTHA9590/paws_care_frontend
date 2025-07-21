@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { ImageContext, TokenContext } from "./utills/context/countContext";
+import SuspenseUi from "./home_main/component/err_ui/SuspenseUi";
 
 // ✅ Lazy load main pages
 const HomeMain = React.lazy(() => import("./home_main/HomeMain"));
@@ -30,9 +31,7 @@ function App() {
             <BrowserRouter>
               <Toaster />
               {/* ✅ Wrap all lazy loaded routes in Suspense */}
-              <Suspense
-                fallback={<div className="text-center p-10">Loading...</div>}
-              >
+              <Suspense fallback={<SuspenseUi />}>
                 <Routes>
                   <Route path="/*" element={<HomeMain />} />
                   <Route path="/admin/*" element={<AdminHome />} />
