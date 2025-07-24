@@ -135,12 +135,8 @@ export default function ShippingPage() {
   }
   return (
     <>
-      <h1>{price?.total}</h1>
       <div>
         <div className="overflow-hidden overflow-y-auto h-[70vh]">
-          <button className="relative" onClick={clear}>
-            Clear Cart
-          </button>
           {cartData.length > 0 ? (
             <div className="">
               {cartData.map((val, index) => {
