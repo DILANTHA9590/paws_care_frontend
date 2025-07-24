@@ -29,8 +29,9 @@ export default function AllDoctors() {
       axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/doctors/getbydays`),
     ])
       .then(([bookingRes, todayRes]) => {
-        setDoctors(bookingRes.data.doctors);
-        setTodayDoctors(todayRes.data.filteredDoctors);
+        setDoctors(bookingRes.data?.doctors || []);
+
+        setTodayDoctors(todayRes.data.filteredDoctors || []);
         setLoaded(true);
       })
       .catch((error) => {
