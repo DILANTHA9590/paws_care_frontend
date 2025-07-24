@@ -27,7 +27,7 @@ export default function MobileNavBar({ showMobileNav, setShowMobileNav }) {
   ];
 
   return (
-    <div className="sm:hidden block relative">
+    <div className="sm:hidden block relative z">
       {/* Overlay */}
       <div
         className={`fixed inset-0 z-10 ${
