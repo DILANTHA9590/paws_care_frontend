@@ -46,7 +46,6 @@ export default function HomeMain() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="contact" element={<ContactUs />} />
                 <Route path="about" element={<AboutUs />} />
-                <Route path="pet foods" element={<h1>pet foods</h1>} />
                 <Route path="bookdoctor" element={<BookDoctor />} />
                 <Route path="book-doctor" element={<DoctorBookingForm />} />
                 <Route path="doctors/:id" element={<DoctorOverview />} />
