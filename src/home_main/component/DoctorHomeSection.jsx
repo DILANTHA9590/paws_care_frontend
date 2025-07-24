@@ -8,24 +8,24 @@ export default function DoctorHomeSection() {
   const doctor = [
     {
       image:
-        "https://images.unsplash.com/photo-1673865641073-4479f93a7776?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZlbWFsZSUyMGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
-      name: "Dr.Anushka",
+        "https://res.cloudinary.com/dfmsi6xmw/image/upload/v1753116469/ob6uef8dr8jbf3fjm3gi.jpg",
+      name: "Dr. Sachini Weerasinghe",
       Specialist: "Veterinary Surgeon",
       h: 1,
     },
     {
       image:
-        "https://media.istockphoto.com/id/1301595548/photo/female-doctor-stock-photo.jpg?s=2048x2048&w=is&k=20&c=BLoZsEopjCiEvwmyyy7LZqrRkrB7nvvhwzJsN5bZc9Y=",
-      name: "Dr. Harsha Fernando",
-      Specialist: "Animal Specialis",
+        "https://res.cloudinary.com/dfmsi6xmw/image/upload/v1753116683/y49stuq1ag06zswpyg6m.avif",
+      name: "Dr. Dinuka Ranasinghe",
+      Specialist: "Small Animal Specialist",
       h: 2,
     },
 
     {
       image:
-        "https://media.istockphoto.com/id/1301595548/photo/female-doctor-stock-photo.jpg?s=2048x2048&w=is&k=20&c=BLoZsEopjCiEvwmyyy7LZqrRkrB7nvvhwzJsN5bZc9Y=",
-      name: "Dr.Nadeesha Silva",
-      Specialist: "Pet Dermatologist",
+        "https://res.cloudinary.com/dfmsi6xmw/image/upload/v1753193800/mazmz1mkj6twzxuyk6k2.jpg",
+      name: "Dr. Amila Kumuduni",
+      Specialist: "Pet Nutritionist",
       h: 3,
     },
   ];
@@ -147,7 +147,10 @@ export default function DoctorHomeSection() {
             </div>
 
             <div className="bg-ora">
-              <Link className="text-sm underline cursor-pointer inline-block bg-amber-500 font-bold p-1 rounded-sm">
+              <Link
+                to=""
+                className="text-sm underline cursor-pointer inline-block bg-amber-500 font-bold p-1 rounded-sm"
+              >
                 View more
               </Link>
             </div>
