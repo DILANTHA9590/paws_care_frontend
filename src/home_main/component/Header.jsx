@@ -31,7 +31,7 @@ export default function Header() {
 
   return (
     <div
-      className="bg-cover bg-top h-screen flex flex-col items-center justify-center relative"
+      className="bg-cover bg-top h-screen flex flex-col items-center justify-center relative -z-20"
       style={{ backgroundImage: `url(/${myimages[index]})` }}
     >
       <div className="bg-black/40 w-full h-full absolute inset-0 z-0"></div>
