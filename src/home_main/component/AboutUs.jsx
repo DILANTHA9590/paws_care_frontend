@@ -52,16 +52,15 @@ export default function AboutUs() {
             }}
             viewport={{ once: true }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commod Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Pellentesque id
-            nibh tortor id aliquet lectus proin nibh. Sollicitudin aliquam
-            ultrices sagittis orci a scelerisque purus semper. Risus feugiat in
-            ante metus dictum. Non pulvinar neque laoreet
+            At Happy Paws Care, our mission is to ensure every pet feels loved,
+            safe, and healthy — just like at home. We believe that pets are not
+            just animals — they’re family. That’s why we work every day to offer
+            trusted veterinary services, quality pet products, and caring
+            support for pet owners. With a dedicated team of experienced vets
+            and friendly staff, we are here to help your furry friends live
+            their happiest, healthiest lives. From regular check-ups to
+            emergency care, grooming, nutrition advice, and more — Happy Paws
+            Care is your pet’s second home.
           </motion.h1>
 
           <motion.div
