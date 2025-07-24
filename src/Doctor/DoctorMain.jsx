@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { FaSignOutAlt } from "react-icons/fa";
 import NotFound from "../home_main/component/err_ui/NotFound";
 import SuspenseUi from "../home_main/component/err_ui/SuspenseUi";
+import Loading from "../home_main/component/err_ui/Loading";
+import { div } from "framer-motion/client";
 
 // 🔹 Lazy imports
 const DoctorDashBoard = React.lazy(() => import("./pages/DoctorDashBoard"));
@@ -43,6 +45,7 @@ export default function DoctorMain() {
         if (res.data.result) {
           toast.success("Doctor authorization successful!");
           setName(res.data.name);
+          setLoaded(true);
         } else {
           navigate("/login");
           toast.error("Unauthorized! Please login to your doctor account.");
@@ -53,6 +56,14 @@ export default function DoctorMain() {
         navigate("/login");
       });
   }, [token]);
+
+  if (!loaded) {
+    return (
+      <div className="h-screen">
+        <Loading />
+      </div>
+    );
+  }
 
   function logOut() {
     localStorage.removeItem("token");
