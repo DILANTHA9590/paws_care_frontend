@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, Suspense } from "react";
+import React, { useContext, useEffect, Suspense, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 import { TokenContext } from "../utills/context/countContext";
 import toast from "react-hot-toast";
 import NotFound from "../home_main/component/err_ui/NotFound";
 import SuspenseUi from "../home_main/component/err_ui/SuspenseUi";
+import axios from "axios";
+import Loading from "../home_main/component/err_ui/Loading";
 
 // 🔹 Lazy imports
 const CustomersPanel = React.lazy(() => import("./pages/CustomersPanel"));
@@ -21,6 +23,7 @@ const DoctorCreate = React.lazy(() => import("./pages/DoctorCreate"));
 
 export default function AdminHome() {
   const { token, setToken } = useContext(TokenContext);
+  const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,14 +32,43 @@ export default function AdminHome() {
       toast.success("Please login first!");
       return;
     }
+
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/doctors/verify`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.result) {
+          if (res.data.type == "admin") {
+            toast.success("admin authorization successful!");
+            setLoaded(true);
+          }
+        } else {
+          navigate("/login");
+          toast.error("Unauthorized! Please login to your admin account.");
+        }
+      })
+      .catch((err) => {
+        toast.error("Unauthorized! Please login to your admin account.");
+        navigate("/login");
+      });
   }, [token]); // ✅ dependency add karapan
 
   function logOut() {
-    console.log("run this bro");
     toast.success("Logged out successfully!");
     localStorage.removeItem("token");
     if (setToken) setToken(null);
     navigate("/");
+  }
+
+  if (!loaded) {
+    return (
+      <div className="h-screen">
+        <Loading />
+      </div>
+    );
   }
 
   return (
