@@ -153,7 +153,7 @@ export default function DeskTopNavbar() {
                       <div className="flex items-center">
                         <LiaSignInAltSolid className="rotate-89b " />
 
-                        <h1>Signup</h1>
+                        <Link to="/createaccount">Sign Up</Link>
                       </div>
 
                       <h1></h1>
