@@ -31,10 +31,10 @@ export default function Header() {
 
   return (
     <div
-      className="bg-cover bg-top h-screen flex flex-col items-center justify-center relative -z-20"
+      className="bg-cover bg-top h-screen flex flex-col items-center justify-center relative "
       style={{ backgroundImage: `url(/${myimages[index]})` }}
     >
-      <div className="bg-black/40 w-full h-full absolute inset-0 z-0"></div>
+      {/* <div className="bg-black/40 w-full h-full absolute inset-0 z-0"></div> */}
 
       {/* Social Links */}
       <div className="fixed right-0 top-28 flex flex-col gap-y-8 text-3xl sm:pr-8 z-20">
@@ -73,7 +73,7 @@ export default function Header() {
       </div>
 
       {/* Slide Arrows */}
-      <div className="flex items-center justify-between w-full z-10">
+      <div className="flex items-center justify-between w-full z-5">
         <FaChevronCircleLeft
           onClick={() =>
             setIndex((prev) => (prev > 0 ? prev - 1 : myimages.length - 1))
@@ -83,7 +83,7 @@ export default function Header() {
 
         {/* Title & CTA */}
         <motion.div
-          className="text-center z-10"
+          className="text-center z-100"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
