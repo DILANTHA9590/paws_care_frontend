@@ -98,6 +98,7 @@ export default function CreateAccountForm() {
                   First Name
                 </label>
                 <input
+                  autoFocus
                   type="text"
                   id="firstName"
                   name="firstName"

@@ -87,6 +87,7 @@ export default function LoginForm() {
                   Email Address
                 </label>
                 <input
+                  autoFocus
                   type="email"
                   id="email"
                   value={email}
