@@ -1,12 +1,36 @@
-# React + Vite
+# 🐾 Happy Paws Care 🐾
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Happy Paws Care is a full-featured MERN stack veterinary service application built to manage pet care, bookings, products, and user interactions with a focus on responsive design and modern development practices.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 👑 **Admin Roles Management:** Admin can manage users, reviews, products, and doctors.
+- 🔐 **JWT Authentication:** Secure login and authentication for users and admins.
+- 🧑‍🤝‍🧑 **User Registration & Profile Management:** Users can register, update profiles, and manage their pets.
+- 🩺 **Doctor & Booking Management:** Doctors can manage their availability; users can create bookings with doctors.
+- 🐕 **Pet Profiles & Medical History:** Users can create pet profiles and view pet medical history.
+- 🛒 **E-Commerce:** Users can buy pet food and other products.
+- 🛠️ **Product Management:** Admin can create and manage products.
+- 📝 **Customer Reviews:** Users can add reviews; admin can manage and block inappropriate reviews.
+- 🚫 **User Blocking:** Admin can block users when necessary.
+- 📊 **Pagination, Filtering, Lazy Loading:** Enhanced performance with pagination, filters, lazy load, and code splitting.
+- ⏳ **Suspense, Throttle, Debounce:** Optimized UI performance and API calls.
+- 📱 **Responsive UI:** Built with Tailwind CSS for a mobile-friendly experience.
+- 🎨 **Animations:** Smooth UI interactions with Framer Motion.
+- 💳 **Payment Integration:** Stripe payment gateway integration for secure transactions.
+- ☁️ **Image Management:** Cloudinary integration for image uploads and management.
+- 🌐 **Global State Management:** Using React Context API for efficient state handling.
+- 🚀 **Agile Development:** Built with modern agile principles ensuring maintainable and scalable code.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/happy-paws-care.git
+cd happy-paws-care
+npm install
