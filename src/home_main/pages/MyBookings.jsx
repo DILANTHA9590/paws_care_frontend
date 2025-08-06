@@ -8,47 +8,29 @@ import Loading from "../component/err_ui/Loading";
 import ServerErr from "../component/err_ui/ServerErr";
 import NetworkErr from "../component/err_ui/NetworkErr";
 import RatingComponent from "../component/RatingComponent";
+import { useFtech } from "../../hooks/useFetch";
 
 export default function MyBookings() {
   const { token } = useContext(TokenContext);
   const navigate = useNavigate();
-  const [bookingData, setBookingData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-  const [err, setErr] = useState();
+
   const [activeBookingId, setActiveBookingId] = useState(null); // ✅
 
   useEffect(() => {
-    if (!token) {
-      navigate("/login");
-      toast.error("Please sign in again");
-      return;
-    }
+    const token = localStorage.getItem("token");
 
-    if (!loaded) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/api/bookings/customer`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          console.log("ssssss", res);
-          if (res.data?.bookings.length > 0) {
-            setBookingData(res.data?.bookings || []);
-          } else {
-            toast.success("No available bookings found.");
-          }
-          setLoaded(true);
-        })
-        .catch((err) => {
-          console.error(err);
-          if (err.status) {
-            setErr(err.status);
-          } else {
-            setErr("network");
-          }
-          setLoaded(true);
-        });
+    if (!token) {
+      navigate("/");
     }
-  }, [token, loaded]);
+  });
+
+  const [url, setUrl] = useState(
+    `${import.meta.env.VITE_BACKEND_URL}/api/bookings/customer`
+  );
+
+  const { bookingData, loaded, err, setLoaded } = useFtech(url);
+
+  //
 
   if ([500].includes(err)) {
     return <ServerErr />;
