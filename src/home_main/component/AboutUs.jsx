@@ -3,7 +3,7 @@ import { motion, AnimatePresence, delay, color } from "framer-motion";
 import { Link } from "react-router";
 export default function AboutUs() {
   return (
-    <div className="w-[100%] ">
+    <div className="w-[100%] h-full overflow-hidden overflow-y-auto ">
       <div className="flex sm:w-[70%] mx-auto justify-center items-center flex-col sm:flex-row mt-10">
         <div className="flex flex-col gap-y-9 sm:w-[70%] w-[90%]">
           {/* about main header --------------------------------------------------------------------> */}
@@ -74,7 +74,7 @@ export default function AboutUs() {
             viewport={{ once: true }}
           >
             <Link
-              className="bg-orange-400 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block"
+              className="bg-orange-400 sm:w-[200px] w-[150px] p-2 rounded-md sm:text-2xl block "
               onClick={() => {
                 console.log("hallow");
               }}

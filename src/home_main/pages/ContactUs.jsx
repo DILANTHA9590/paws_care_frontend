@@ -11,7 +11,7 @@ import {
 
 export default function ContactUs() {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-50 p-6">
+    <div className="h-full overflow-hidden overflow-y-auto flex flex-col items-center bg-gray-50 p-6 ">
       {/* Hero Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-amber-600 mb-2">

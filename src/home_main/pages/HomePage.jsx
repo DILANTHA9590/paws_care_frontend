@@ -11,15 +11,17 @@ import Footer from "../component/Footer";
 export default function HomePage() {
   return (
     <>
-      <Header />
+      <div className="h-full overflow-hidden overflow-y-auto">
+        <Header />
 
-      {/* Main container for the Services section */}
-      <OurServices />
-      <PetSupportSection />
-      <AboutUs />
+        {/* Main container for the Services section */}
+        <OurServices />
+        <PetSupportSection />
+        <AboutUs />
 
-      <DoctorHomeSection />
-      <Footer />
+        <DoctorHomeSection />
+        <Footer />
+      </div>
     </>
   );
 }
