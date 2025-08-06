@@ -55,7 +55,7 @@ export default function VerifyEmailForm() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 ">
       <div className="bg-white p-6 rounded shadow w-full max-w-sm">
         {/* Title */}
         <h2 className="text-xl font-bold mb-2 text-center">
